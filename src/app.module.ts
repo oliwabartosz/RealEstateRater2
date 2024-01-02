@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ApiController } from './api/api.controller';
 import { FlatsModule } from './flats/flats.module';
-import { ApiModule } from './api/api.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
-import dataSource, {dataSourceOptions} from "./db/data-source";
+import {dataSourceOptions} from "./db/data-source";
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceOptions), ApiModule, FlatsModule],
-  controllers: [AppController, ApiController],
+  imports: [TypeOrmModule.forRoot(dataSourceOptions), FlatsModule, UsersModule],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

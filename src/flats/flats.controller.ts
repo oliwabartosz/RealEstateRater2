@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Inject, Param, Post} from '@nestjs/common';
+import {Body, Controller, DefaultValuePipe, Delete, Get, Inject, Param, ParseIntPipe, Post} from '@nestjs/common';
 import {FlatsListResponse, OneFlatResponse} from "../interfaces/flat-record";
 import {CreateFlatDto} from "./dto/create-flat.dto";
 import {FlatsService} from "./flats.service";
@@ -18,10 +18,17 @@ export class FlatsController {
     }
 
     @Get('/:flatNumber')
-    getOneFlatByItsNumber(
-        @Param('flatNumber') flatNumber: number,
+    async getOneFlatByItsNumber(
+        @Param('flatNumber', new DefaultValuePipe(1), ParseIntPipe) flatNumber: number,
     ): Promise<OneFlatResponse> {
-        console.log(flatNumber)
+        const lastNumber = await this.flatsService.getLastNumber();
+
+        if (flatNumber > lastNumber) {
+            return {
+                statusCode: 404,
+                message: "Not found."
+            }
+        }
         return this.flatsService.getOneFlat(flatNumber);
     }
 

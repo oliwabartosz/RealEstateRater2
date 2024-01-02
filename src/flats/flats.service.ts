@@ -16,11 +16,23 @@ export class FlatsService {
     async getAllFlats(): Promise<FlatRecord[]> {
         return await this.flatsDataRepository.find({
             select: ["id", "offerId", "price", "offerType", "offerStatus"]
-        })
+        });
     }
 
     async getOneFlat(flatNumber: number): Promise<FlatsData> {
-        return await this.flatsDataRepository.findOneByOrFail({ flatNumber })
+        return await this.flatsDataRepository.findOneByOrFail({ flatNumber });
+    }
+
+    async getLastNumber(): Promise<number | null> {
+
+        const {flatNumber} = await this.flatsDataRepository.findOne({
+            select: ['flatNumber'],
+            order: {flatNumber: 'DESC'},
+            where: {}
+        });
+
+        return flatNumber ? flatNumber : null;
+
     }
 
     async createNewRecord(createFlatDto: CreateFlatDto) {
@@ -30,13 +42,14 @@ export class FlatsService {
     }
 
     async removeRecordsByIDs(ids: string[]) {
-        return await this.flatsDataRepository.delete(ids)
+        return await this.flatsDataRepository.delete(ids);
     }
 
     async removeAll() {
-        await this.flatsDataRepository.delete({})
+        await this.flatsDataRepository.delete({});
         return {
-            success: true
+            success: true,
+            statusCode: 200,
         }
     }
 }

@@ -6,7 +6,7 @@ import {ValidationPipe} from "@nestjs/common";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({
-    disableErrorMessages: true, // don't show errors details, while using pipes
+    disableErrorMessages: false, // don't show errors details, while using pipes
 
     whitelist: true, // Dto must be checked - if someone add more than in Dto, it will be ignored
     forbidNonWhitelisted: true, // as above

@@ -10,7 +10,6 @@ import { FlatsController } from './flats.controller';
         TypeOrmModule.forFeature([FlatsData, FlatsAnswers]),
     ],
     providers: [FlatsService],
-    exports: [FlatsService],
     controllers: [FlatsController]
 })
 export class FlatsModule {}
