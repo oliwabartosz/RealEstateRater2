@@ -1,0 +1,4 @@
+1) The command od making migrations:
+npm run migration:generate -- src/db/migrations/NewMigration
+2) The run the migration
+npm run migration:run
