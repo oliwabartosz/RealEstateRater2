@@ -94,7 +94,7 @@ export class FlatsData {
         nullable: true,
         default: null,
     })
-    lawStatus: string | null;
+    legalStatus: string | null;
 
     @Column({
         type: "float",
@@ -372,7 +372,7 @@ export class FlatsData {
         type: "text",
         default: "",
     })
-    lawStatusLemma: string;
+    legalStatusLemma: string;
 
     @Column({
         type: "text",

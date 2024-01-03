@@ -46,11 +46,7 @@ export class FlatsService {
     }
 
     async removeAll() {
-        await this.flatsDataRepository.delete({});
-        return {
-            success: true,
-            statusCode: 200,
-        }
+        return await this.flatsDataRepository.delete({});
     }
 }
 

@@ -1,7 +1,18 @@
-import {Body, Controller, DefaultValuePipe, Delete, Get, Inject, Param, ParseIntPipe, Post} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    DefaultValuePipe,
+    Delete,
+    Get,
+    Inject, NotFoundException,
+    Param,
+    ParseIntPipe,
+    Post,
+} from '@nestjs/common';
 import {FlatsListResponse, OneFlatResponse} from "../interfaces/flat-record";
 import {CreateFlatDto} from "./dto/create-flat.dto";
 import {FlatsService} from "./flats.service";
+import {TransformLawStatusPipe} from "../pipes/transform-law-status.pipe";
 
 @Controller('/flats')
 export class FlatsController {
@@ -24,17 +35,14 @@ export class FlatsController {
         const lastNumber = await this.flatsService.getLastNumber();
 
         if (flatNumber > lastNumber) {
-            return {
-                statusCode: 404,
-                message: "Not found."
-            }
+            throw new NotFoundException()
         }
         return this.flatsService.getOneFlat(flatNumber);
     }
 
     @Post('/')
     createRecord(
-        @Body() createFlatDto: CreateFlatDto
+        @Body(TransformLawStatusPipe) createFlatDto: CreateFlatDto
     ) {
         return this.flatsService.createNewRecord(createFlatDto);
     }
