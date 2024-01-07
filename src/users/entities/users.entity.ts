@@ -5,8 +5,20 @@ export class Users {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @Column()
+    name: string;
+
     @Column({
         length: 255,
     })
     email: string;
+
+    @Column()
+    password: string;
+
+    @Column({
+        nullable: true,
+        default: null,
+    })
+    currentTokenId: string | null;
 }

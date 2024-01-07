@@ -1,7 +1,5 @@
 export type UserRegisterResponse = {
+    password: string;
     id: string;
     email: string;
-} | {
-    statusCode: number;
-    message: string;
 }

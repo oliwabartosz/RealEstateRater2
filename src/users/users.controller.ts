@@ -11,13 +11,13 @@ export class UsersController {
     ) {
     }
 
-    @Post('/register')
-    register(
-        @Body() newUser: UserRegisterDto,
-    ): Promise<UserRegisterResponse> {
-
-        return this.userService.register(newUser);
-    }
-
+    // @Post('/register')
+    // register(
+    //     @Body() newUser: UserRegisterDto,
+    // ): Promise<UserRegisterResponse> {
+    //
+    //     return this.userService.register(newUser);
+    //
+    // }
 
 }

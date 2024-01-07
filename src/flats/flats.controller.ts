@@ -7,12 +7,13 @@ import {
     Inject, NotFoundException,
     Param,
     ParseIntPipe,
-    Post,
+    Post, UseGuards,
 } from '@nestjs/common';
 import {FlatsListResponse, OneFlatResponse} from "../interfaces/flat-record";
 import {CreateFlatDto} from "./dto/create-flat.dto";
 import {FlatsService} from "./flats.service";
 import {TransformLawStatusPipe} from "../pipes/transform-law-status.pipe";
+import {AuthGuard} from "@nestjs/passport";
 
 @Controller('/flats')
 export class FlatsController {
@@ -40,6 +41,7 @@ export class FlatsController {
         return this.flatsService.getOneFlat(flatNumber);
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Post('/')
     createRecord(
         @Body(TransformLawStatusPipe) createFlatDto: CreateFlatDto

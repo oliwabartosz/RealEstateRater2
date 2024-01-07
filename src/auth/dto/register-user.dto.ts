@@ -1,7 +1,6 @@
 import {IsNotEmpty, IsString} from "class-validator";
-import {PrimaryGeneratedColumn} from "typeorm";
 
-export class UserRegisterDto {
+export class RegisterUserDto {
 
     @IsString()
     @IsNotEmpty()
