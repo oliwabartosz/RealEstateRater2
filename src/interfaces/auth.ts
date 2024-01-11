@@ -9,3 +9,7 @@ export interface CreateTokenResponse {
     accessToken: string,
     expiresIn: number,
 }
+
+export interface TokenPayload {
+    userId: string;
+}

@@ -6,18 +6,28 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {dataSourceOptions} from "./db/data-source";
 import {UsersModule} from './users/users.module';
 import {AuthModule} from './auth/auth.module';
-import {JwtStrategy} from "./auth/src/auth/jwt.strategy";
+import {ConfigModule} from '@nestjs/config';
+import * as Joi from 'joi';
+
 
 @Module({
     imports: [
+        ConfigModule.forRoot({
+            validationSchema: Joi.object({
+                JWT_SECRET: Joi.string().required(),
+                JWT_EXPIRATION_TIME: Joi.string().required(),
+            }),
+        }),
         TypeOrmModule.forRoot(dataSourceOptions),
         FlatsModule,
         UsersModule,
         AuthModule,
     ],
     controllers: [AppController],
-    providers: [AppService, JwtStrategy],
-    exports: [JwtStrategy]
+    providers: [AppService],
+
+
 })
 export class AppModule {
+
 }

@@ -10,12 +10,13 @@ import {FlatsAnswers} from "./entities/flats-answers.entity";
 export class FlatsService {
     constructor(
         @InjectRepository(FlatsData) private flatsDataRepository: Repository<FlatsData>,
-        @InjectRepository(FlatsAnswers) private  flatsAnswersRepository: Repository<FlatsAnswers>
+        @InjectRepository(FlatsAnswers) private flatsAnswersRepository: Repository<FlatsAnswers>
     ) {
     }
     public async getAllFlats(): Promise<FlatRecord[]> {
         return await this.flatsDataRepository.find({
             select: ["id", "offerId", "price", "offerType", "offerStatus"]
+
         });
     }
 

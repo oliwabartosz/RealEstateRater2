@@ -12,12 +12,15 @@ export class UsersService {
     ) {
     }
 
-    public async getUserByEmail(email: string): Promise<Users> | null {
+    public async getUserByEmail(email: string): Promise<Users> {
         const user = await this.usersRepository.findOne({
             where: {email}
         });
 
-        return user ? user : null
+        if (user) {
+            return user;
+        }
+        throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
 
     }
 
@@ -36,40 +39,16 @@ export class UsersService {
         throw new HttpException('E-mail exists!', HttpStatus.BAD_REQUEST);
     }
 
-    public async getByCurrentTokenId(currentTokenId: string): Promise<Users> | null {
-        const user = await this.usersRepository.findOne({
-            where: {currentTokenId},
-        });
 
-        return user ? user : null;
-
+    async getById(id: string): Promise<Users> {
+        const user = await this.usersRepository.findOne({ where: {id} });
+        if (user) {
+            return user;
+        }
+        throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
     }
 
-    public async getByEmailAndHashedPwd(email: string, hashedPassword: string): Promise<Users> | null {
-        const user = await this.usersRepository.findOne({
-            where: {
-                email: email,
-                password: hashedPassword,
-            }
-        });
 
-        return user ? user : null;
 
-    }
-
-    public async getByCurrentId(currentTokenId: string): Promise<Users> | null {
-        const user = await this.usersRepository.findOne( {
-            where: {
-                currentTokenId,
-            }
-        });
-
-        return user ? user : null;
-
-    }
-
-    public async saveUser(user: Users) {
-        await this.usersRepository.save(user);
-    }
 
 }

@@ -15,10 +15,4 @@ export class Users {
 
     @Column()
     password: string;
-
-    @Column({
-        nullable: true,
-        default: null,
-    })
-    currentTokenId: string | null;
 }

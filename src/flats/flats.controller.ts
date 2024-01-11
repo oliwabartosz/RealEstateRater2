@@ -14,6 +14,7 @@ import {CreateFlatDto} from "./dto/create-flat.dto";
 import {FlatsService} from "./flats.service";
 import {TransformLawStatusPipe} from "../pipes/transform-law-status.pipe";
 import {AuthGuard} from "@nestjs/passport";
+import JwtAuthGuard from "../guards/jwt-auth.guard";
 
 @Controller('/flats')
 export class FlatsController {
@@ -25,6 +26,7 @@ export class FlatsController {
     }
 
     @Get('/all')
+    @UseGuards(AuthGuard('jwt'))
     getFlats(): Promise<FlatsListResponse> {
         return this.flatsService.getAllFlats();
     }
@@ -41,8 +43,9 @@ export class FlatsController {
         return this.flatsService.getOneFlat(flatNumber);
     }
 
-    @UseGuards(AuthGuard('jwt'))
+
     @Post('/')
+    @UseGuards(JwtAuthGuard)
     createRecord(
         @Body(TransformLawStatusPipe) createFlatDto: CreateFlatDto
     ) {
