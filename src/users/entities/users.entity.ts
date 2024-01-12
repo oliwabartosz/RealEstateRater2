@@ -17,6 +17,7 @@ export class Users {
     @Column({
         type: 'enum',
         enum: Role,
+        nullable: false,
         default: [Role.User]
     })
     roles: Role[];
