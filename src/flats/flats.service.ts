@@ -1,7 +1,7 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {FlatsData} from "./entities/flats-data.entity";
-import {Repository} from "typeorm";
+import {DeleteResult, Repository} from "typeorm";
 import {FlatRecord} from "../interfaces/flat-record";
 import {CreateFlatDto} from "./dto/create-flat.dto";
 import {FlatsAnswers} from "./entities/flats-answers.entity";
@@ -44,6 +44,16 @@ export class FlatsService {
     }
 
     public async createNewAnswersRecord(addFlatAnswers: AddFlatAnswersDto): Promise<FlatsAnswers> {
+
+        const existingRecord = await this.flatsAnswersRepository.findOne({
+            where:
+                {flatID: addFlatAnswers.flatId }
+        });
+
+        if (!existingRecord) {
+            throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
+        }
+
         const newFlatAnsRecord = this.flatsAnswersRepository.create(addFlatAnswers);
         await this.flatsAnswersRepository.save(newFlatAnsRecord);
         return newFlatAnsRecord;
@@ -55,7 +65,7 @@ export class FlatsService {
         const existingRecord = await this.flatsAnswersRepository.findOne({ where: {flatID} })
 
         if (!existingRecord) {
-            throw new HttpException(`Answer record with ID ${flatID} not found`, HttpStatus.NOT_FOUND ));
+            throw new HttpException(`Answer record with ID ${flatID} not found`, HttpStatus.NOT_FOUND );
         }
 
         // Update
@@ -67,11 +77,11 @@ export class FlatsService {
 
     }
 
-    public async removeRecordsByIDs(ids: string[]) {
+    public async removeRecordsByIDs(ids: string[]): Promise<DeleteResult> {
         return await this.flatsDataRepository.delete(ids);
     }
 
-    public async removeAll() {
+    public async removeAll(): Promise<DeleteResult> {
         return await this.flatsDataRepository.delete({});
     }
 }

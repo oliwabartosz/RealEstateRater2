@@ -1,6 +1,10 @@
-import {IsBoolean, IsNumber, IsOptional, IsString} from "class-validator";
+import {IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString} from "class-validator";
 
 export class AddFlatAnswersDto {
+
+    @IsNotEmpty()
+    @IsString()
+    flatId: string;
 
     @IsOptional()
     @IsNumber()
@@ -8,7 +12,7 @@ export class AddFlatAnswersDto {
 
     @IsOptional()
     @IsNumber()
-    lawStatusAns: number | null;
+    legalStatusAns: number | null;
 
     @IsOptional()
     @IsNumber()

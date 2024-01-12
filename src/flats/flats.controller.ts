@@ -4,6 +4,8 @@ import {
     DefaultValuePipe,
     Delete,
     Get,
+    HttpException,
+    HttpStatus,
     Inject,
     NotFoundException,
     Param,
@@ -18,6 +20,8 @@ import {TransformLawStatusPipe} from "../pipes/transform-law-status.pipe";
 import JwtAuthGuard from "../guards/jwt-auth.guard";
 import {RoleGuard} from "../guards/role.guard";
 import {Role} from "../interfaces/roles";
+import {AddFlatAnswersDto} from "./dto/add-flat-answers.dto";
+import {FlatsAnswers} from "./entities/flats-answers.entity";
 
 @Controller('/flats')
 export class FlatsController {
@@ -64,16 +68,41 @@ export class FlatsController {
     @UseGuards(RoleGuard(Role.Admin))
     @UseGuards(JwtAuthGuard)
     removeRecordsByIDs(
-        @Body() payload: {ids: string[]}
+        @Body() payload: { ids: string[] }
     ) {
-        const { ids } = payload;
+        const {ids} = payload;
         return this.flatsService.removeRecordsByIDs(ids)
     }
 
     @Delete('/all')
+    @UseGuards(RoleGuard(Role.Admin))
+    @UseGuards(JwtAuthGuard)
     removeAll() {
         return this.flatsService.removeAll();
     }
 
+    // Flats Answers ---------------------
 
+    @Post('/answers')
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
+    createOrUpdateAnswerRecord(
+        @Body() CreateOrUpdateAnswerRecord: AddFlatAnswersDto
+    ): Promise<FlatsAnswers> {
+        try {
+            return this.flatsService.createNewAnswersRecord(CreateOrUpdateAnswerRecord);
+
+        } catch (err) {
+            if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
+
+                return this.flatsService.updateAnswersRecord(
+                    CreateOrUpdateAnswerRecord.flatId,
+                    CreateOrUpdateAnswerRecord
+                );
+
+            } else {
+                throw new HttpException('Something went wrong.', HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+    }
 }

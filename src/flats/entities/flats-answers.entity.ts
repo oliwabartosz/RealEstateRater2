@@ -16,7 +16,7 @@ export class FlatsAnswers {
         type: "tinyint",
         default: null,
     })
-    lawStatusAns: number | null;
+    legalStatusAns: number | null;
 
     @Column({
         type: "tinyint",
