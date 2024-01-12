@@ -85,6 +85,12 @@ export class FlatsAnswers {
     rentAns: number | null;
 
     @Column({
+        type: "integer",
+        default: null,
+    })
+    yearBuiltAns: number | null;
+
+    @Column({
         type: "text",
         default: null,
     })
