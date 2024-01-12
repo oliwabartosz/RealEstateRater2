@@ -73,6 +73,8 @@ export class AddFlatAnswersDto {
     @IsOptional()
     @IsString()
     rateStatus: string;
+
+    @IsString()
     user: string;
 
 }

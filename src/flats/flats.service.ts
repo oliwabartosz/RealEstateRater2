@@ -50,7 +50,7 @@ export class FlatsService {
                 {flatID: addFlatAnswers.flatId }
         });
 
-        if (!existingRecord) {
+        if (existingRecord) {
             throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
         }
 
