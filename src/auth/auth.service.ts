@@ -43,7 +43,6 @@ export class AuthService {
             throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST);
         }
     }
-us
 
 
     private async verifyPassword(plainTextPassword: string, hashedPassword: string) {

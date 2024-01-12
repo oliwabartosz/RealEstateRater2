@@ -4,17 +4,20 @@ import {
     DefaultValuePipe,
     Delete,
     Get,
-    Inject, NotFoundException,
+    Inject,
+    NotFoundException,
     Param,
     ParseIntPipe,
-    Post, UseGuards,
+    Post,
+    UseGuards,
 } from '@nestjs/common';
 import {FlatsListResponse, OneFlatResponse} from "../interfaces/flat-record";
 import {CreateFlatDto} from "./dto/create-flat.dto";
 import {FlatsService} from "./flats.service";
 import {TransformLawStatusPipe} from "../pipes/transform-law-status.pipe";
-import {AuthGuard} from "@nestjs/passport";
 import JwtAuthGuard from "../guards/jwt-auth.guard";
+import {RoleGuard} from "../guards/role.guard";
+import {Role} from "../interfaces/roles";
 
 @Controller('/flats')
 export class FlatsController {
@@ -26,11 +29,15 @@ export class FlatsController {
     }
 
     @Get('/all')
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(RoleGuard(Role.Scraper))
+    @UseGuards(JwtAuthGuard)
     getFlats(): Promise<FlatsListResponse> {
         return this.flatsService.getAllFlats();
     }
 
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
     @Get('/:flatNumber')
     async getOneFlatByItsNumber(
         @Param('flatNumber', new DefaultValuePipe(1), ParseIntPipe) flatNumber: number,
@@ -45,6 +52,7 @@ export class FlatsController {
 
 
     @Post('/')
+    @UseGuards(RoleGuard(Role.Scraper))
     @UseGuards(JwtAuthGuard)
     createRecord(
         @Body(TransformLawStatusPipe) createFlatDto: CreateFlatDto
@@ -53,6 +61,8 @@ export class FlatsController {
     }
 
     @Delete('/')
+    @UseGuards(RoleGuard(Role.Admin))
+    @UseGuards(JwtAuthGuard)
     removeRecordsByIDs(
         @Body() payload: {ids: string[]}
     ) {

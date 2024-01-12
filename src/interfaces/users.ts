@@ -3,3 +3,4 @@ export type UserRegisterResponse = {
     id: string;
     email: string;
 }
+
