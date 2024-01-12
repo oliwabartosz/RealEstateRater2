@@ -1,10 +1,11 @@
-import {Injectable} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {FlatsData} from "./entities/flats-data.entity";
 import {Repository} from "typeorm";
 import {FlatRecord} from "../interfaces/flat-record";
 import {CreateFlatDto} from "./dto/create-flat.dto";
 import {FlatsAnswers} from "./entities/flats-answers.entity";
+import {AddFlatAnswersDto} from "./dto/add-flat-answers.dto";
 
 @Injectable()
 export class FlatsService {
@@ -36,10 +37,34 @@ export class FlatsService {
 
     }
 
-    public async createNewRecord(createFlatDto: CreateFlatDto) {
+    public async createNewRecord(createFlatDto: CreateFlatDto): Promise<FlatsData> {
         const newFlatRecord = this.flatsDataRepository.create(createFlatDto);
         await this.flatsDataRepository.save(newFlatRecord);
         return newFlatRecord;
+    }
+
+    public async createNewAnswersRecord(addFlatAnswers: AddFlatAnswersDto): Promise<FlatsAnswers> {
+        const newFlatAnsRecord = this.flatsAnswersRepository.create(addFlatAnswers);
+        await this.flatsAnswersRepository.save(newFlatAnsRecord);
+        return newFlatAnsRecord;
+    }
+
+    public async updateAnswersRecord(flatID: string, updatedData: Partial<AddFlatAnswersDto>): Promise<FlatsAnswers> {
+
+        // Get existing record
+        const existingRecord = await this.flatsAnswersRepository.findOne({ where: {flatID} })
+
+        if (!existingRecord) {
+            throw new HttpException(`Answer record with ID ${flatID} not found`, HttpStatus.NOT_FOUND ));
+        }
+
+        // Update
+        const updatedRecord = { ...existingRecord, ...updatedData };
+        await this.flatsAnswersRepository.save(updatedRecord);
+
+        // Return
+        return updatedRecord;
+
     }
 
     public async removeRecordsByIDs(ids: string[]) {
