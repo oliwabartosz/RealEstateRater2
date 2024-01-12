@@ -43,11 +43,11 @@ export class FlatsService {
         return newFlatRecord;
     }
 
-    public async createNewAnswersRecord(addFlatAnswers: AddFlatAnswersDto): Promise<FlatsAnswers> {
+    public async createNewAnswersRecord(addFlatAnswers: AddFlatAnswersDto, user: string): Promise<FlatsAnswers> {
 
         const existingRecord = await this.flatsAnswersRepository.findOne({
             where:
-                {flatID: addFlatAnswers.flatId }
+                {flatID: addFlatAnswers.flatID }
         });
 
         if (existingRecord) {
@@ -55,6 +55,7 @@ export class FlatsService {
         }
 
         const newFlatAnsRecord = this.flatsAnswersRepository.create(addFlatAnswers);
+        newFlatAnsRecord.user = user;
         await this.flatsAnswersRepository.save(newFlatAnsRecord);
         return newFlatAnsRecord;
     }

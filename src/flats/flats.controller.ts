@@ -10,7 +10,7 @@ import {
     NotFoundException,
     Param,
     ParseIntPipe,
-    Post,
+    Post, Req,
     UseGuards,
 } from '@nestjs/common';
 import {FlatsListResponse, OneFlatResponse} from "../interfaces/flat-record";
@@ -22,6 +22,7 @@ import {RoleGuard} from "../guards/role.guard";
 import {Role} from "../interfaces/roles";
 import {AddFlatAnswersDto} from "./dto/add-flat-answers.dto";
 import {FlatsAnswers} from "./entities/flats-answers.entity";
+import {RequestWithUser} from "../interfaces/auth";
 
 @Controller('/flats')
 export class FlatsController {
@@ -87,16 +88,24 @@ export class FlatsController {
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
     createOrUpdateAnswerRecord(
-        @Body() CreateOrUpdateAnswerRecord: AddFlatAnswersDto
+        @Body() CreateOrUpdateAnswerRecord: AddFlatAnswersDto,
+        @Req() request: RequestWithUser,
     ): Promise<FlatsAnswers> {
-        try {
-            return this.flatsService.createNewAnswersRecord(CreateOrUpdateAnswerRecord);
 
+        try {
+            return this.flatsService.createNewAnswersRecord(CreateOrUpdateAnswerRecord, request.user.name);
+            /* @TODO: still doesn't work.
+                If id is provided from table 'flats' it works!
+                But if not provided from table, FlatID has generated UUID because is PrimiaryKey with strategy uuid.
+                End it throws statuscode: 500
+                @TODO: second, make that rateStatus will be created in backend, not sent by user
+            *
+             */
         } catch (err) {
             if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
 
                 return this.flatsService.updateAnswersRecord(
-                    CreateOrUpdateAnswerRecord.flatId,
+                    CreateOrUpdateAnswerRecord.flatID,
                     CreateOrUpdateAnswerRecord
                 );
 

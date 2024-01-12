@@ -4,7 +4,7 @@ export class AddFlatAnswersDto {
 
     @IsNotEmpty()
     @IsString()
-    flatId: string;
+    flatID: string;
 
     @IsOptional()
     @IsNumber()
@@ -73,8 +73,5 @@ export class AddFlatAnswersDto {
     @IsOptional()
     @IsString()
     rateStatus: string;
-
-    @IsString()
-    user: string;
 
 }
