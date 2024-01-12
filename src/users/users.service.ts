@@ -32,23 +32,29 @@ export class UsersService {
     }
 
     public async checkIfUserExists(email: string): Promise<void> {
-        const userExists = await this.getUserByEmail(email);
-        if (!userExists) {
-            return;
+        try {
+
+            await this.getUserByEmail(email);
+
+        } catch (err) {
+
+            if (err instanceof HttpException && err.getStatus() === HttpStatus.NOT_FOUND) {
+                return;
+            }
+
+            throw new HttpException('E-mail exists!', HttpStatus.BAD_REQUEST);
+
         }
-        throw new HttpException('E-mail exists!', HttpStatus.BAD_REQUEST);
     }
 
 
     async getById(id: string): Promise<Users> {
-        const user = await this.usersRepository.findOne({ where: {id} });
+        const user = await this.usersRepository.findOne({where: {id}});
         if (user) {
             return user;
         }
         throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
     }
-
-
 
 
 }
