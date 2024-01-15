@@ -1,5 +1,8 @@
-import {Column, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
+@Entity({
+    name: "flats_gpt"
+})
 export class FlatsGPT {
     @PrimaryGeneratedColumn('uuid')
     flatID: string;
@@ -158,7 +161,7 @@ export class FlatsGPT {
         type: "boolean",
         default: null,
     })
-    status: string;
+    status: boolean;
 
 
 }
