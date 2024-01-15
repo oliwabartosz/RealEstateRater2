@@ -14,20 +14,20 @@ export class FlatsService {
         @InjectRepository(FlatsAnswers) private flatsAnswersRepository: Repository<FlatsAnswers>
     ) {
     }
-    public async getAllFlats(): Promise<FlatRecord[]> {
+    public async getAllRecords(): Promise<FlatRecord[]> {
         return await this.flatsDataRepository.find({
             select: ["id", "offerId", "price", "offerType", "offerStatus"]
 
         });
     }
 
-    public async getAllFlatIDs(): Promise<FlatRecord[]> {
+    public async getAllRecordsIDs(): Promise<FlatRecord[]> {
         return await this.flatsDataRepository.find({
             select: ["id"]
         });
     }
 
-    public async getOneFlat(flatNumber: number): Promise<FlatsData> {
+    public async getOneRecord(flatNumber: number): Promise<FlatsData> {
         return await this.flatsDataRepository.findOneByOrFail({ flatNumber });
     }
 
@@ -43,28 +43,28 @@ export class FlatsService {
 
     }
 
-    public async createNewRecord(createFlatDto: CreateFlatDto): Promise<FlatsData> {
-        const newFlatRecord = this.flatsDataRepository.create(createFlatDto);
-        await this.flatsDataRepository.save(newFlatRecord);
-        return newFlatRecord;
+    public async createNewRecord(createRecordPayload: CreateFlatDto): Promise<FlatsData> {
+        const newRecord = this.flatsDataRepository.create(createRecordPayload);
+        await this.flatsDataRepository.save(newRecord);
+        return newRecord;
     }
 
-    public async createNewAnswersRecord(addFlatAnswers: AddFlatAnswersDto, user: string): Promise<FlatsAnswers> {
+    public async createNewAnswersRecord(addAnswersPayload: AddFlatAnswersDto, user: string): Promise<FlatsAnswers> {
 
         const existingRecord = await this.flatsAnswersRepository.findOne({
             where:
-                {flatID: addFlatAnswers.flatID }
+                {flatID: addAnswersPayload.flatID }
         });
 
         if (existingRecord) {
             throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
         }
 
-        const newFlatAnsRecord = this.flatsAnswersRepository.create(addFlatAnswers);
-        newFlatAnsRecord.user = user;
-        newFlatAnsRecord.rateStatus = "done";
-        await this.flatsAnswersRepository.save(newFlatAnsRecord);
-        return newFlatAnsRecord;
+        const newAnsRecord = this.flatsAnswersRepository.create(addAnswersPayload);
+        newAnsRecord.user = user;
+        newAnsRecord.rateStatus = "done";
+        await this.flatsAnswersRepository.save(newAnsRecord);
+        return newAnsRecord;
     }
 
     public async updateAnswersRecord(flatID: string, updatedData: Partial<AddFlatAnswersDto>): Promise<FlatsAnswers> {
