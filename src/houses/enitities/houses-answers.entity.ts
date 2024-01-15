@@ -1,5 +1,4 @@
 import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {FlatsData} from "../../flats/entities/flats-data.entity";
 import {HousesData} from "./houses-data.entity";
 
 @Entity({name: "houses_answers" })

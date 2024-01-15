@@ -1,6 +1,5 @@
 import {BeforeInsert, Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import dataSource from "../../db/data-source";
-import {FlatsAnswers} from "../../flats/entities/flats-answers.entity";
 import {HousesAnswers} from "./houses-answers.entity";
 
 @Entity({
@@ -362,13 +361,13 @@ export class HousesData {
 
     @BeforeInsert()
     async updateHouseNumber() {
-        // Retrieve the last inserted flatNumber
+        // Retrieve the last inserted houseNumber
         const lastRecordNumber = await dataSource.getRepository(HousesData).findOne({
             order: { houseNumber: 'DESC' },
             where: {}
         });
 
-        // Calculate the new flatNumber
+        // Calculate the new houseNumber
         this.houseNumber = lastRecordNumber ? lastRecordNumber.houseNumber + 1 : 1;
     }
 
