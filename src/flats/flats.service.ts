@@ -21,6 +21,12 @@ export class FlatsService {
         });
     }
 
+    public async getAllFlatIDs(): Promise<FlatRecord[]> {
+        return await this.flatsDataRepository.find({
+            select: ["id"]
+        });
+    }
+
     public async getOneFlat(flatNumber: number): Promise<FlatsData> {
         return await this.flatsDataRepository.findOneByOrFail({ flatNumber });
     }
@@ -56,6 +62,7 @@ export class FlatsService {
 
         const newFlatAnsRecord = this.flatsAnswersRepository.create(addFlatAnswers);
         newFlatAnsRecord.user = user;
+        newFlatAnsRecord.rateStatus = "done";
         await this.flatsAnswersRepository.save(newFlatAnsRecord);
         return newFlatAnsRecord;
     }
