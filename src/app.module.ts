@@ -7,6 +7,7 @@ import {dataSourceOptions} from "./db/data-source";
 import {UsersModule} from './users/users.module';
 import {AuthModule} from './auth/auth.module';
 import {ConfigModule} from '@nestjs/config';
+import { HousesModule } from './houses/houses.module';
 import * as Joi from 'joi';
 
 
@@ -22,6 +23,7 @@ import * as Joi from 'joi';
         FlatsModule,
         UsersModule,
         AuthModule,
+        HousesModule,
     ],
     controllers: [AppController],
     providers: [AppService],
