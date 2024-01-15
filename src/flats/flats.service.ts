@@ -53,7 +53,7 @@ export class FlatsService {
 
         const existingRecord = await this.flatsAnswersRepository.findOne({
             where:
-                {flatID: addFlatAnswers.flatID }
+                {flatID: addFlatAnswers.flatID}
         });
 
         if (existingRecord) {
