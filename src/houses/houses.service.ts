@@ -45,24 +45,24 @@ export class HousesService {
 
     }
 
-    public async createNewRecord(createHouseDto: CreateHouseDto): Promise<HousesData> {
-        const newRecord = this.houseDataRepository.create(createHouseDto);
+    public async createNewRecord(createRecordPayload: CreateHouseDto): Promise<HousesData> {
+        const newRecord = this.houseDataRepository.create(createRecordPayload);
         await this.houseDataRepository.save(newRecord);
         return newRecord;
     }
 
-    public async createNewAnswersRecord(addAnswers: AddHouseAnswersDto, user: string): Promise<HousesAnswers> {
+    public async createNewAnswersRecord(addAnswersPayload: AddHouseAnswersDto, user: string): Promise<HousesAnswers> {
 
         const existingRecord = await this.houseAnswersRepository.findOne({
             where:
-                {houseID: addAnswers.houseID }
+                {houseID: addAnswersPayload.houseID }
         });
 
         if (existingRecord) {
             throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
         }
 
-        const newAnsRecord = this.houseAnswersRepository.create(addAnswers);
+        const newAnsRecord = this.houseAnswersRepository.create(addAnswersPayload);
         newAnsRecord.user = user;
         newAnsRecord.rateStatus = "done";
         await this.houseAnswersRepository.save(newAnsRecord);
