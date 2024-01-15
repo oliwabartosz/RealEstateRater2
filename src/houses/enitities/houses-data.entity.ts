@@ -1,5 +1,7 @@
-import {BeforeInsert, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {BeforeInsert, Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import dataSource from "../../db/data-source";
+import {FlatsAnswers} from "../../flats/entities/flats-answers.entity";
+import {HousesAnswers} from "./houses-answers.entity";
 
 @Entity({
     name: "houses_data"
@@ -353,6 +355,10 @@ export class HousesData {
         default: "",
     })
     streetLemma: string;
+
+
+    @OneToOne(() => HousesAnswers, {cascade: true})
+    answers: HousesAnswers;
 
     @BeforeInsert()
     async updateHouseNumber() {
