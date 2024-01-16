@@ -80,12 +80,11 @@ export class HousesAnswersService {
         }
 
         try {
-            // INSERT RECORD INTO DATABASE
+            // Insert
             return await this.createNewAnswersRecord(dto, user);
 
         } catch (err) {
-            // UPDATE RECORD
-
+            // Update
             if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
 
                 return await this.updateAnswersRecord(
