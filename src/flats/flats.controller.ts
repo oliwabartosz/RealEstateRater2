@@ -38,7 +38,7 @@ export class FlatsController {
     @UseGuards(RoleGuard(Role.Scraper))
     @UseGuards(JwtAuthGuard)
     getFlats(): Promise<FlatsListResponse> {
-        return this.flatsService.getAllFlats();
+        return this.flatsService.getAllRecords();
     }
 
     @UseGuards(RoleGuard(Role.User))
@@ -52,7 +52,7 @@ export class FlatsController {
         if (flatNumber > lastNumber) {
             throw new NotFoundException()
         }
-        return this.flatsService.getOneFlat(flatNumber);
+        return this.flatsService.getOneRecord(flatNumber);
     }
 
 
@@ -91,7 +91,7 @@ export class FlatsController {
         @Body() CreateOrUpdateAnswerRecord: AddFlatAnswersDto,
         @Req() request: RequestWithUser,
     ): Promise<FlatsAnswers> {
-        const allowedFlatIDs = await this.flatsService.getAllFlatIDs()
+        const allowedFlatIDs = await this.flatsService.getAllRecordsIDs()
         const idArray = allowedFlatIDs.map(flatsData => flatsData.id);
 
         if (!idArray.includes(request.body.flatID)) {
