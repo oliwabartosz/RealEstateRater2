@@ -29,9 +29,7 @@ export class HousesController {
         @Inject(HousesService) private housesService: HousesService,
         @Inject(HousesAnswersService) private housesAnswersService: HousesAnswersService,
 
-    ) {
-
-    }
+    ) {}
 
     @Get('/all')
     @UseGuards(RoleGuard(Role.User))
@@ -54,7 +52,6 @@ export class HousesController {
         }
         return this.housesService.getOneRecord(flatNumber);
     }
-
 
     @Post('/')
     @UseGuards(RoleGuard(Role.Scraper))
@@ -86,36 +83,10 @@ export class HousesController {
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
     async createOrUpdateAnswerRecord(
-        @Body() CreateOrUpdateAnswerRecord: AddHouseAnswersDto,
+        @Body() AddHouseAnswersDto: AddHouseAnswersDto,
         @Req() request: RequestWithUser,
     ): Promise<HousesAnswers> {
-        const allowedHousesIDs = await this.housesService.getAllRecrodsIDs()
-        const idArray = allowedHousesIDs.map(recordData => recordData.id);
-
-        if (!idArray.includes(request.body.houseID)) {
-            throw new HttpException("ID in JSON payload is not correct!", HttpStatus.BAD_REQUEST);
-        }
-
-        try {
-            // INSERT RECORD INTO DATABASE
-            return await this.housesAnswersService.createNewAnswersRecord(CreateOrUpdateAnswerRecord, request.user.name);
-
-        } catch (err) {
-            // UPDATE RECORD
-
-            if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
-
-                return await this.housesAnswersService.updateAnswersRecord(
-                    CreateOrUpdateAnswerRecord.houseID,
-                    CreateOrUpdateAnswerRecord
-                );
-
-            } else {
-
-                throw new HttpException("Something went wrong.", HttpStatus.INTERNAL_SERVER_ERROR);
-
-            }
-        }
+        return this.housesAnswersService.createOrUpdateAnswer(request.body.id, request.body.user, AddHouseAnswersDto)
     }
 }
 

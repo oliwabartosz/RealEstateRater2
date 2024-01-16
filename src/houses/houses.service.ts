@@ -13,9 +13,9 @@ export class HousesService {
 
     constructor(
         @InjectRepository(HousesData) private houseDataRepository: Repository<HousesData>,
-        @InjectRepository(HousesAnswers) private houseAnswersRepository: Repository<HousesAnswers>
     ) {
     }
+
     public async getAllRecords(): Promise<HouseListResponse> {
         return await this.houseDataRepository.find({
             select: ["id", "offerId", "price", "offerType", "offerStatus"]
@@ -30,7 +30,7 @@ export class HousesService {
     }
 
     public async getOneRecord(houseNumber: number): Promise<HousesData> {
-        return await this.houseDataRepository.findOneByOrFail({ houseNumber });
+        return await this.houseDataRepository.findOneByOrFail({houseNumber});
     }
 
     public async getLastNumber(): Promise<number | null> {
@@ -62,16 +62,50 @@ export class HousesService {
 
 @Injectable()
 export class HousesAnswersService {
+    private houseService: HousesService
 
     constructor(
-        @InjectRepository(HousesAnswers) private houseAnswersRepository: Repository<HousesAnswers>
-    ) {}
+        @InjectRepository(HousesAnswers) private houseAnswersRepository: Repository<HousesAnswers>,
+        @InjectRepository(HousesData) private houseDataRepository: Repository<HousesData>,
+        ) {
+    }
 
-    public async createNewAnswersRecord(addAnswersPayload: AddHouseAnswersDto, user: string): Promise<HousesAnswers> {
+    public async createOrUpdateAnswer(recordID: string, user: string, dto: AddHouseAnswersDto): Promise<HousesAnswers> {
+        const allowedIDs = await this.houseService.getAllRecrodsIDs()
+
+        const idArray = allowedIDs.map(recordData => recordData.id);
+
+        if (!idArray.includes(recordID)) {
+            throw new HttpException("ID in JSON payload is not correct!", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            // INSERT RECORD INTO DATABASE
+            return await this.createNewAnswersRecord(dto, user);
+
+        } catch (err) {
+            // UPDATE RECORD
+
+            if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
+
+                return await this.updateAnswersRecord(
+                    dto.houseID,
+                    dto
+                );
+
+            } else {
+
+                throw new HttpException("Something went wrong.", HttpStatus.INTERNAL_SERVER_ERROR);
+
+            }
+        }
+    }
+
+    private async createNewAnswersRecord(addAnswersPayload: AddHouseAnswersDto, user: string): Promise<HousesAnswers> {
 
         const existingRecord = await this.houseAnswersRepository.findOne({
             where:
-                {houseID: addAnswersPayload.houseID }
+                {houseID: addAnswersPayload.houseID}
         });
 
         if (existingRecord) {
@@ -85,22 +119,21 @@ export class HousesAnswersService {
         return newAnsRecord;
     }
 
-    public async updateAnswersRecord(houseID: string, updatedData: Partial<AddHouseAnswersDto>): Promise<HousesAnswers> {
+    private async updateAnswersRecord(houseID: string, updatedData: Partial<AddHouseAnswersDto>): Promise<HousesAnswers> {
 
         // Get existing record
-        const existingRecord = await this.houseAnswersRepository.findOne({ where: {houseID} })
+        const existingRecord = await this.houseAnswersRepository.findOne({where: {houseID}})
 
         if (!existingRecord) {
-            throw new HttpException(`Answer record with ID ${houseID} not found`, HttpStatus.NOT_FOUND );
+            throw new HttpException(`Answer record with ID ${houseID} not found`, HttpStatus.NOT_FOUND);
         }
 
         // Update
-        const updatedRecord = { ...existingRecord, ...updatedData };
+        const updatedRecord = {...existingRecord, ...updatedData};
         await this.houseAnswersRepository.save(updatedRecord);
 
         // Return
         return updatedRecord;
 
     }
-
 }
