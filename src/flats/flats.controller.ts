@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import {FlatsListResponse, OneFlatResponse} from "../interfaces/flat-record";
 import {CreateFlatDto} from "./dto/create-flat.dto";
-import {FlatsService} from "./flats.service";
+import {FlatsAnswersService, FlatsService} from "./flats.service";
 import {TransformLawStatusPipe} from "../pipes/transform-law-status.pipe";
 import JwtAuthGuard from "../guards/jwt-auth.guard";
 import {RoleGuard} from "../guards/role.guard";
@@ -29,6 +29,7 @@ export class FlatsController {
 
     constructor(
         @Inject(FlatsService) private flatsService: FlatsService,
+        @Inject(FlatsAnswersService) private flatsAnswersService: FlatsAnswersService,
     ) {
 
     }
@@ -54,7 +55,6 @@ export class FlatsController {
         }
         return this.flatsService.getOneRecord(flatNumber);
     }
-
 
     @Post('/')
     @UseGuards(RoleGuard(Role.Scraper))
@@ -82,8 +82,6 @@ export class FlatsController {
         return this.flatsService.removeAll();
     }
 
-    // Flats Answers ---------------------
-
     @Post('/answers')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
@@ -100,14 +98,14 @@ export class FlatsController {
 
         try {
             // INSERT RECORD INTO DATABASE
-            return await this.flatsService.createNewAnswersRecord(CreateOrUpdateAnswerRecord, request.user.name);
+            return await this.flatsAnswersService.createNewAnswersRecord(CreateOrUpdateAnswerRecord, request.user.name);
 
         } catch (err) {
             // UPDATE RECORD
 
             if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
 
-                return await this.flatsService.updateAnswersRecord(
+                return await this.flatsAnswersService.updateAnswersRecord(
                     CreateOrUpdateAnswerRecord.flatID,
                     CreateOrUpdateAnswerRecord
                 );

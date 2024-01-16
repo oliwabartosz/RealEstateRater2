@@ -11,7 +11,6 @@ import {AddFlatAnswersDto} from "./dto/add-flat-answers.dto";
 export class FlatsService {
     constructor(
         @InjectRepository(FlatsData) private flatsDataRepository: Repository<FlatsData>,
-        @InjectRepository(FlatsAnswers) private flatsAnswersRepository: Repository<FlatsAnswers>
     ) {
     }
     public async getAllRecords(): Promise<FlatRecord[]> {
@@ -49,6 +48,21 @@ export class FlatsService {
         return newRecord;
     }
 
+    public async removeRecordsByIDs(ids: string[]): Promise<DeleteResult> {
+        return await this.flatsDataRepository.delete(ids);
+    }
+
+    public async removeAll(): Promise<DeleteResult> {
+        return await this.flatsDataRepository.delete({});
+    }
+}
+
+@Injectable()
+export class FlatsAnswersService {
+    constructor(
+        @InjectRepository(FlatsAnswers) private flatsAnswersRepository: Repository<FlatsAnswers>
+    ){}
+
     public async createNewAnswersRecord(addAnswersPayload: AddFlatAnswersDto, user: string): Promise<FlatsAnswers> {
 
         const existingRecord = await this.flatsAnswersRepository.findOne({
@@ -85,12 +99,5 @@ export class FlatsService {
 
     }
 
-    public async removeRecordsByIDs(ids: string[]): Promise<DeleteResult> {
-        return await this.flatsDataRepository.delete(ids);
-    }
 
-    public async removeAll(): Promise<DeleteResult> {
-        return await this.flatsDataRepository.delete({});
-    }
 }
-
