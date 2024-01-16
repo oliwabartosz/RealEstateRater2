@@ -23,7 +23,7 @@ export class HousesService {
         });
     }
 
-    public async getAllRecrodsIDs(): Promise<HouseListResponse> {
+    public async getAllRecordsIDs(): Promise<HouseListResponse> {
         return await this.houseDataRepository.find({
             select: ["id"]
         });
@@ -70,7 +70,7 @@ export class HousesAnswersService {
     }
 
     public async createOrUpdateAnswer(recordID: string, user: string, dto: AddHouseAnswersDto): Promise<HousesAnswers> {
-        const allowedIDs = await this.houseService.getAllRecrodsIDs()
+        const allowedIDs = await this.houseService.getAllRecordsIDs()
 
         const idArray = allowedIDs.map(recordData => recordData.id);
 
