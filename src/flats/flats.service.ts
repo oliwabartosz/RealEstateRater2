@@ -62,10 +62,11 @@ export class FlatsService {
 
 @Injectable()
 export class FlatsAnswersService {
-    private flatsService: FlatsService;
+
 
     constructor(
         @InjectRepository(FlatsAnswers) private flatsAnswersRepository: Repository<FlatsAnswers>,
+        private readonly flatsService: FlatsService,
     ) {
     }
 
@@ -138,10 +139,11 @@ export class FlatsAnswersService {
 
 @Injectable()
 export class FlatsGPTService {
-    private flatsService: FlatsService;
     constructor(
-        @InjectRepository(FlatsGPTService) private flatsGPTRepository: Repository<FlatsGPT>
-    ) {}
+        @InjectRepository(FlatsGPT) private flatsGPTRepository: Repository<FlatsGPT>,
+        private flatsService: FlatsService
+
+) {}
 
     public async getAllGPTRecords(): Promise<FlatGPTRecord[]> {
         return await this.flatsGPTRepository.find({

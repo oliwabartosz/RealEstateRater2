@@ -1,5 +1,5 @@
 import {Module} from '@nestjs/common';
-import {FlatsAnswersService, FlatsService} from "./flats.service";
+import {FlatsAnswersService, FlatsGPTService, FlatsService} from "./flats.service";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {FlatsData} from "./entities/flats-data.entity";
 import {FlatsAnswers} from "./entities/flats-answers.entity";
@@ -11,7 +11,7 @@ import {FlatsGPT} from "./entities/flats-gpt.entity";
     imports: [
         TypeOrmModule.forFeature([FlatsData, FlatsAnswers, FlatsGPT]),
     ],
-    providers: [FlatsService, FlatsAnswersService, FlatsGPT],
+    providers: [FlatsService, FlatsAnswersService, FlatsGPTService],
     controllers: [FlatsController]
 })
 export class FlatsModule {
