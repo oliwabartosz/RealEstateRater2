@@ -96,6 +96,86 @@ export class FlatsService {
     }
 }
 
+
+@Injectable()
+export class FlatsAnswersService {
+    private flatsService: FlatsService;
+
+    constructor(
+        @InjectRepository(FlatsAnswers) private flatsAnswersRepository: Repository<FlatsAnswers>,
+    ) {
+    }
+
+    public async createOrUpdateAnswer(recordID: string, user: string, dto: AddFlatAnswersDto): Promise<FlatsAnswers> {
+        const allowedIDs = await this.flatsService.getAllRecordsIDs()
+
+        const idArray = allowedIDs.map(recordData => recordData.id);
+
+        if (!idArray.includes(recordID)) {
+            throw new HttpException("ID in JSON payload is not correct!", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            // Insert
+            return await this.createNewAnswersRecord(dto, user);
+
+        } catch (err) {
+            // Update
+            if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
+
+                return await this.updateAnswersRecord(
+                    dto.flatID,
+                    dto
+                );
+
+            } else {
+
+                throw new HttpException("Something went wrong.", HttpStatus.INTERNAL_SERVER_ERROR);
+
+            }
+        }
+    }
+
+    private async createNewAnswersRecord(addAnswersPayload: AddFlatAnswersDto, user: string): Promise<FlatsAnswers> {
+
+        const existingRecord = await this.flatsAnswersRepository.findOne({
+            where:
+                {flatID: addAnswersPayload.flatID}
+        });
+
+        if (existingRecord) {
+            throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
+        }
+
+        const newAnsRecord = this.flatsAnswersRepository.create(addAnswersPayload);
+        newAnsRecord.user = user;
+        newAnsRecord.rateStatus = "done";
+        await this.flatsAnswersRepository.save(newAnsRecord);
+        return newAnsRecord;
+    }
+
+    private async updateAnswersRecord(houseID: string, updatedData: Partial<AddFlatAnswersDto>): Promise<FlatsAnswers> {
+
+        // Get existing record
+        const existingRecord = await this.flatsAnswersRepository.findOne({where: {flatID}})
+
+        if (!existingRecord) {
+            throw new HttpException(`Answer record with ID ${houseID} not found`, HttpStatus.NOT_FOUND);
+        }
+
+        // Update
+        const updatedRecord = {...existingRecord, ...updatedData};
+        await this.flatsAnswersRepository.save(updatedRecord);
+
+        // Return
+        return updatedRecord;
+
+    }
+}
+
+
+
+
 @Injectable()
 export class FlatsGPTService {
     constructor(

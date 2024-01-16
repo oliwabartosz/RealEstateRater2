@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import {FlatsListResponse, OneFlatResponse} from "../interfaces/flat-record";
 import {CreateFlatDto} from "./dto/create-flat.dto";
-import {FlatsGPTService, FlatsService} from "./flats.service";
+import {FlatsGPTService, FlatsService, FlatsAnswersService} from "./flats.service";
 import {TransformLawStatusPipe} from "../pipes/transform-law-status.pipe";
 import JwtAuthGuard from "../guards/jwt-auth.guard";
 import {RoleGuard} from "../guards/role.guard";
@@ -33,6 +33,7 @@ export class FlatsController {
 
     constructor(
         @Inject(FlatsService) private flatsService: FlatsService,
+        @Inject(FlatsAnswersService) private flatsAnswerService: FlatsAnswersService,
         @Inject(FlatsGPTService) private flatsGPTService: FlatsGPTService,
     ) {
 
@@ -133,36 +134,10 @@ export class FlatsController {
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
     async createOrUpdateAnswerRecord(
-        @Body() CreateOrUpdateAnswerRecord: AddFlatAnswersDto,
+        @Body() addFlatAnswersDto: AddFlatAnswersDto,
         @Req() request: RequestWithUser,
     ): Promise<FlatsAnswers> {
-        const allowedFlatIDs = await this.flatsService.getAllRecordsIDs()
-        const idArray = allowedFlatIDs.map(flatsData => flatsData.id);
-
-        if (!idArray.includes(request.body.flatID)) {
-            throw new HttpException("ID in JSON payload is not correct!", HttpStatus.BAD_REQUEST);
-        }
-
-        try {
-            // INSERT RECORD INTO DATABASE
-            return await this.flatsService.createNewAnswersRecord(CreateOrUpdateAnswerRecord, request.user.name);
-
-        } catch (err) {
-            // UPDATE RECORD
-
-            if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
-
-                return await this.flatsService.updateAnswersRecord(
-                    CreateOrUpdateAnswerRecord.flatID,
-                    CreateOrUpdateAnswerRecord
-                );
-
-            } else {
-
-                throw new HttpException("Something went wrong.", HttpStatus.INTERNAL_SERVER_ERROR);
-
-            }
-        }
+        return this.flatsAnswerService.createOrUpdateAnswer(request.body.id, request.body.user, addFlatAnswersDto)
     }
 }
 
