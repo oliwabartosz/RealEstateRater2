@@ -35,9 +35,7 @@ export class FlatsController {
         @Inject(FlatsService) private flatsService: FlatsService,
         @Inject(FlatsAnswersService) private flatsAnswerService: FlatsAnswersService,
         @Inject(FlatsGPTService) private flatsGPTService: FlatsGPTService,
-    ) {
-
-    }
+    ) {}
 
     @Get('/all')
     @UseGuards(RoleGuard(Role.User))
@@ -58,36 +56,10 @@ export class FlatsController {
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
     async createOrUpdateGPTRecord(
-        @Body() CreateOrUpdateGPTRecord: AddGPTAnswersDto,
+        @Body() addGPTAnswersDto: AddGPTAnswersDto,
         @Req() request: RequestWithUser,
     ): Promise<FlatsGPT> {
-        const allowedFlatIDs = await this.flatsGPTService.getAllRecordsIDs()
-        const idArray = allowedFlatIDs.map(flatsData => flatsData.flatID);
-
-        if (!idArray.includes(request.body.flatID)) {
-            throw new HttpException("ID in JSON payload is not correct!", HttpStatus.BAD_REQUEST);
-        }
-
-        try {
-            // INSERT RECORD INTO DATABASE
-            return await this.flatsGPTService.createNewGPTAnswer(CreateOrUpdateGPTRecord);
-
-        } catch (err) {
-            // UPDATE RECORD
-
-            if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
-
-                return await this.flatsGPTService.updateAnswersRecord(
-                    CreateOrUpdateGPTRecord.flatID,
-                    CreateOrUpdateGPTRecord
-                );
-
-            } else {
-
-                throw new HttpException("Something went wrong.", HttpStatus.INTERNAL_SERVER_ERROR);
-
-            }
-        }
+        return this.flatsGPTService.createOrUpdateGPTAnswer(request.body.id, request.body.user, addGPTAnswersDto)
     }
 
     @UseGuards(RoleGuard(Role.User))
