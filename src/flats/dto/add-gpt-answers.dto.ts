@@ -2,6 +2,10 @@ import {IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString} from "class-valid
 
 export class AddGPTAnswersDto {
 
+    @IsNotEmpty()
+    @IsString()
+    flatID: string;
+
     @IsOptional()
     @IsNumber()
     technologyGPT: number | null;
@@ -104,6 +108,6 @@ export class AddGPTAnswersDto {
 
     @IsNotEmpty()
     @IsBoolean()
-    status: string;
+    status: boolean;
 
 }

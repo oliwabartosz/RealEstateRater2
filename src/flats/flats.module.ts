@@ -11,7 +11,7 @@ import {FlatsGPT} from "./entities/flats-gpt.entity";
     imports: [
         TypeOrmModule.forFeature([FlatsData, FlatsAnswers, FlatsGPT]),
     ],
-    providers: [FlatsService],
+    providers: [FlatsService, FlatsGPT],
     controllers: [FlatsController]
 })
 export class FlatsModule {
