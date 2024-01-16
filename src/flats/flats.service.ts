@@ -14,7 +14,6 @@ import {AddGPTAnswersDto} from "./dto/add-gpt-answers.dto";
 export class FlatsService {
     constructor(
         @InjectRepository(FlatsData) private flatsDataRepository: Repository<FlatsData>,
-        @InjectRepository(FlatsAnswers) private flatsAnswersRepository: Repository<FlatsAnswers>
     ) {
     }
     public async getAllRecords(): Promise<FlatRecord[]> {
@@ -49,42 +48,6 @@ export class FlatsService {
         const newRecord = this.flatsDataRepository.create(createRecordPayload);
         await this.flatsDataRepository.save(newRecord);
         return newRecord;
-    }
-
-    public async createNewAnswersRecord(addAnswersPayload: AddFlatAnswersDto, user: string): Promise<FlatsAnswers> {
-
-        const existingRecord = await this.flatsAnswersRepository.findOne({
-            where:
-                {flatID: addAnswersPayload.flatID }
-        });
-
-        if (existingRecord) {
-            throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
-        }
-
-        const newAnsRecord = this.flatsAnswersRepository.create(addAnswersPayload);
-        newAnsRecord.user = user;
-        newAnsRecord.rateStatus = "done";
-        await this.flatsAnswersRepository.save(newAnsRecord);
-        return newAnsRecord;
-    }
-
-    public async updateAnswersRecord(flatID: string, updatedData: Partial<AddFlatAnswersDto>): Promise<FlatsAnswers> {
-
-        // Get existing record
-        const existingRecord = await this.flatsAnswersRepository.findOne({ where: {flatID} })
-
-        if (!existingRecord) {
-            throw new HttpException(`Answer record with ID ${flatID} not found`, HttpStatus.NOT_FOUND );
-        }
-
-        // Update
-        const updatedRecord = { ...existingRecord, ...updatedData };
-        await this.flatsAnswersRepository.save(updatedRecord);
-
-        // Return
-        return updatedRecord;
-
     }
 
     public async removeRecordsByIDs(ids: string[]): Promise<DeleteResult> {
@@ -154,13 +117,13 @@ export class FlatsAnswersService {
         return newAnsRecord;
     }
 
-    private async updateAnswersRecord(houseID: string, updatedData: Partial<AddFlatAnswersDto>): Promise<FlatsAnswers> {
+    private async updateAnswersRecord(flatID: string, updatedData: Partial<AddFlatAnswersDto>): Promise<FlatsAnswers> {
 
         // Get existing record
         const existingRecord = await this.flatsAnswersRepository.findOne({where: {flatID}})
 
         if (!existingRecord) {
-            throw new HttpException(`Answer record with ID ${houseID} not found`, HttpStatus.NOT_FOUND);
+            throw new HttpException(`Answer record with ID ${flatID} not found`, HttpStatus.NOT_FOUND);
         }
 
         // Update
@@ -172,9 +135,6 @@ export class FlatsAnswersService {
 
     }
 }
-
-
-
 
 @Injectable()
 export class FlatsGPTService {
