@@ -51,6 +51,22 @@ export class HousesService {
         return newRecord;
     }
 
+    public async removeRecordsByIDs(ids: string[]): Promise<DeleteResult> {
+        return await this.houseDataRepository.delete(ids);
+    }
+
+    public async removeAll(): Promise<DeleteResult> {
+        return await this.houseDataRepository.delete({});
+    }
+}
+
+@Injectable()
+export class HousesAnswersService {
+
+    constructor(
+        @InjectRepository(HousesAnswers) private houseAnswersRepository: Repository<HousesAnswers>
+    ) {}
+
     public async createNewAnswersRecord(addAnswersPayload: AddHouseAnswersDto, user: string): Promise<HousesAnswers> {
 
         const existingRecord = await this.houseAnswersRepository.findOne({
@@ -87,11 +103,4 @@ export class HousesService {
 
     }
 
-    public async removeRecordsByIDs(ids: string[]): Promise<DeleteResult> {
-        return await this.houseDataRepository.delete(ids);
-    }
-
-    public async removeAll(): Promise<DeleteResult> {
-        return await this.houseDataRepository.delete({});
-    }
 }

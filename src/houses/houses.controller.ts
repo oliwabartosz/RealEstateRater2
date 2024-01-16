@@ -14,7 +14,7 @@ import {Role} from "../interfaces/roles";
 import JwtAuthGuard from "../guards/jwt-auth.guard";
 import {TransformLawStatusPipe} from "../pipes/transform-law-status.pipe";
 import {RequestWithUser} from "../interfaces/auth";
-import {HousesService} from "./houses.service";
+import {HousesAnswersService, HousesService} from "./houses.service";
 import {HouseListResponse, OneHouseResponse} from "../interfaces/house-record";
 import {CreateHouseDto} from "./dto/create-house.dto";
 import {HousesData} from "./enitities/houses-data.entity";
@@ -27,6 +27,8 @@ export class HousesController {
 
     constructor(
         @Inject(HousesService) private housesService: HousesService,
+        @Inject(HousesAnswersService) private housesAnswersService: HousesAnswersService,
+
     ) {
 
     }
@@ -80,8 +82,6 @@ export class HousesController {
         return this.housesService.removeAll();
     }
 
-    // Houses Answers ---------------------
-
     @Post('/answers')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
@@ -98,14 +98,14 @@ export class HousesController {
 
         try {
             // INSERT RECORD INTO DATABASE
-            return await this.housesService.createNewAnswersRecord(CreateOrUpdateAnswerRecord, request.user.name);
+            return await this.housesAnswersService.createNewAnswersRecord(CreateOrUpdateAnswerRecord, request.user.name);
 
         } catch (err) {
             // UPDATE RECORD
 
             if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
 
-                return await this.housesService.updateAnswersRecord(
+                return await this.housesAnswersService.updateAnswersRecord(
                     CreateOrUpdateAnswerRecord.houseID,
                     CreateOrUpdateAnswerRecord
                 );
