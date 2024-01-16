@@ -66,7 +66,6 @@ export class HousesAnswersService {
 
     constructor(
         @InjectRepository(HousesAnswers) private houseAnswersRepository: Repository<HousesAnswers>,
-        @InjectRepository(HousesData) private houseDataRepository: Repository<HousesData>,
         ) {
     }
 
