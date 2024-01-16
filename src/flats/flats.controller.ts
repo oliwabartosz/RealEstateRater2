@@ -26,6 +26,7 @@ import {RequestWithUser} from "../interfaces/auth";
 import {FlatGPTListResponse} from "../interfaces/flat-gpt-record";
 import {AddGPTAnswersDto} from "./dto/add-gpt-answers.dto";
 import {FlatsGPT} from "./entities/flats-gpt.entity";
+import {DeleteResult} from "typeorm";
 
 @Controller('/flats')
 export class FlatsController {
@@ -116,7 +117,7 @@ export class FlatsController {
     @UseGuards(JwtAuthGuard)
     removeRecordsByIDs(
         @Body() payload: { ids: string[] }
-    ) {
+    ): Promise<DeleteResult> {
         const {ids} = payload;
         return this.flatsService.removeRecordsByIDs(ids)
     }
@@ -124,7 +125,7 @@ export class FlatsController {
     @Delete('/all')
     @UseGuards(RoleGuard(Role.Admin))
     @UseGuards(JwtAuthGuard)
-    removeAll() {
+    removeAll(): Promise<DeleteResult> {
         return this.flatsService.removeAll();
     }
 
@@ -163,8 +164,6 @@ export class FlatsController {
             }
         }
     }
-
-
 }
 
 
