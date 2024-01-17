@@ -5,14 +5,26 @@ import {Repository} from "typeorm";
 import {FlatsAnswers} from "../flats/entities/flats-answers.entity";
 import {AddFlatAnswersDto} from "../flats/dto/add-flat-answers.dto";
 import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
+import {AddGPTAnswersDto} from "../flats/dto/add-gpt-answers.dto";
 
 export async function createNewAnswersRecord(
-    repository: Repository<FlatsAnswers | FlatsGPT | HousesAnswers>,
-    addAnswersPayload: AddFlatAnswersDto | AddHouseAnswersDto,
+    repository: Repository<any>,
+    addAnswersPayload: AddFlatAnswersDto | AddHouseAnswersDto | AddGPTAnswersDto,
     user: string,
 ): Promise<any> {
-    let searchID: string = (repository instanceof FlatsAnswers) ? "flatID" :
-        (repository instanceof HousesAnswers) ? "houseID" : "plotID";
+
+    const repositoryClass = (
+        repository
+            .target
+            .toString()
+            .replace("class ", "")
+            .replace(" {\n}", ""));
+
+    let searchID: string = (repositoryClass === 'FlatsAnswers' || repositoryClass === 'FlatsGPT')
+        ? "flatID"
+        : (repositoryClass === 'HousesAnswers')
+            ? "houseID"
+            : "plotID";
 
 
     const existingRecord = await repository.findOne({
@@ -31,7 +43,6 @@ export async function createNewAnswersRecord(
         newAnsRecord.user = user;
         newAnsRecord.rateStatus = "done";
     }
-
 
     await repository.save(newAnsRecord);
     return newAnsRecord;

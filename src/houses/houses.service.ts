@@ -6,6 +6,11 @@ import {HousesAnswers} from "./enitities/houses-answers.entity";
 import {HouseListResponse} from "../interfaces/house-record";
 import {CreateHouseDto} from "./dto/create-house.dto";
 import {AddHouseAnswersDto} from "./dto/add-house-answers.dto";
+import {AddGPTAnswersDto} from "../flats/dto/add-gpt-answers.dto";
+import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
+import {checkIfIdExists} from "../utils/check-if-id-exists";
+import {createNewAnswersRecord} from "../utils/create-new-answer-record";
+import {updateAnswersRecord} from "../utils/update-answer-record";
 
 
 @Injectable()
@@ -67,71 +72,23 @@ export class HousesAnswersService {
     constructor(
         @InjectRepository(HousesAnswers) private houseAnswersRepository: Repository<HousesAnswers>,
         private houseService: HousesService,
-        ) {
+    ) {
     }
 
     public async createOrUpdateAnswer(recordID: string, user: string, dto: AddHouseAnswersDto): Promise<HousesAnswers> {
-        const allowedIDs = await this.houseService.getAllRecordsIDs()
-        const idArray = allowedIDs.map(recordData => recordData.id);
-
-        if (!idArray.includes(recordID)) {
-            throw new HttpException("ID in JSON payload is not correct!", HttpStatus.BAD_REQUEST);
-        }
+        await checkIfIdExists(this.houseService, recordID);
 
         try {
-            // Insert
-            return await this.createNewAnswersRecord(dto, user);
-
+            return await createNewAnswersRecord(this.houseAnswersRepository as Repository<HousesAnswers>, dto, user);
         } catch (err) {
-            // Update
-            if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
 
-                return await this.updateAnswersRecord(
-                    dto.houseID,
-                    dto
-                );
+            if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
+                return await updateAnswersRecord(this.houseAnswersRepository as Repository<HousesAnswers>, dto.houseID, dto);
 
             } else {
-
+                console.error(err);
                 throw new HttpException("Something went wrong.", HttpStatus.INTERNAL_SERVER_ERROR);
-
             }
         }
-    }
-
-    private async createNewAnswersRecord(addAnswersPayload: AddHouseAnswersDto, user: string): Promise<HousesAnswers> {
-
-        const existingRecord = await this.houseAnswersRepository.findOne({
-            where:
-                {houseID: addAnswersPayload.houseID}
-        });
-
-        if (existingRecord) {
-            throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
-        }
-
-        const newAnsRecord = this.houseAnswersRepository.create(addAnswersPayload);
-        newAnsRecord.user = user;
-        newAnsRecord.rateStatus = "done";
-        await this.houseAnswersRepository.save(newAnsRecord);
-        return newAnsRecord;
-    }
-
-    private async updateAnswersRecord(houseID: string, updatedData: Partial<AddHouseAnswersDto>): Promise<HousesAnswers> {
-
-        // Get existing record
-        const existingRecord = await this.houseAnswersRepository.findOne({where: {houseID}})
-
-        if (!existingRecord) {
-            throw new HttpException(`Answer record with ID ${houseID} not found`, HttpStatus.NOT_FOUND);
-        }
-
-        // Update
-        const updatedRecord = {...existingRecord, ...updatedData};
-        await this.houseAnswersRepository.save(updatedRecord);
-
-        // Return
-        return updatedRecord;
-
     }
 }

@@ -5,15 +5,27 @@ import {AddHouseAnswersDto} from "../houses/dto/add-house-answers.dto";
 import {Repository} from "typeorm";
 import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
 import {HousesAnswers} from "../houses/enitities/houses-answers.entity";
+import {AddGPTAnswersDto} from "../flats/dto/add-gpt-answers.dto";
 
 export async function updateAnswersRecord(
-    repository: Repository<FlatsAnswers | FlatsGPT | HousesAnswers>,
+    repository: Repository<any>,
     id: string,
-    updatedData: Partial<AddFlatAnswersDto> | Partial<AddHouseAnswersDto>
+    updatedData: Partial<AddFlatAnswersDto> | Partial<AddHouseAnswersDto> | Partial<AddGPTAnswersDto>
 ): Promise<any> {
 
-    let searchID: string = (repository instanceof FlatsAnswers || FlatsGPT) ? "flatID" :
-        (repository instanceof HousesAnswers) ? "houseID" : "plotID";
+    const repositoryClass = (
+        repository
+            .target
+            .toString()
+            .replace("class ", "")
+            .replace(" {\n}", ""));
+
+    let searchID: string = (repositoryClass === 'FlatsAnswers' || repositoryClass === 'FlatsGPT')
+        ? "flatID"
+        : (repositoryClass === 'HousesAnswers')
+            ? "houseID"
+            : "plotID";
+
 
     // Get existing record
     const existingRecord = await repository.findOne({where: {[searchID]: id}})
