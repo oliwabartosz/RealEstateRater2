@@ -52,16 +52,6 @@ export class FlatsController {
         return this.flatsGPTService.getAllGPTRecords();
     }
 
-    @Post('/gpt')
-    @UseGuards(RoleGuard(Role.User))
-    @UseGuards(JwtAuthGuard)
-    async createOrUpdateGPTRecord(
-        @Body() addGPTAnswersDto: AddGPTAnswersDto,
-        @Req() request: RequestWithUser,
-    ): Promise<FlatsGPT> {
-        return this.flatsGPTService.createOrUpdateGPTAnswer(request.body.id, request.body.user, addGPTAnswersDto)
-    }
-
     @Post('/answers')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
@@ -71,6 +61,16 @@ export class FlatsController {
     ): Promise<FlatsAnswers> {
         console.log(request.body)
         return this.flatsAnswerService.createOrUpdateAnswer(request.body.flatID, request.body.user, addFlatAnswersDto)
+    }
+
+    @Post('/gpt')
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
+    async createOrUpdateGPTRecord(
+        @Body() addGPTAnswersDto: AddGPTAnswersDto,
+        @Req() request: RequestWithUser,
+    ): Promise<FlatsGPT> {
+        return this.flatsGPTService.createOrUpdateGPTAnswer(request.body.id, request.body.user, addGPTAnswersDto)
     }
 
     @UseGuards(RoleGuard(Role.User))
