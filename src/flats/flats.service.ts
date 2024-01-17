@@ -79,14 +79,14 @@ export class FlatsAnswersService {
         await checkIfIdExists(this.flatsService, recordID);
 
         try {
-            return createNewAnswersRecord(this.flatsAnswersRepository, dto, user, false)
+            return await createNewAnswersRecord(this.flatsAnswersRepository, dto, user, false);
         } catch (err) {
 
             if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
                 return await updateAnswersRecord(this.flatsAnswersRepository, dto.flatID, dto);
 
             } else {
-
+                console.error(err);
                 throw new HttpException("Something went wrong.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }

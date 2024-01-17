@@ -25,13 +25,15 @@ export async function createNewAnswersRecord(
         throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
     }
 
-    const newAnsRecord = this.repository.create(addAnswersPayload);
+    const newAnsRecord = repository.create(addAnswersPayload);
 
-    if (!gpt) {
+
+    if (!(newAnsRecord instanceof FlatsGPT)) {
         newAnsRecord.user = user;
         newAnsRecord.rateStatus = "done";
     }
 
-    await this.repository.save(newAnsRecord);
+
+    await repository.save(newAnsRecord);
     return newAnsRecord;
 }

@@ -12,8 +12,11 @@ export async function updateAnswersRecord(
     updatedData: Partial<AddFlatAnswersDto> | Partial<AddHouseAnswersDto>
 ): Promise<any> {
 
+    let searchID: string = (repository instanceof FlatsAnswers || FlatsGPT) ? "flatID" :
+        (repository instanceof HousesAnswers) ? "houseID" : "plotID";
+
     // Get existing record
-    const existingRecord = await repository.findOne({where: {[id]: id}})
+    const existingRecord = await repository.findOne({where: {[searchID]: id}})
 
     if (!existingRecord) {
         throw new HttpException(`Answer record with ID ${id} not found`, HttpStatus.NOT_FOUND);
@@ -21,7 +24,7 @@ export async function updateAnswersRecord(
 
     // Update
     const updatedRecord = {...existingRecord, ...updatedData};
-    await this.repository.save(updatedRecord);
+    await repository.save(updatedRecord);
 
     // Return
     return updatedRecord;
