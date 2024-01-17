@@ -70,7 +70,7 @@ export class FlatsController {
         @Body() addGPTAnswersDto: AddGPTAnswersDto,
         @Req() request: RequestWithUser,
     ): Promise<FlatsGPT> {
-        return this.flatsGPTService.createOrUpdateGPTAnswer(request.body.id, request.body.user, addGPTAnswersDto)
+        return this.flatsGPTService.createOrUpdateGPTAnswer(request.body.flatID, request.body.user, addGPTAnswersDto)
     }
 
     @UseGuards(RoleGuard(Role.User))
