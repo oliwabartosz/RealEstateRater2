@@ -2,7 +2,7 @@ import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {FlatsData} from "./entities/flats-data.entity";
 import {DeleteResult, Repository} from "typeorm";
-import {FlatRecord} from "../interfaces/flat-record";
+import {FlatRecord, FlatsListResponse} from "../interfaces/flat-record";
 import {CreateFlatDto} from "./dto/create-flat.dto";
 import {FlatsAnswers} from "./entities/flats-answers.entity";
 import {AddFlatAnswersDto} from "./dto/add-flat-answers.dto";
@@ -11,6 +11,7 @@ import {FlatGPTRecord} from "../interfaces/flat-gpt-record";
 import {AddGPTAnswersDto} from "./dto/add-gpt-answers.dto";
 import {createNewAnswersRecord} from "../utils/create-new-answer-record";
 import {updateAnswersRecord} from "../utils/update-answer-record";
+import {checkIfIdExists} from "../utils/check-if-id-exists";
 
 @Injectable()
 export class FlatsService {
@@ -18,20 +19,21 @@ export class FlatsService {
         @InjectRepository(FlatsData) private flatsDataRepository: Repository<FlatsData>,
     ) {
     }
+
     public async getAllRecords(): Promise<FlatRecord[]> {
         return await this.flatsDataRepository.find({
             select: ["id", "offerId", "price", "offerType", "offerStatus"]
         });
     }
 
-    public async getAllRecordsIDs(): Promise<FlatRecord[]> {
+    public async getAllRecordsIDs(): Promise<FlatsListResponse> {
         return await this.flatsDataRepository.find({
             select: ["id"]
         });
     }
 
     public async getOneRecord(flatNumber: number): Promise<FlatsData> {
-        return await this.flatsDataRepository.findOneByOrFail({ flatNumber });
+        return await this.flatsDataRepository.findOneByOrFail({flatNumber});
     }
 
     public async getLastNumber(): Promise<number | null> {
@@ -73,20 +75,13 @@ export class FlatsAnswersService {
     }
 
     public async createOrUpdateAnswer(recordID: string, user: string, dto: AddFlatAnswersDto): Promise<FlatsAnswers> {
-        const allowedIDs = await this.flatsService.getAllRecordsIDs()
-        const idArray = allowedIDs.map(recordData => recordData.id);
 
-        if (!idArray.includes(recordID)) {
-            throw new HttpException("ID in JSON payload is not correct!", HttpStatus.BAD_REQUEST);
-        }
+        await checkIfIdExists(this.flatsService, recordID);
 
         try {
-
-            // Insert
             return createNewAnswersRecord(this.flatsAnswersRepository, dto, user, false)
         } catch (err) {
 
-            // Update
             if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
                 return await updateAnswersRecord(this.flatsAnswersRepository, dto.flatID, dto);
 
@@ -105,8 +100,8 @@ export class FlatsGPTService {
     constructor(
         @InjectRepository(FlatsGPT) private flatsGPTRepository: Repository<FlatsGPT>,
         private flatsService: FlatsService
-
-) {}
+    ) {
+    }
 
     public async getAllGPTRecords(): Promise<FlatGPTRecord[]> {
         return await this.flatsGPTRepository.find({
