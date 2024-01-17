@@ -176,7 +176,7 @@ export class CreateHouseDto {
 
     @IsOptional()
     @IsString()
-    legalStatusLemma?: string;
+    lawStatusLemma?: string;
 
     @IsOptional()
     @IsString()

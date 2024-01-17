@@ -1,11 +1,12 @@
 import {ArgumentMetadata, BadRequestException, Injectable, PipeTransform} from "@nestjs/common";
 import {CreateFlatDto} from "../flats/dto/create-flat.dto";
 import {TransformedLawStatus} from "../interfaces/transformed-law-status";
+import {CreateHouseDto} from "../houses/dto/create-house.dto";
 
 @Injectable()
 export class TransformLawStatusPipe implements PipeTransform {
     transform(scrapedPayload: any, metadata: ArgumentMetadata): any {
-        if (scrapedPayload instanceof CreateFlatDto) {
+        if (scrapedPayload instanceof CreateFlatDto || CreateHouseDto) {
 
             if (scrapedPayload.lawStatus !== undefined || scrapedPayload.lawStatusLemma !== undefined) {
 

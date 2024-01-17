@@ -4,8 +4,6 @@ import {
     DefaultValuePipe,
     Delete,
     Get,
-    HttpException,
-    HttpStatus,
     Inject,
     NotFoundException,
     Param,
