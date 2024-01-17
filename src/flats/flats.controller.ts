@@ -69,7 +69,8 @@ export class FlatsController {
         @Body() addFlatAnswersDto: AddFlatAnswersDto,
         @Req() request: RequestWithUser,
     ): Promise<FlatsAnswers> {
-        return this.flatsAnswerService.createOrUpdateAnswer(request.body.id, request.body.user, addFlatAnswersDto)
+        console.log(request.body)
+        return this.flatsAnswerService.createOrUpdateAnswer(request.body.flatID, request.body.user, addFlatAnswersDto)
     }
 
     @UseGuards(RoleGuard(Role.User))

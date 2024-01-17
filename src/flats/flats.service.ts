@@ -72,7 +72,6 @@ export class FlatsAnswersService {
 
     public async createOrUpdateAnswer(recordID: string, user: string, dto: AddFlatAnswersDto): Promise<FlatsAnswers> {
         const allowedIDs = await this.flatsService.getAllRecordsIDs()
-
         const idArray = allowedIDs.map(recordData => recordData.id);
 
         if (!idArray.includes(recordID)) {
@@ -158,7 +157,7 @@ export class FlatsGPTService {
     }
 
     public async createOrUpdateGPTAnswer(recordID: string, user: string, dto: AddGPTAnswersDto): Promise<FlatsGPT> {
-        const allowedIDs = await this.flatsService.getAllRecordsIDs()
+        const allowedIDs = await this.flatsService.getAllRecordsIDs();
         const idArray = allowedIDs.map(recordData => recordData.id);
 
         if (!idArray.includes(recordID)) {
