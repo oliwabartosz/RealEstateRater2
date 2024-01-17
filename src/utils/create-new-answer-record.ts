@@ -6,7 +6,7 @@ import {FlatsAnswers} from "../flats/entities/flats-answers.entity";
 import {AddFlatAnswersDto} from "../flats/dto/add-flat-answers.dto";
 import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
 
-export async function createNewAnswersRecordX(
+export async function createNewAnswersRecord(
     repository: Repository<FlatsAnswers | FlatsGPT | HousesAnswers>,
     addAnswersPayload: AddFlatAnswersDto | AddHouseAnswersDto,
     user: string,

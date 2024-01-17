@@ -9,7 +9,8 @@ import {AddFlatAnswersDto} from "./dto/add-flat-answers.dto";
 import {FlatsGPT} from "./entities/flats-gpt.entity";
 import {FlatGPTRecord} from "../interfaces/flat-gpt-record";
 import {AddGPTAnswersDto} from "./dto/add-gpt-answers.dto";
-import {createNewAnswersRecordX} from "../utils/create-new-answer-record";
+import {createNewAnswersRecord} from "../utils/create-new-answer-record";
+import {updateAnswersRecord} from "../utils/update-answer-record";
 
 @Injectable()
 export class FlatsService {
@@ -80,61 +81,23 @@ export class FlatsAnswersService {
         }
 
         try {
-            // Insert
-            return createNewAnswersRecordX(this.flatsAnswersRepository, dto, user, false)
-            // return await this.createNewAnswersRecord(dto, user);
 
+            // Insert
+            return createNewAnswersRecord(this.flatsAnswersRepository, dto, user, false)
         } catch (err) {
+
             // Update
             if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {
-
-                return await this.updateAnswersRecord(
-                    dto.flatID,
-                    dto
-                );
+                return await updateAnswersRecord(this.flatsAnswersRepository, dto.flatID, dto);
 
             } else {
 
                 throw new HttpException("Something went wrong.", HttpStatus.INTERNAL_SERVER_ERROR);
-
             }
         }
     }
 
-    private async createNewAnswersRecord(addAnswersPayload: AddFlatAnswersDto, user: string): Promise<FlatsAnswers> {
-        const existingRecord = await this.flatsAnswersRepository.findOne({
-            where:
-                {flatID: addAnswersPayload.flatID}
-        });
 
-        if (existingRecord) {
-            throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
-        }
-
-        const newAnsRecord = this.flatsAnswersRepository.create(addAnswersPayload);
-        newAnsRecord.user = user;
-        newAnsRecord.rateStatus = "done";
-        await this.flatsAnswersRepository.save(newAnsRecord);
-        return newAnsRecord;
-    }
-
-    private async updateAnswersRecord(flatID: string, updatedData: Partial<AddFlatAnswersDto>): Promise<FlatsAnswers> {
-
-        // Get existing record
-        const existingRecord = await this.flatsAnswersRepository.findOne({where: {flatID}})
-
-        if (!existingRecord) {
-            throw new HttpException(`Answer record with ID ${flatID} not found`, HttpStatus.NOT_FOUND);
-        }
-
-        // Update
-        const updatedRecord = {...existingRecord, ...updatedData};
-        await this.flatsAnswersRepository.save(updatedRecord);
-
-        // Return
-        return updatedRecord;
-
-    }
 }
 
 @Injectable()
