@@ -79,7 +79,7 @@ export class FlatsAnswersService {
         await checkIfIdExists(this.flatsService, recordID);
 
         try {
-            return await createNewAnswersRecord(this.flatsAnswersRepository, dto, user, false);
+            return await createNewAnswersRecord(this.flatsAnswersRepository, dto, user);
         } catch (err) {
 
             if (err instanceof HttpException && err.getStatus() === HttpStatus.BAD_REQUEST) {

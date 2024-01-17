@@ -10,7 +10,6 @@ export async function createNewAnswersRecord(
     repository: Repository<FlatsAnswers | FlatsGPT | HousesAnswers>,
     addAnswersPayload: AddFlatAnswersDto | AddHouseAnswersDto,
     user: string,
-    gpt: boolean = false,
 ): Promise<any> {
     let searchID: string = (repository instanceof FlatsAnswers) ? "flatID" :
         (repository instanceof HousesAnswers) ? "houseID" : "plotID";
