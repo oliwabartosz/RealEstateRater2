@@ -9,6 +9,7 @@ import {AddFlatAnswersDto} from "./dto/add-flat-answers.dto";
 import {FlatsGPT} from "./entities/flats-gpt.entity";
 import {FlatGPTRecord} from "../interfaces/flat-gpt-record";
 import {AddGPTAnswersDto} from "./dto/add-gpt-answers.dto";
+import {createNewAnswersRecordX} from "../utils/create-new-answer-record";
 
 @Injectable()
 export class FlatsService {
@@ -80,7 +81,8 @@ export class FlatsAnswersService {
 
         try {
             // Insert
-            return await this.createNewAnswersRecord(dto, user);
+            return createNewAnswersRecordX(this.flatsAnswersRepository, dto, user, false)
+            // return await this.createNewAnswersRecord(dto, user);
 
         } catch (err) {
             // Update
