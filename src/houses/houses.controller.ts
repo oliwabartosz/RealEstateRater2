@@ -86,7 +86,7 @@ export class HousesController {
         @Body() AddHouseAnswersDto: AddHouseAnswersDto,
         @Req() request: RequestWithUser,
     ): Promise<HousesAnswers> {
-        return this.housesAnswersService.createOrUpdateAnswer(request.body.houseID, request.body.user, AddHouseAnswersDto)
+        return this.housesAnswersService.createOrUpdateAnswer(request.body.houseID, request.user.name, AddHouseAnswersDto)
     }
 }
 

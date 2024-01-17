@@ -100,7 +100,6 @@ export class FlatsAnswersService {
     }
 
     private async createNewAnswersRecord(addAnswersPayload: AddFlatAnswersDto, user: string): Promise<FlatsAnswers> {
-
         const existingRecord = await this.flatsAnswersRepository.findOne({
             where:
                 {flatID: addAnswersPayload.flatID}

@@ -57,8 +57,7 @@ export class FlatsController {
         @Body() addFlatAnswersDto: AddFlatAnswersDto,
         @Req() request: RequestWithUser,
     ): Promise<FlatsAnswers> {
-        console.log(request.body)
-        return this.flatsAnswerService.createOrUpdateAnswer(request.body.flatID, request.body.user, addFlatAnswersDto)
+        return this.flatsAnswerService.createOrUpdateAnswer(request.body.flatID, request.user.name, addFlatAnswersDto)
     }
 
     @Post('/gpt')
@@ -68,7 +67,7 @@ export class FlatsController {
         @Body() addGPTAnswersDto: AddGPTAnswersDto,
         @Req() request: RequestWithUser,
     ): Promise<FlatsGPT> {
-        return this.flatsGPTService.createOrUpdateGPTAnswer(request.body.flatID, request.body.user, addGPTAnswersDto)
+        return this.flatsGPTService.createOrUpdateGPTAnswer(request.body.flatID, request.user.name, addGPTAnswersDto)
     }
 
     @UseGuards(RoleGuard(Role.User))
@@ -110,7 +109,6 @@ export class FlatsController {
     removeAll(): Promise<DeleteResult> {
         return this.flatsService.removeAll();
     }
-
 
 }
 
