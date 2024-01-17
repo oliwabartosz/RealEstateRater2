@@ -1,10 +1,7 @@
 import {AddFlatAnswersDto} from "../flats/dto/add-flat-answers.dto";
-import {FlatsAnswers} from "../flats/entities/flats-answers.entity";
 import {HttpException, HttpStatus} from "@nestjs/common";
 import {AddHouseAnswersDto} from "../houses/dto/add-house-answers.dto";
 import {Repository} from "typeorm";
-import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
-import {HousesAnswers} from "../houses/enitities/houses-answers.entity";
 import {AddGPTAnswersDto} from "../flats/dto/add-gpt-answers.dto";
 
 export async function updateAnswersRecord(
