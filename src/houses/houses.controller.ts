@@ -43,14 +43,14 @@ export class HousesController {
     @UseGuards(JwtAuthGuard)
     @Get('/:houseNumber')
     async getOneFlatByItsNumber(
-        @Param('houseNumber', new DefaultValuePipe(1), ParseIntPipe) flatNumber: number,
+        @Param('houseNumber', new DefaultValuePipe(1), ParseIntPipe) houseNumber: number,
     ): Promise<OneHouseResponse> {
         const lastNumber = await this.housesService.getLastNumber();
 
-        if (flatNumber > lastNumber) {
+        if (houseNumber > lastNumber) {
             throw new NotFoundException()
         }
-        return this.housesService.getOneRecord(flatNumber);
+        return this.housesService.getOneRecord(houseNumber);
     }
 
     @Post('/')
@@ -86,7 +86,7 @@ export class HousesController {
         @Body() AddHouseAnswersDto: AddHouseAnswersDto,
         @Req() request: RequestWithUser,
     ): Promise<HousesAnswers> {
-        return this.housesAnswersService.createOrUpdateAnswer(request.body.id, request.body.user, AddHouseAnswersDto)
+        return this.housesAnswersService.createOrUpdateAnswer(request.body.houseID, request.body.user, AddHouseAnswersDto)
     }
 }
 

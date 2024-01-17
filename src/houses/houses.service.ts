@@ -62,16 +62,16 @@ export class HousesService {
 
 @Injectable()
 export class HousesAnswersService {
-    private houseService: HousesService
+
 
     constructor(
         @InjectRepository(HousesAnswers) private houseAnswersRepository: Repository<HousesAnswers>,
+        private houseService: HousesService,
         ) {
     }
 
     public async createOrUpdateAnswer(recordID: string, user: string, dto: AddHouseAnswersDto): Promise<HousesAnswers> {
         const allowedIDs = await this.houseService.getAllRecordsIDs()
-
         const idArray = allowedIDs.map(recordData => recordData.id);
 
         if (!idArray.includes(recordID)) {
