@@ -376,6 +376,4 @@ export class PlotsData {
         this.plotLengthToWidthRatio = this.plotLength / this.plotWidth;
     }
 
-
-
 }
