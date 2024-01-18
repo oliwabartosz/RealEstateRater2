@@ -329,7 +329,7 @@ export class PlotsData {
         type: "text",
         default: "",
     })
-    lawStatusLemma: string;
+    legalStatusLemma: string;
 
     @Column({
         type: "text",
