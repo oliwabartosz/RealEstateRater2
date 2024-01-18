@@ -8,6 +8,7 @@ import {UsersModule} from './users/users.module';
 import {AuthModule} from './auth/auth.module';
 import {ConfigModule} from '@nestjs/config';
 import { HousesModule } from './houses/houses.module';
+import { PlotsModule } from './plots/plots.module';
 import * as Joi from 'joi';
 
 
@@ -24,6 +25,7 @@ import * as Joi from 'joi';
         UsersModule,
         AuthModule,
         HousesModule,
+        PlotsModule,
     ],
     controllers: [AppController],
     providers: [AppService],
