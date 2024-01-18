@@ -1,6 +1,6 @@
 import {AfterInsert, BeforeInsert, Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {HousesAnswers} from "../../houses/enitities/houses-answers.entity";
 import dataSource from "../../db/data-source";
+import {PlotsAnswers} from "./plots-answers.entity";
 
 @Entity({
     name: "plots_data"
