@@ -373,7 +373,7 @@ export class PlotsData {
 
     @AfterInsert()
     async calculatePlotWidthToLengthRatio() {
-        this.plotLengthToWidthRatio = this.plotLength / this.plotWidth
+        this.plotLengthToWidthRatio = this.plotLength / this.plotWidth;
     }
 
 
