@@ -127,7 +127,7 @@ export class PlotsAnswers {
     updateDate: Date;
 
     @OneToOne(() => PlotsData)
-    @JoinColumn({ name: 'houseID' })
-    housesData: PlotsData;
+    @JoinColumn({ name: 'plotID' })
+    plotsData: PlotsData;
 
 }

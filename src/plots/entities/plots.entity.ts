@@ -360,14 +360,14 @@ export class PlotsData {
     answers: PlotsAnswers;
 
     @BeforeInsert()
-    async updateHouseNumber() {
-        // Retrieve the last inserted houseNumber
+    async updatePlotNumber() {
+        // Retrieve the last inserted plotNumber
         const lastRecordNumber = await dataSource.getRepository(PlotsData).findOne({
             order: { plotNumber: 'DESC' },
             where: {}
         });
 
-        // Calculate the new houseNumber
+        // Calculate the new plotNumber
         this.plotNumber = lastRecordNumber ? lastRecordNumber.plotNumber + 1 : 1;
     }
 
