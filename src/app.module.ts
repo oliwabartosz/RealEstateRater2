@@ -9,6 +9,8 @@ import {AuthModule} from './auth/auth.module';
 import {ConfigModule} from '@nestjs/config';
 import { HousesModule } from './houses/houses.module';
 import { PlotsModule } from './plots/plots.module';
+import { HandlebarsController } from './handlebars/handlebars.controller';
+import { HandlebarsModule } from './handlebars/handlebars.module';
 import * as Joi from 'joi';
 
 
@@ -26,8 +28,9 @@ import * as Joi from 'joi';
         AuthModule,
         HousesModule,
         PlotsModule,
+        HandlebarsModule,
     ],
-    controllers: [AppController],
+    controllers: [AppController, HandlebarsController],
     providers: [AppService],
 
 
