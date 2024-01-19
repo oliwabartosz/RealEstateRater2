@@ -6,10 +6,11 @@ import {FlatsAnswers} from "../flats/entities/flats-answers.entity";
 import {AddFlatAnswersDto} from "../flats/dto/add-flat-answers.dto";
 import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
 import {AddGPTAnswersDto} from "../flats/dto/add-gpt-answers.dto";
+import {AddPlotAnswersDto} from "../plots/dto/add-plot-answers.dto";
 
 export async function createNewAnswersRecord(
     repository: Repository<any>,
-    addAnswersPayload: AddFlatAnswersDto | AddHouseAnswersDto | AddGPTAnswersDto,
+    addAnswersPayload: AddFlatAnswersDto | AddHouseAnswersDto | AddGPTAnswersDto | AddPlotAnswersDto,
     user: string,
 ): Promise<any> {
 

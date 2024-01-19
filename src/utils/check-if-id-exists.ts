@@ -1,10 +1,11 @@
 import {HttpException, HttpStatus} from "@nestjs/common";
 import {FlatsService} from "../flats/flats.service";
 import {HousesService} from "../houses/houses.service";
+import {PlotsService} from "../plots/plots.service";
 
 
 export async function checkIfIdExists(
-    service: FlatsService | HousesService,
+    service: FlatsService | HousesService | PlotsService,
     recordID: string,
 
 ): Promise<void> {
