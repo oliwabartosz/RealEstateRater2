@@ -126,7 +126,7 @@ export class PlotsAnswers {
     })
     updateDate: Date;
 
-    @OneToOne(() => PlotsData)
+    @OneToOne(() => PlotsData, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'plotID' })
     plotsData: PlotsData;
 

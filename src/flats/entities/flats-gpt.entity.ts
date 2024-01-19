@@ -1,4 +1,5 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {FlatsData} from "./flats-data.entity";
 
 @Entity({
     name: "flats_gpt"
@@ -163,5 +164,8 @@ export class FlatsGPT {
     })
     status: boolean;
 
+    @OneToOne(type => FlatsData, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'flatID' })
+    flatsData: FlatsData;
 
 }

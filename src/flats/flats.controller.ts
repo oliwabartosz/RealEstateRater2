@@ -26,7 +26,7 @@ import {AddGPTAnswersDto} from "./dto/add-gpt-answers.dto";
 import {FlatsGPT} from "./entities/flats-gpt.entity";
 import {DeleteResult} from "typeorm";
 
-@Controller('/flats')
+@Controller('/api/flats')
 export class FlatsController {
 
     constructor(
