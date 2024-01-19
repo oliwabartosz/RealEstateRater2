@@ -2,7 +2,7 @@ import {
     Body,
     Controller,
     DefaultValuePipe, Delete,
-    Get, HttpException, HttpStatus,
+    Get,
     Inject,
     NotFoundException,
     Param,

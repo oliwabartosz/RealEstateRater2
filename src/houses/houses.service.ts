@@ -6,8 +6,6 @@ import {HousesAnswers} from "./enitities/houses-answers.entity";
 import {HouseListResponse} from "../interfaces/house-record";
 import {CreateHouseDto} from "./dto/create-house.dto";
 import {AddHouseAnswersDto} from "./dto/add-house-answers.dto";
-import {AddGPTAnswersDto} from "../flats/dto/add-gpt-answers.dto";
-import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
 import {checkIfIdExists} from "../utils/check-if-id-exists";
 import {createNewAnswersRecord} from "../utils/create-new-answer-record";
 import {updateAnswersRecord} from "../utils/update-answer-record";
