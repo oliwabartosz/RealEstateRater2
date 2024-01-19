@@ -63,4 +63,3 @@ export interface FlatRecord {
 
 export type FlatsListResponse = FlatRecord[];
 export type OneFlatResponse = FlatRecord
-export type CreateNewFlatResponse = FlatRecord;
