@@ -23,12 +23,6 @@ export class PlotsService {
         });
     }
 
-    public async getAllRecordsIDs(): Promise<PlotsListResponse> {
-        return await this.plotsDataRepository.find({
-            select: ["id"]
-        });
-    }
-
     public async getOneRecord(plotNumber: number): Promise<PlotRecord> {
         return await this.plotsDataRepository.findOneByOrFail({plotNumber});
     }
