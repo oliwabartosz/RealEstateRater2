@@ -9,6 +9,7 @@ import {PlotRecord, PlotsListResponse} from "../interfaces/plot-record";
 import {CreatePlotDto} from "./dto/create-plot.dto";
 import {PlotsAnswers} from "./entities/plots-answers.entity";
 import {AddPlotAnswersDto} from "./dto/add-plot-answers.dto";
+import {FlatsListResponse} from "../interfaces/flat-record";
 
 @Injectable()
 export class PlotsService {
@@ -20,6 +21,13 @@ export class PlotsService {
         return await this.plotsDataRepository.find({
             select: ["id", "offerId", "price", "offerType", "offerStatus"]
 
+        });
+    }
+
+    // This method is used by functions in utils
+    public async getAllRecordsIDs(): Promise<FlatsListResponse> {
+        return await this.plotsDataRepository.find({
+            select: ["id"]
         });
     }
 
