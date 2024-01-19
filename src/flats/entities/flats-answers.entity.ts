@@ -1,5 +1,6 @@
 import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {FlatsData} from "./flats-data.entity";
+import {FlatsGPT} from "./flats-gpt.entity";
 
 @Entity({name: "flats_answers" })
 export class FlatsAnswers {
@@ -120,9 +121,13 @@ export class FlatsAnswers {
     })
     updateDate: Date;
 
-    @OneToOne(() => FlatsData)
+    @OneToOne(type => FlatsData, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'flatID' })
     flatsData: FlatsData;
+
+    @OneToOne(type => FlatsGPT, { cascade: true, onDelete: 'CASCADE' })
+    @JoinColumn()
+    flatGPT: FlatsGPT;
 
 
 }

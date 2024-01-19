@@ -22,7 +22,7 @@ import {OnePlotsResponse, PlotsListResponse} from "../interfaces/plot-record";
 import {CreatePlotDto} from "./dto/create-plot.dto";
 import {PlotsData} from "./entities/plots.entity";
 
-@Controller('plots')
+@Controller('api/plots')
 export class PlotsController {
 
     constructor(

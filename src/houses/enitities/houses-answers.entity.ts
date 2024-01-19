@@ -96,7 +96,7 @@ export class HousesAnswers {
     })
     updateDate: Date;
 
-    @OneToOne(() => HousesData)
+    @OneToOne(() => HousesData, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'houseID' })
     housesData: HousesData;
 

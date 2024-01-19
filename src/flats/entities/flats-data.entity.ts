@@ -404,7 +404,8 @@ export class FlatsData {
     })
     streetLemma: string;
 
-    @OneToOne(() => FlatsAnswers, {cascade: true})
+
+    @OneToOne(type => FlatsAnswers, { cascade: true, onDelete: 'CASCADE' })
     answers: FlatsAnswers;
 
     @BeforeInsert()

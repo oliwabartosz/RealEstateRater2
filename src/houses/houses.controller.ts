@@ -22,7 +22,7 @@ import {DeleteResult} from "typeorm";
 import {AddHouseAnswersDto} from "./dto/add-house-answers.dto";
 import {HousesAnswers} from "./enitities/houses-answers.entity";
 
-@Controller('/houses')
+@Controller('/api/houses')
 export class HousesController {
 
     constructor(
