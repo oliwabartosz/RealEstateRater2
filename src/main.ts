@@ -6,9 +6,11 @@ import {GlobalExceptionFilter} from "./filters/global-exception.filter";
 import {NestExpressApplication} from '@nestjs/platform-express';
 import helmet from "helmet";
 import cookieParser from 'cookie-parser';
+import { join } from 'path';
+import hbs from 'express-handlebars';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
     (app as NestExpressApplication).use(helmet());
 
@@ -25,6 +27,13 @@ async function bootstrap() {
     );
 
     app.use(cookieParser());
+
+    // hbs
+    app.useStaticAssets(join(__dirname, '..', 'public'))
+    app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    app.engine('hbs', hbs({ extname: 'hbs' }));
+    app.setViewEngine('hbs');
+
     await app.listen(3001);
 }
 
