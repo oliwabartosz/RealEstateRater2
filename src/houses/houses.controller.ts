@@ -35,14 +35,14 @@ export class HousesController {
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(RoleGuard(Role.Scraper))
     @UseGuards(JwtAuthGuard)
-    getFlats(): Promise<HouseListResponse> {
+    getRecords(): Promise<HouseListResponse> {
         return this.housesService.getAllRecords();
     }
 
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
     @Get('/:houseNumber')
-    async getOneFlatByItsNumber(
+    async getOneRecordByItsNumber(
         @Param('houseNumber', new DefaultValuePipe(1), ParseIntPipe) houseNumber: number,
     ): Promise<OneHouseResponse> {
         const lastNumber = await this.housesService.getLastNumber();

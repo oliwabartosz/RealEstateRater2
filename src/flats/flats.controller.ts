@@ -39,7 +39,7 @@ export class FlatsController {
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(RoleGuard(Role.Scraper))
     @UseGuards(JwtAuthGuard)
-    getFlats(): Promise<FlatsListResponse> {
+    getRecords(): Promise<FlatsListResponse> {
         return this.flatsService.getAllRecords();
     }
 
@@ -73,7 +73,7 @@ export class FlatsController {
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
     @Get('/:flatNumber')
-    async getOneFlatByItsNumber(
+    async getOneRecordByItsNumber(
         @Param('flatNumber', new DefaultValuePipe(1), ParseIntPipe) flatNumber: number,
     ): Promise<OneFlatResponse> {
         const lastNumber = await this.flatsService.getLastNumber();
