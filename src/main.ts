@@ -15,7 +15,10 @@ import {handlebarsHelpers} from "./handlebars/helpers/handlebarsHelpers";
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-    (app as NestExpressApplication).use(helmet());
+    (app as NestExpressApplication).use(helmet({
+        contentSecurityPolicy: false,
+    }));
+
 
     app.useGlobalFilters(new GlobalExceptionFilter());
 
