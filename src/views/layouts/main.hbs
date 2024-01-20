@@ -36,6 +36,7 @@
 </head>
 <body>
 <nav>
+    <div class="container-fluid">
     <ul class="nav justify-content-end">
         <li class="nav-item">
             <a class="nav-link active" href="#">Mieszkania</a>
@@ -46,14 +47,21 @@
         <li class="nav-item">
             <a class="nav-link" href="#">Grunty</a>
         </li>
-        <!-- Dodaj okrągłe logo z pierwszą literą z adresu e-mail -->
+        <li class="nav-item">
+            <a class="nav-link" href="#">Quick Rate</a>
+        </li>
         <li class="nav-item">
             <div class="user-logo">
-                <!-- Tutaj możesz dynamicznie wstawiać pierwszą literę z adresu e-mail użytkownika -->
-                B
+                {{#if username }}
+                    <p>http://{{domain}}:{{port}}/users/{{id}}">{{usernameLetter username }}</p>
+                    <a href="http://{{domain}}:{{port}}/users/{{id}}">{{usernameLetter username }}</a>
+                {{else}}
+                    ?
+                {{/if}}
             </div>
         </li>
     </ul>
+    </div>
 </nav>
 <!--<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-break">-->
 <!--    <div class="container-fluid">-->
