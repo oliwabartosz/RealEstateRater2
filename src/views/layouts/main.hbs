@@ -3,40 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/assets/styles/style.css">
+    <link rel="stylesheet" href="assets/styles/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-    <style>
-        /* Dodaj styl do okrągłego logo */
-        .user-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #007bff;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: bold;
-            margin-right: 20px;
-        }
-
-        /* Dodaj dodatkowy styl do navbara, aby logo było w prawym górnym rogu */
-        .navbar-nav.ml-auto {
-            margin-right: 0;
-        }
-
-        /* Dodatkowe style do poprawy wyglądu */
-        body {
-            padding-top: 10px; /* Dla poprawy widoczności na urządzeniach mobilnych */
-        }
-    </style>
     <title>Real Estate Rater</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: white;">
+<nav class="navbar navbar-expand-lg navbar-margin-bottom" style="background-color: #ffffff;">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,91 +29,19 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">QuickRate</a>
                 </li>
+                <li class="nav-item">
+                    <div class="user-logo">
+                        {{#if username }}
+                            <p>http://{{domain}}:{{port}}/users/{{id}}">{{usernameLetter username }}</p>
+                            <a href="http://{{domain}}:{{port}}/users/{{id}}">{{usernameLetter username }}</a>
+                        {{else}}
+                            ?
+                        {{/if}}
+                    </div>
             </ul>
         </div>
     </div>
 </nav>
-
-
-
-<!--<nav>-->
-<!--    <div class="container-fluid">-->
-<!--        <ul class="nav justify-content-end">-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link active" href="#">Mieszkania</a>-->
-<!--            </li>-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" href="#">Domy</a>-->
-<!--            </li>-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" href="#">Grunty</a>-->
-<!--            </li>-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" href="#">Quick Rate</a>-->
-<!--            </li>-->
-<!--            <li class="nav-item">-->
-<!--                <div class="user-logo">-->
-<!--                    {{#if username }}-->
-<!--                        <p>http://{{domain}}:{{port}}/users/{{id}}">{{usernameLetter username }}</p>-->
-<!--                        <a href="http://{{domain}}:{{port}}/users/{{id}}">{{usernameLetter username }}</a>-->
-<!--                    {{else}}-->
-<!--                        ?-->
-<!--                    {{/if}}-->
-<!--                </div>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--    </div>-->
-<!--</nav>-->
-<!--<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-break">-->
-<!--    <div class="container-fluid">-->
-<!--        <img src="/images/general/logo.png" alt="" width="50" height="50">-->
-<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"-->
-<!--                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
-<!--        <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--            <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
-<!--                <li class="nav-item dropdown">-->
-<!--                    <a class="nav-link dropdown-toggle" href="/../rer" id="navbarDropdown" role="button"-->
-<!--                       data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                        Lista nieruchomości-->
-<!--                    </a>-->
-<!--                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                        <li><a class="dropdown-item" href="/rer/flats">Mieszkania</a></li>-->
-<!--                        <li><a class="dropdown-item" href="/rer/houses">Domy</a></li>-->
-<!--                        <li><a class="dropdown-item" href="/rer/plots">Grunty</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--                <li class="nav-item dropdown">-->
-<!--                    <a class="nav-link dropdown-toggle" href="/../rer/login" id="navbarDropdown2" role="button"-->
-<!--                       data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                        Logowanie-->
-<!--                    </a>-->
-<!--                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                        <li><a class="dropdown-item" href="/rer/login">Zaloguj</a></li>-->
-<!--                        <li><a class="dropdown-item" href="/rer/logout">Wyloguj</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--                <li class="nav-item dropdown">-->
-<!--                    <a class="nav-link dropdown-toggle" href="/../rer/login" id="navbarDropdown3" role="button"-->
-<!--                       data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                        Eksport danych-->
-<!--                    </a>-->
-<!--                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                        <li><a class="dropdown-item" href="/rer/flats/export">Wyeksportuj mieszkania (.csv)</a></li>-->
-<!--                        <li><a class="dropdown-item" href="/rer/houses/export">Wyeksportuj domy (.csv)</a></li>-->
-<!--                        <li><a class="dropdown-item" href="/rer/plots/export">Wyeksportuj działki (.csv)</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--            </ul>-->
-        <!--            {{#if username }}-->
-<!--                <p style="margin-right:2.5%; margin-top:1.2%">Zalogowany jako: <span-->
-<!--                        style="color:#007a70;" id="username">{{ username }}</span></p>-->
-        <!--            {{/if}}-->
-
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
 <div id="content" class="main">
     <div class="row justify-content-center">
         <div class="col-9">
@@ -148,8 +49,10 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script src="/assets/js/gallery/fslightbox.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<!--<script src="/assets/js/gallery/fslightbox.js"></script>-->
+<script src="/assets/js/api.js"></script>
 </body>
 </html>

@@ -7,7 +7,8 @@ import {NestExpressApplication} from '@nestjs/platform-express';
 import helmet from "helmet";
 import cookieParser from 'cookie-parser';
 import hbs from 'express-handlebars';
-import {resolve } from 'path';
+import { resolve } from 'path';
+
 import {handlebarsHelpers} from "./handlebars/helpers/handlebarsHelpers";
 
 
@@ -19,9 +20,7 @@ async function bootstrap() {
         contentSecurityPolicy: false,
     }));
 
-
     app.useGlobalFilters(new GlobalExceptionFilter());
-
     app.useGlobalPipes(new ValidationPipe({
 
             disableErrorMessages: false, // don't show errors details, while using pipes
@@ -39,7 +38,6 @@ async function bootstrap() {
     app.setBaseViewsDir(resolve('./src/views'));
     app.engine('hbs', hbs({ extname: 'hbs', helpers: handlebarsHelpers }));
     app.setViewEngine('hbs');
-
 
     await app.listen(3001);
 }

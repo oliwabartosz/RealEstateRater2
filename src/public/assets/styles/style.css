@@ -1,0 +1,30 @@
+.user-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.navbar-nav.ml-auto {
+    margin-right: 0;
+}
+
+.navbar-margin-bottom {
+    margin-bottom: 10px;
+}
+
+#errorBox {
+    display: none;
+    padding: 10px;
+    background-color: #ff9999;
+    color: #990000;
+    border: 1px solid #990000;
+    margin-top: 10px;
+}
