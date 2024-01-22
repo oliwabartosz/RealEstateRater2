@@ -12,6 +12,7 @@ import { PlotsModule } from './plots/plots.module';
 import { HandlebarsController } from './handlebars/handlebars.controller';
 import { HandlebarsModule } from './handlebars/handlebars.module';
 import * as Joi from 'joi';
+import {ThrottlerModule} from "@nestjs/throttler";
 
 
 @Module({
@@ -22,6 +23,10 @@ import * as Joi from 'joi';
                 JWT_EXPIRATION_TIME: Joi.string().required(),
             }),
         }),
+        ThrottlerModule.forRoot([{
+            ttl: 60000,
+            limit: 10,
+        }]),
         TypeOrmModule.forRoot(dataSourceOptions),
         FlatsModule,
         UsersModule,

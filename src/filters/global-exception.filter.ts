@@ -10,9 +10,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
         const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
-        console.log(exception);
-
-        response.json({
+        response
+            .status(status)
+            .json({
             status,
         });
     }

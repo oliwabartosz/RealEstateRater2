@@ -16,8 +16,12 @@
     margin-right: 0;
 }
 
-.navbar-margin-bottom {
+.navbar-margin-bottom-top {
     margin-bottom: 10px;
+}
+
+.y-margin-login {
+    margin-top: 50px;
 }
 
 #errorBox {

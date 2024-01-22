@@ -19,11 +19,12 @@ export class AuthController {
         return this.authService.register(registrationUserData);
     }
 
-    // @HttpCode(200)
+    @HttpCode(200)
     @UseGuards(LocalAuthGuard)
     @Post('login')
     async logIn(@Req() request: RequestWithUser, @Res() response: Response) {
         const {user} = request;
+        console.log(user);
         const cookie = this.authService.getCookieWithJwtToken(user.id);
         response.setHeader('Set-Cookie', cookie);
         user.password = undefined;

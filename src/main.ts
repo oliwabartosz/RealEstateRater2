@@ -8,10 +8,7 @@ import helmet from "helmet";
 import cookieParser from 'cookie-parser';
 import hbs from 'express-handlebars';
 import { resolve } from 'path';
-
 import {handlebarsHelpers} from "./handlebars/helpers/handlebarsHelpers";
-
-
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
