@@ -6,7 +6,9 @@ import {RequestWithUser} from "../interfaces/auth";
 import {Response} from "express";
 import {LocalAuthGuard} from "../guards/local-auth.guard";
 import JwtAuthGuard from "../guards/jwt-auth.guard";
+import {SkipThrottle, Throttle} from "@nestjs/throttler";
 
+@SkipThrottle({ short: true })
 @Controller('/api/auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {
@@ -18,6 +20,7 @@ export class AuthController {
     ): Promise<UserRegisterResponse> {
         return this.authService.register(registrationUserData);
     }
+
 
     @HttpCode(200)
     @UseGuards(LocalAuthGuard)

@@ -13,7 +13,6 @@ async function bootstrap() {
     (app as NestExpressApplication).use(helmet());
 
     app.useGlobalFilters(new GlobalExceptionFilter());
-
     app.useGlobalPipes(new ValidationPipe({
 
             disableErrorMessages: false, // don't show errors details, while using pipes

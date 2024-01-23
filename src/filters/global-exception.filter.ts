@@ -12,7 +12,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
         console.log(exception);
 
-        response.json({
+        response
+            .status(status)
+            .json({
             status,
         });
     }

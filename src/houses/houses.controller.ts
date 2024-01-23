@@ -21,7 +21,9 @@ import {HousesData} from "./enitities/houses-data.entity";
 import {DeleteResult} from "typeorm";
 import {AddHouseAnswersDto} from "./dto/add-house-answers.dto";
 import {HousesAnswers} from "./enitities/houses-answers.entity";
+import {SkipThrottle} from "@nestjs/throttler";
 
+@SkipThrottle({ long: true })
 @Controller('/api/houses')
 export class HousesController {
 
