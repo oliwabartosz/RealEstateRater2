@@ -25,7 +25,8 @@ import {FlatGPTListResponse} from "../interfaces/flat-gpt-record";
 import {AddGPTAnswersDto} from "./dto/add-gpt-answers.dto";
 import {FlatsGPT} from "./entities/flats-gpt.entity";
 import {DeleteResult} from "typeorm";
-
+import {SkipThrottle} from "@nestjs/throttler";
+@SkipThrottle({ long: true })
 @Controller('/api/flats')
 export class FlatsController {
 

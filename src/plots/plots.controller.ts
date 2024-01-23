@@ -21,7 +21,9 @@ import {PlotsAnswers} from "./entities/plots-answers.entity";
 import {OnePlotsResponse, PlotsListResponse} from "../interfaces/plot-record";
 import {CreatePlotDto} from "./dto/create-plot.dto";
 import {PlotsData} from "./entities/plots.entity";
+import {SkipThrottle} from "@nestjs/throttler";
 
+@SkipThrottle({ long: true })
 @Controller('api/plots')
 export class PlotsController {
 

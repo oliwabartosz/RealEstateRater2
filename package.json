@@ -25,7 +25,10 @@
   },
   "dependencies": {
     "@nestjs/throttler": "^5.1.1",
+<<<<<<< HEAD
     "@types/express-handlebars": "^5.3.0",
+=======
+>>>>>>> main
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
