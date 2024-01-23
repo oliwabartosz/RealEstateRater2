@@ -1,8 +1,8 @@
-function showError() {
+function showError(errorText) {
     document.getElementById('errorBox').style.display = 'block';
+    document.getElementById('errorBox').innerText = errorText;
 }
 
-// Function to hide the error box
 function hideError() {
     document.getElementById('errorBox').style.display = 'none';
 }

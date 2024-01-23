@@ -36,6 +36,12 @@ async function bootstrap() {
     app.engine('hbs', hbs({ extname: 'hbs', helpers: handlebarsHelpers }));
     app.setViewEngine('hbs');
 
+    app.enableCors({
+        origin: ['http://127.0.0.1:3001', 'http://localhost:3001'],
+        allowedHeaders: ["Content-Type"],
+        methods: ['GET', 'POST', 'DELETE'],
+        credentials: true})
+
     await app.listen(3001);
 }
 
