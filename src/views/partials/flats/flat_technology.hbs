@@ -1,7 +1,12 @@
 <h4 class="h4-break">Technologia</h4>
 <p><strong>Materiał</strong>: {{ flat_data.material }}</p>
 <p><strong>Rodzaj budynku:</strong> {{  flat_data.buildingType }}</p>
-<p><strong>Rok budowy</strong>: {{ flat_data.yearBuilt }}</p>
+<p><strong>Rok budowy:</strong>
+    <input type="number" min="1700" name="year-built" class="form-control" style="width: 33%; display: inline-block;"
+           placeholder="Podaj rok budowy"
+           {{#if flat_ans_data.yearBuilt}}value="{{flat_ans_data.yearBuilt}}"{{/if}}>
+</p>
+
 
 <div class="question">
     <div class="form-check form-check-inline">

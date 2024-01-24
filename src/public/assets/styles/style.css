@@ -2,7 +2,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #007bff;
+    background-color: #152e52;
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -71,17 +71,28 @@
 }
 
 .gpt {
-    border:2px indigo solid;
+    border:2px #bdad7d solid;
     border-radius: 50px;
     font-size: 12px;
     font-weight: bold;
     color: white;
-    background-color: indigo;
+    background-color: #bdad7d;
+    padding: 1px 3px 1px 3px;
 }
+
+.btn-space {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.btn-space-list {
+    margin: 5px 2px 2px 5px;
+}
+
 
 #navigation {
     margin-top: 10px;
     margin-bottom: 10px;
+
 }
 
 ol.empty {
@@ -105,4 +116,69 @@ ul.dashed > li {
 ul.dashed > li:before {
     content: "- ";
     text-indent: -5px;
+}
+
+.nav-link {
+    color: #152e52;
+}
+.nav-link:hover {
+    color: #bdad7d;
+}
+
+.btn-secondary {
+    background-color: #bdad7d;
+    border-color: #bdad7d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: white;
+        border-color: #bdad7d;
+        color: #bdad7d;
+    }
+
+.btn-outline-secondary {
+    background-color: white;
+    border-color: #bdad7d;
+    color: #bdad7d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #bdad7d;
+    border-color: #bdad7d;
+    color: white;
+
+}
+
+.btn-success {
+    background-color: #152e52;
+    border-color: #152e52;
+}
+
+.btn-success:hover {
+    background-color: white;
+    border-color: #152e52;
+    color: #152e52;
+}
+
+.rer-link {
+    color: #152e52;
+    text-decoration: none;
+}
+
+.rer-link:hover {
+    color: #bdad7d;
+    text-decoration: none;
+}
+
+.form-check-input:checked {
+    background-color: #bdad7d;
+    border-color: #bdad7d;
+
+}
+
+.btn-danger:hover {
+    background-color: white;
+    border-color: #dc3545;
+    color: #dc3545;
 }

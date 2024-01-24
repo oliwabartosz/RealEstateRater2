@@ -62,6 +62,10 @@ export class HandlebarsController {
         @Res() res: Response,
     ) {
         return res.render('forms/standard-rate/flats-table.hbs', {
+            domain: process.env.DOMAIN,
+            port: process.env.PORT,
+            username: request.user.name,
+            id: request.user.id,
             flatsList: await this.flatsService.getAllRecords()
         })
     }
@@ -76,8 +80,13 @@ export class HandlebarsController {
         @Param('number') number: number,
     ) {
         return res.render('forms/standard-rate/flat.hbs', {
+            domain: process.env.DOMAIN,
+            port: process.env.PORT,
+            username: request.user.name,
+            id: request.user.id,
             flat_data: await this.flatsService.getOneRecord(number),
             lastNumber: await this.flatsService.getLastNumber(),
+
         })
     }
 

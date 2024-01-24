@@ -1,21 +1,27 @@
+{{> page/navbar }}
+
 <h1 class="mt-2 text-center">{{flat_data.offerId}}</h1>
 <h1 class="mt-2 text-center" id="offer-no">Oferta #{{flat_data.flatNumber}}/{{ lastNumber }}</h1>
 
 
 {{!-- navigation --}}
 <div id="navigation" class="d-flex justify-content-center align-items-center">
-    <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})" class="btn btn-outline-secondary btn-break"><</button>
-    <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-secondary btn-break">></button>
+    <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})"
+            class="btn btn-outline-secondary btn-break"><
+    </button>
+    <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-success btn-break">
+        >
+    </button>
 </div>
 {{!-- end navigation --}}
 <p>
     <strong>Status w bazie:</strong>
     {{#if (equals flat_ans_data.rateStatus 'done')}}
         <img src="/images/general/tick.png" alt="" width="15" height="15">
-         Oceniono
+        Oceniono
     {{else}}
         <img src="/images/general/cross.png" alt="" width="15" height="15">
-         Wymaga oceny
+        Wymaga oceny
     {{/if}}
 
 </p>
@@ -24,29 +30,30 @@
 <h2 class="h2-break">Opis oferty</h2>
 {{> flats/flat_description}}
 <form action="{{add flat_data.number 1}}" method="post">
-<h2 class="h2-break">Dane techniczne</h2>
-{{> flats/flat_technology}}
-{{> flats/flat_law}}
-{{> flats/flat_balcony}}
-{{> flats/flat_elevator}}
-{{> flats/flat_basement}}
-{{> flats/flat_garage}}
-{{> flats/flat_garden}}
-{{> flats/flat_monitoring}}
-{{> flats/flat_outbuilding}}
-{{> flats/flat_rent}}
-{{> gallery}}
-{{> flats/flat_modernization}}
-{{> flats/flat_kitchen}}
-{{> flats/flat_quality}}
-{{> flats/flat_comments}}
-{{> flats/flat_delete}}
+    <h2 class="h2-break">Dane techniczne</h2>
+    {{> flats/flat_technology}}
+    {{> flats/flat_law}}
+    {{> flats/flat_balcony}}
+    {{> flats/flat_elevator}}
+    {{> flats/flat_basement}}
+    {{> flats/flat_garage}}
+    {{> flats/flat_garden}}
+    {{> flats/flat_monitoring}}
+    {{> flats/flat_outbuilding}}
+    {{> flats/flat_rent}}
+    {{> gallery}}
+    {{> flats/flat_modernization}}
+    {{> flats/flat_kitchen}}
+    {{> flats/flat_quality}}
+    {{> flats/flat_comments}}
+    {{> flats/flat_delete}}
 
-<!--<button class="btn btn-success" onclick="postData(getData())">Zapisz i nast.</button>-->
-    <div id="navigation">
-    <button type="submit" class="btn btn-success">Zapisz i nast.</button>
-    <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})" class="btn btn-secondary"><</button>
-    <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-secondary">></button>
+    <!--<button class="btn btn-success" onclick="postData(getData())">Zapisz i nast.</button>-->
+    <div class="d-flex justify-content-center align-items-center" id="navigation">
+        <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})" class="btn btn-outline-success-secondary btn-break"><</button>
+        <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-success btn-break">></button>
+        <button type="submit" class="btn btn-success btn-space">Zapisz i nast.</button>
+
     </div>
 </form>
 <script src="/assets/js/delete-checkbox.js"></script>
