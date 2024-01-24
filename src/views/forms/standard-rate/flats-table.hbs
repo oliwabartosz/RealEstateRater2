@@ -3,14 +3,14 @@
 <h2 class="h2-break">Lista mieszkań</h2>
 <hr class="mt-0 mb-4">
 
-<div class="col-md-12 text-center" style="margin-bottom: 10px">
-    <button class="btn btn-success btn-space-list">Zaznacz wszystkie</button>
-    <button class="btn btn-danger btn-space-list">Usuń zaznaczone</button>
-    <button class="btn btn-secondary btn-space-list">Oceń zaznaczone</button>
-    <button class="btn btn-secondary btn-space-list">Oceń wszystkie</button>
-    <button class="btn btn-danger btn-space-list">Usuń wszystkie</button>
-</div>
-
+{{#if (equals userRole "Admin")}}
+    <div class="col-md-12 text-center" style="margin-bottom: 10px">
+        <button class="btn btn-secondary btn-space-list">Oceń zaznaczone</button>
+        <button class="btn btn-secondary btn-space-list">Oceń wszystkie</button>
+        <button class="btn btn-danger btn-space-list">Usuń zaznaczone</button>
+        <button class="btn btn-danger btn-space-list">Usuń wszystkie</button>
+    </div>
+{{/if}}
 <div class="table-responsive">
 
     <table class="table table-striped table-hover">
@@ -21,7 +21,7 @@
             <th>Status oferty</th>
             <th>Status w bazie</th>
             <th>Ocenione przez</th>
-            <th>Zaznacz</th>
+            <th onclick="selectAllCheckboxes(this)">Zaznacz</th>
         </tr>
         {{#each flatsList}}
             <tr>
@@ -38,3 +38,4 @@
 
     </table>
 </div>
+<script src="/assets/js/record-lists/select-all-checkboxes.js"></script>

@@ -22,16 +22,16 @@ const sendLogin = async () => {
 };
 
 const handleErrorResponse = (response) => {
-        if (response.status === 400 || response.status === 401) {
-            showError('Wpisano niepoprawne login lub hasło!');
-        } else if (response.status === 429) {
-            showError('Za dużo prób. Spróbuj za 60 sekund.');
-        } else {
-            showError('Coś poszło nie tak.');
-        }
+    if (response.status === 400 || response.status === 401) {
+        showError('Wpisano niepoprawne login lub hasło!');
+    } else if (response.status === 429) {
+        showError('Za dużo prób. Spróbuj za 60 sekund.');
+    } else {
+        showError('Coś poszło nie tak.');
     }
-;
+};
 
 const handleGeneralError = () => {
     console.log('An error occurred during login');
 };
+

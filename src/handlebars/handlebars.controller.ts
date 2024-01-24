@@ -65,6 +65,7 @@ export class HandlebarsController {
             domain: process.env.DOMAIN,
             port: process.env.PORT,
             username: request.user.name,
+            userRole: request.user.roles,
             id: request.user.id,
             flatsList: await this.flatsService.getAllRecords()
         })
