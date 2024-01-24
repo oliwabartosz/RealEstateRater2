@@ -1,0 +1,17 @@
+<h4 class="h4-break">Standard</h4>
+<p><strong>Standard określony przez pośrednika:</strong> {{ flat_data.flatQuality }}</p>
+<div class="question">
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="quality_1" name="quality" value="1" {{#if (equals flat_ans_data.qualityAns 1)}}checked{{/if}}>
+    <label class="form-check-label" for="quality_1">Wysoki</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="quality_2" name="quality" value="2" {{#if (equals flat_ans_data.qualityAns 2)}}checked{{/if}}>
+    <label class="form-check-label" for="quality_2">Przeciętny</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="quality_3" name="quality" value="3" {{#if (equals flat_ans_data.qualityAns 3)}}checked{{/if}}>
+    <label class="form-check-label" for="quality_3">Niski</label>
+</div>
+</div>
+<hr class="mt-0 mb-4">

@@ -1,0 +1,31 @@
+<div class="border-primary">
+
+    {{#if flat_data.price}}
+        <p><strong>Cena:</strong> {{ flat_data.price }}</p>
+    {{/if}}
+
+    {{#if flat_data.priceOffer}}
+        <p><strong>Cena ofertowa:</strong> {{ flat_data.priceOffer }}</p>
+    {{/if}}
+
+    {{#if flat_data.priceSold}}
+        <p><strong>Cena transakcji:</strong> {{ flat_data.priceSold }}</p>
+    {{/if}}
+
+    {{#if flat_data.priceM2}}
+        <p><strong>Cena za m2:</strong> {{ flat_data.priceM2 }}</p>
+    {{/if}}
+
+    {{#if flat_data.livingArea}}
+        <p><strong>Powierzchnia:</strong> {{ flat_data.livingArea }} m2</p>
+    {{/if}}
+
+    {{#if flat_data.roomsNumber}}
+        <p><strong>Liczba pokoi:</strong> {{ flat_data.roomsNumber }}</p>
+    {{/if}}
+
+    <div style="text-align: justify">
+        <p class="text-justify">{{ flat_data.description }}</p>
+    </div>
+</div>
+<hr class="mt-0 mb-4">

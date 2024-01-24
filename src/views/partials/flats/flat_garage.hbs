@@ -1,0 +1,51 @@
+<h4 class="h4-break">Garaż/Miejsca parkingowe</h4>
+{{#if flat_data.parkingPlace}}
+    <p><strong>Garaż/Miejsca parkingowe:</strong> {{ flat_data.parkingPlace }}</p>
+{{/if}}
+
+{{#if flat_data.priceParkingUnderground}}
+    <p><strong>Cena za parking podziemny (miejsce):</strong> {{ flat_data.priceParkingUnderground }}</p>
+{{/if}}
+
+{{#if flat_data.priceParkingGround}}
+    <p><strong>Cena za parking (miejsce):</strong> {{ flat_data.priceParkingGround }}</p>
+{{/if}}
+
+{{#if flat_data.garageDesc}}
+    <p>garaż: {{ flat_data.garageDesc }}</p>
+{{/if}}
+
+{{#if flat_data.parkingSpaceDesc}}
+    <p>parking: {{ flat_data.parkingSpaceDesc }}</p>
+{{/if}}
+
+{{#if flat_data.parkingPlaceDesc}}
+    <p>postojow: {{ flat_data.parkingPlaceDesc }}</p>
+{{/if}}
+
+{{#if flat_data.possibilityDesc}}
+    <p>postojow: {{ flat_data.possibilityDesc }}</p>
+{{/if}}
+
+{{#if flat_data.belongingDesc}}
+    <p>przynależ: {{ flat_data.belongingDesc }}</p>
+{{/if}}
+
+
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="garage_yes" name="garage" value="1" {{#if (equals flat_ans_data.garageAns 1)}}checked{{/if}} required>
+        <label class="form-check-label" for="garage_yes">Tak</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="garage_no" name="garage" value="0" {{#if (equals flat_ans_data.garageAns 0)}}checked{{/if}}>
+        <label class="form-check-label" for="garage_no">Nie</label>
+    </div>
+    {{#if (convertToStr flat_gpt_data.garageGPT)}}
+        <p class="p-break">
+            <span class="gpt">GPT: {{flat_gpt_data.garageGPT}}</span>
+            <span class="gpt">GPT: {{flat_gpt_data.garage_summary}}</span>
+        </p>
+    {{/if}}
+</div>
+<hr class="mt-0 mb-4">

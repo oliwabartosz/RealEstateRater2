@@ -1,0 +1,30 @@
+<h4 class="h4-break">Prawo</h4>
+{{#if flat_data.lawStatus}}
+    <p><strong>Stan prawny:</strong> {{ flat_data.lawStatus }}</p>
+{{/if}}
+
+{{#if flat_data.communityFlatDesc}}
+    <p>wspólnot: {{ flat_data.communityFlatDesc }}</p>
+{{/if}}
+
+{{#if flat_data.cooperativeflatDesc}}
+    <p>spóldziel: {{ flat_data.cooperativeflatDesc }}</p>
+{{/if}}
+
+<div class="question">
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="law_status_1" name="lawStatus" value="1" {{#if (equals flat_ans_data.lawStatusAns 1)}}checked{{/if}} required>
+    <label class="form-check-label" for="law_status_1">Własnościowe</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="law_status_2" name="lawStatus" value="2" {{#if (equals flat_ans_data.lawStatusAns 2)}}checked{{/if}}>
+    <label class="form-check-label" for="law_status_2">Spółdzielcze</label>
+</div>
+    {{#if (convertToStr flat_gpt_data.lawStatusGPT)}}
+        <p class="p-break">
+            <span class="gpt">GPT: {{flat_gpt_data.lawStatusGPT}}</span>
+            <span class="gpt">GPT: {{flat_gpt_data.law_summary}}</span>
+        </p>
+    {{/if}}
+</div>
+<hr class="mt-0 mb-4">

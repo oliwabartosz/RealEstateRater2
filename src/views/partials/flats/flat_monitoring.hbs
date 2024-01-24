@@ -1,0 +1,58 @@
+<h4 class="h4-break">Infrastruktura alarmowa</h4>
+{{#if flat_data.monitoring}}
+    <p><strong>Monitoring:</strong> {{ flat_data.monitoring }}</p>
+{{/if}}
+
+{{#if flat_data.guardedEstate}}
+    <p><strong>Osiedle strzeżone:</strong> {{ flat_data.guardedEstate }}</p>
+{{/if}}
+
+{{#if flat_data.monitoringDesc}}
+    <p>monitoring: {{ flat_data.monitoringDesc }}</p>
+{{/if}}
+
+{{#if flat_data.monitoringDesc2}}
+    <p>monit: {{ flat_data.monitoringDesc2 }}</p>
+{{/if}}
+
+{{#if flat_data.alarmDesc}}
+    <p>alarm: {{ flat_data.alarmDesc }}</p>
+{{/if}}
+
+{{#if flat_data.guardedDesc}}
+    <p>strzeż: {{ flat_data.guardedDesc }}</p>
+{{/if}}
+
+{{#if flat_data.securityDesc}}
+    <p>ochron: {{ flat_data.securityDesc }}</p>
+{{/if}}
+
+{{#if flat_data.supervisionDesc}}
+    <p>dozór: {{ flat_data.supervisionDesc }}</p>
+{{/if}}
+
+{{#if flat_data.supervisionDesc2}}
+    <p>dozor: {{ flat_data.supervisionDesc2 }}</p>
+{{/if}}
+
+{{#if flat_data.doorkeeperDesc}}
+    <p>portier: {{ flat_data.doorkeeperDesc }}</p>
+{{/if}}
+
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="alarm_yes" name="alarm" value="1" {{#if (equals flat_ans_data.alarmAns 1)}}checked{{/if}} required>
+        <label class="form-check-label" for="alarm_yes">Tak</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="alarm_no" name="alarm" value="0" {{#if (equals flat_ans_data.alarmAns 0)}}checked{{/if}}>
+        <label class="form-check-label" for="alarm_no">Nie</label>
+    </div>
+    {{#if (convertToStr flat_gpt_data.alarmGPT)}}
+        <p class="p-break">
+            <span class="gpt">GPT: {{flat_gpt_data.alarmGPT}}</span>
+            <span class="gpt">GPT: {{flat_gpt_data.alarm_summary}}</span>
+        </p>
+    {{/if}}
+</div>
+<hr class="mt-0 mb-4">

@@ -1,0 +1,37 @@
+<h1 class="mt-2 text-center">
+    {{flat_data.offerId}}
+    {{#if (equals flat_data.offerId flat_data.offerIdExpected)}}
+        ({{flat_data.offerIdExpected}})
+    {{ else }}
+        <span style="background-color:red;">({{flat_data.offerIdExpected}})</span>
+    {{/if}}</h1>
+<h1 class="mt-2 text-center">Oferta #{{flat_data.number}}/{{ lastNumber }}</h1>
+{{!-- navigation --}}
+<div id="navigation" class="d-flex justify-content-center align-items-center">
+    <button type="button" onclick="goToPreviousOffer({{flat_data.number}})" class="btn btn-outline-secondary btn-break"><</button>
+    <button type="button" onclick="goToNextOffer({{flat_data.number}})" class="btn btn-outline-secondary btn-break">></button>
+</div>
+{{!-- end navigation --}}
+
+
+<span><p><strong>Status w bazie: </strong></p></span>{{!-- polaczyc w bazie tabele --}}
+<span>{{flat_data.offerType}}</span>
+<hr class="mt-0 mb-4">
+
+<form action="{{add flat_data.number 1}}" method="post">
+
+    <h2>Dane techniczne</h2>
+    {{>gallery}}
+    {{> flats/gpt/flat_technology}}
+    {{!-- @TODO: moderinization PUSTE should be ..., NIE DOTYCZY, PUSTE--}}
+    {{> flats/gpt/flat_modernization}}
+    {{> flats/gpt/flat_kitchen}}
+    {{> flats/gpt/flat_quality}}
+    {{> flats/gpt/flat_comments}}
+    {{> flats/flat_delete}}
+
+    <button type="submit" class="btn btn-success">Zapisz i nast.</button>
+</form>
+<script src="/assets/js/fill-modernization-radio-button.js"></script>
+<script src="/assets/js/delete-checkbox.js"></script>
+<script src="/assets/js/navigation.js"></script>

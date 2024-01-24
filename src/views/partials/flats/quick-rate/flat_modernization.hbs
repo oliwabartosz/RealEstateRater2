@@ -1,0 +1,26 @@
+<h4 class="h4-break">Stan budynku</h4>
+<p><strong>Materiał</strong>: {{ flat_data.material }}</p>
+<p><strong>Rok budowy</strong>: {{ flat_data.yearBuilt }}</p>
+<p><strong>Ulica:</strong> {{ flat_data.street }}</p>
+<p><strong>Lokalizacja:</strong> {{ flat_data.localization }}</p>
+
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="modernization_1" name="modernization" value="4" {{#if (equals flat_ans_data.modernizationAns 4)}}checked{{/if}}>
+        <label class="form-check-label" for="modernization_1">Po modernizacji</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="modernization_2" name="modernization" value="5" {{#if (equals flat_ans_data.modernizationAns 5)}}checked{{/if}}>
+        <label class="form-check-label" for="modernization_2">Wymaga modernizacji</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="modernization_3" name="modernization" value="0" {{#if (equals flat_ans_data.modernizationAns 0)}}checked{{/if}}>
+        <label class="form-check-label" for="modernization_3">Nowy budynek (0)</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="modernization_unclick"  onclick="unclickRadioButton()">
+        <label class="form-check-label">Puste</label>
+    </div>
+</div>
+<hr class="mt-0 mb-4">
+

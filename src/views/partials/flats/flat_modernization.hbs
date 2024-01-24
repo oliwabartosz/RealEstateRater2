@@ -1,0 +1,68 @@
+<h4 class="h4-break">Stan budynku</h4>
+{{#if flat_data.material}}
+    <p><strong>Materiał</strong>: {{ flat_data.material }}</p>
+{{/if}}
+
+{{#if flat_data.yearBuilt}}
+    <p><strong>Rok budowy</strong>: {{ flat_data.yearBuilt }}</p>
+{{/if}}
+
+{{#if flat_data.street}}
+    <p><strong>Ulica:</strong> {{ flat_data.street }}</p>
+{{/if}}
+
+{{#if flat_data.localization}}
+    <p><strong>Lokalizacja:</strong> {{ flat_data.localization }}</p>
+{{/if}}
+
+{{#if flat_data.insulatedBuildingDesc}}
+    <p>ocieplony: {{ flat_data.insulatedBuildingDesc }}</p>
+{{/if}}
+
+{{#if flat_data.insulatedBuildingDesc2}}
+    <p>ociepl: {{ flat_data.insulatedBuildingDesc2 }}</p>
+{{/if}}
+
+{{#if flat_data.modernizatedBuildingDesc}}
+    <p>moderniz: {{ flat_data.modernizatedBuildingDesc }}</p>
+{{/if}}
+
+{{#if flat_data.restoredBuildingDesc}}
+    <p>odrestaur: {{ flat_data.restoredBuildingDesc }}</p>
+{{/if}}
+
+{{#if flat_data.renewedBuildingDesc}}
+    <p>odnow: {{ flat_data.renewedBuildingDesc }}</p>
+{{/if}}
+
+{{#if flat_data.renovationDesc}}
+    <p>remon: {{ flat_data.renovationDesc }}</p>
+{{/if}}
+
+{{#if flat_data.elevationDesc}}
+    <p>elewac: {{ flat_data.elevationDesc }}</p>
+{{/if}}
+
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="modernization_1" name="modernization" value="4" {{#if (equals flat_ans_data.modernizationAns 4)}}checked{{/if}} required>
+        <label class="form-check-label" for="modernization_1">Po modernizacji</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="modernization_2" name="modernization" value="5" {{#if (equals flat_ans_data.modernizationAns 5)}}checked{{/if}}>
+        <label class="form-check-label" for="modernization_2">Wymaga modernizacji</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="modernization_3" name="modernization" value="0" {{#if (equals flat_ans_data.modernizationAns 0)}}checked{{/if}}>
+        <label class="form-check-label" for="modernization_3">Puste</label>
+    </div>
+    {{#if (convertToStr flat_gpt_data.modernizationGPT)}}
+        <p class="p-break">
+            <span class="gpt">GPT: {{flat_gpt_data.modernizationGPT}}</span>
+            <span class="gpt">GPT: {{flat_gpt_data.modernization_summary}}</span>
+        </p>
+    {{/if}}
+</div>
+
+<hr class="mt-0 mb-4">
+

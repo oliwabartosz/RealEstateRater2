@@ -1,0 +1,24 @@
+<h2 class="h2-break">Lista mieszkań</h2>
+<hr class="mt-0 mb-4">
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>Numer oferty</th>
+        <th>Typ oferty</th>
+        <th>Status oferty</th>
+        <th>Status w bazie</th>
+        <th>Ocenione przez</th>
+        <th>Do usunięcia?</th>
+    </tr>
+    {{#each flatsList}}
+        <tr>
+            <td><a href="/rer/flats/gpt/{{this.number}}">{{this.offerId}}</a></td>
+            <td>{{this.offerType}}</td>
+            <td>{{this.offerStatus}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    {{/each}}
+
+</table>

@@ -1,0 +1,30 @@
+<h4 class="h4-break">Winda</h4>
+{{#if flat_data.floorsNumber}}
+    <p><strong>Liczba kondygnacji:</strong> {{add flat_data.floorsNumber 1}}</p>
+{{/if}}
+
+{{#if flat_data.elevator}}
+    <p><strong>Winda:</strong> {{flat_data.elevator}}</p>
+{{/if}}
+
+{{#if flat_data.elevatorDesc}}
+    <p>wind: {{flat_data.elevatorDesc}}</p>
+{{/if}}
+
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="elevator_yes" name="elevator" value="1" {{#if (equals flat_ans_data.elevatorAns 1)}}checked{{/if}} required>
+        <label class="form-check-label" for="elevator_yes">Tak</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="elevator_no" name="elevator" value="0" {{#if (equals flat_ans_data.elevatorAns 0)}}checked{{/if}}>
+        <label class="form-check-label" for="elevator_no">Nie</label>
+    </div>
+    {{#if (convertToStr flat_gpt_data.elevatorGPT)}}
+        <p class="p-break">
+            <span class="gpt">GPT: {{flat_gpt_data.elevatorGPT}}</span>
+            <span class="gpt">GPT: {{flat_gpt_data.elevator_summary}}</span>
+        </p>
+    {{/if}}
+</div>
+<hr class="mt-0 mb-4">
