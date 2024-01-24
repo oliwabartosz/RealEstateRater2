@@ -1,7 +1,7 @@
 {{> page/navbar }}
 
 <h1 class="mt-2 text-center">{{flat_data.offerId}}</h1>
-<h1 class="mt-2 text-center" id="offer-no">Oferta #{{flat_data.flatNumber}}/{{ lastNumber }}</h1>
+<h1 class="mt-2 text-center" id="offer-no">Oferta #{{flat_data.flatNumber}}/{{lastNumber}}</h1>
 
 
 {{!-- navigation --}}
@@ -9,7 +9,7 @@
     <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})"
             class="btn btn-outline-secondary btn-break"><
     </button>
-    <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-success btn-break">
+    <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}}, {{lastNumber}})" class="btn btn-outline-secondary btn-break">
         >
     </button>
 </div>
@@ -50,8 +50,8 @@
 
     <!--<button class="btn btn-success" onclick="postData(getData())">Zapisz i nast.</button>-->
     <div class="d-flex justify-content-center align-items-center" id="navigation">
-        <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})" class="btn btn-outline-success-secondary btn-break"><</button>
-        <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-success btn-break">></button>
+        <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})" class="btn btn-outline-secondary btn-break"><</button>
+        <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-secondary btn-break">></button>
         <button type="submit" class="btn btn-success btn-space">Zapisz i nast.</button>
 
     </div>

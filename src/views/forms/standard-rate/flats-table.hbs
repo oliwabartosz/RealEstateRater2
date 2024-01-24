@@ -3,16 +3,19 @@
 <h2 class="h2-break">Lista mieszkań</h2>
 <hr class="mt-0 mb-4">
 
-{{#if (equals userRole "Admin")}}
+{{#if (equals userRole "User")}}
     <div class="col-md-12 text-center" style="margin-bottom: 10px">
-        <button class="btn btn-secondary btn-space-list">Oceń zaznaczone</button>
-        <button class="btn btn-secondary btn-space-list">Oceń wszystkie</button>
-        <button class="btn btn-danger btn-space-list">Usuń zaznaczone</button>
-        <button class="btn btn-danger btn-space-list">Usuń wszystkie</button>
+        <button class="btn btn-secondary btn-space-list">Oceń zaznaczone 🤖</button>
+        <button class="btn btn-secondary btn-space-list">Oceń wszystkie 🤖</button>
+        <button class="btn btn-danger btn-space-list" onclick="deleteRecords('flats', selectedRecordsIDs())">Usuń
+            zaznaczone 🗑️
+        </button>
+        <button class="btn btn-danger btn-space-list" onclick="deleteAllRecords('flats')">Usuń wszystkie 🗑️</button>
     </div>
 {{/if}}
-<div class="table-responsive">
 
+
+<div class="table-responsive">
     <table class="table table-striped table-hover">
         <tr>
             <th>Lp.</th>
@@ -39,3 +42,4 @@
     </table>
 </div>
 <script src="/assets/js/record-lists/select-all-checkboxes.js"></script>
+<script src="/assets/js/record-lists/delete-selected-records.js"></script>

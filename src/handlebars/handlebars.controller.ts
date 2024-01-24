@@ -80,6 +80,12 @@ export class HandlebarsController {
         @Res() res: Response,
         @Param('number') number: number,
     ) {
+        try {
+            await this.flatsService.getOneRecord(number);
+        } catch(err) {
+            return res.redirect('/flats/');
+        }
+
         return res.render('forms/standard-rate/flat.hbs', {
             domain: process.env.DOMAIN,
             port: process.env.PORT,
