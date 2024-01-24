@@ -32,3 +32,77 @@
     border: 1px solid #990000;
     margin-top: 10px;
 }
+
+.highlight {
+    color: red;
+}
+
+.x-margin-login {
+    margin-top: 80px;
+}
+
+.btn-block {
+    max-width: 50px;
+}
+
+#image-break {
+    padding-right: 2px;
+}
+
+.h2-break {
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+.h4-break {
+    padding-bottom: 10px;
+}
+
+.p-break {
+    padding-top: 5px;
+}
+
+.btn-break {
+    margin-right: 2px;
+}
+
+.navbar-break {
+    margin-bottom: 10px;
+}
+
+.gpt {
+    border:2px indigo solid;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    background-color: indigo;
+}
+
+#navigation {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+ol.empty {
+    list-style-type: none;
+}
+
+ul {
+    margin: 0;
+}
+ul.dashed {
+    list-style-type: none;
+}
+
+ul.empty {
+    list-style-type: none;
+}
+
+ul.dashed > li {
+    text-indent: -5px;
+}
+ul.dashed > li:before {
+    content: "- ";
+    text-indent: -5px;
+}

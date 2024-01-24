@@ -44,7 +44,7 @@ export class FlatsController {
         return this.flatsService.getAllRecords();
     }
 
-    @Get('/gpt/all')
+    @Get('/quick-rate/all')
     @UseGuards(RoleGuard(Role.Admin))
     @UseGuards(JwtAuthGuard)
     getGPTRecords(): Promise<FlatGPTListResponse> {
@@ -61,7 +61,7 @@ export class FlatsController {
         return this.flatsAnswerService.createOrUpdateAnswer(request.body.flatID, request.user.name, addFlatAnswersDto)
     }
 
-    @Post('/gpt')
+    @Post('/quick-rate')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
     async createOrUpdateGPTRecord(

@@ -19,7 +19,9 @@ export class PlotsService {
 
     public async getAllRecords(): Promise<PlotsListResponse> {
         return await this.plotsDataRepository.find({
-            select: ["id", "offerId", "price", "offerType", "offerStatus"]
+            select: ["id", "plotNumber", "offerId", "price", "offerType", "offerStatus"],
+            order: {plotNumber: 'ASC'}
+
 
         });
     }

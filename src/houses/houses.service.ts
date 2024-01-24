@@ -21,7 +21,8 @@ export class HousesService {
 
     public async getAllRecords(): Promise<HouseListResponse> {
         return await this.houseDataRepository.find({
-            select: ["id", "offerId", "price", "offerType", "offerStatus"]
+            select: ["id", "houseNumber", "offerId", "price", "offerType", "offerStatus"],
+            order: {houseNumber: 'ASC'}
 
         });
     }

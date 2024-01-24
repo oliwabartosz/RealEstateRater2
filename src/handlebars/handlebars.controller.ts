@@ -6,9 +6,11 @@ import {Role} from "../interfaces/roles";
 import JwtAuthGuard from "../guards/jwt-auth.guard";
 import * as process from "process";
 import {NotLoggedInFilter} from "../filters/not-logged-in.filter";
+import {FlatsService} from "../flats/flats.service";
 
 @Controller('/')
 export class HandlebarsController {
+    constructor(private flatsService: FlatsService) {}
     @Get()
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
@@ -34,6 +36,7 @@ export class HandlebarsController {
     }
 
 
+    //@TODO: users/:id
     @Get('/users/:id')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
@@ -49,5 +52,34 @@ export class HandlebarsController {
             id: request.user.id
         });
     }
+
+    @Get('/flats/')
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
+
+    async flatList(
+        @Req() request: RequestWithUser,
+        @Res() res: Response,
+    ) {
+        return res.render('forms/standard-rate/flats-table.hbs', {
+            flatsList: await this.flatsService.getAllRecords()
+        })
+    }
+
+    @Get('/flats/:number')
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
+
+    async flatProfile(
+        @Req() request: RequestWithUser,
+        @Res() res: Response,
+        @Param('number') number: number,
+    ) {
+        return res.render('forms/standard-rate/flat.hbs', {
+            flat_data: await this.flatsService.getOneRecord(number),
+            lastNumber: await this.flatsService.getLastNumber(),
+        })
+    }
+
 
 }

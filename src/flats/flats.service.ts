@@ -22,7 +22,9 @@ export class FlatsService {
 
     public async getAllRecords(): Promise<FlatRecord[]> {
         return await this.flatsDataRepository.find({
-            select: ["id", "offerId", "price", "offerType", "offerStatus"]
+            select: ["id", "flatNumber", "offerId", "price", "offerType", "offerStatus"],
+            order: {flatNumber: 'ASC'}
+
         });
     }
 
