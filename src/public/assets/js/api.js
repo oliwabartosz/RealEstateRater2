@@ -14,6 +14,7 @@ const sendLogin = async () => {
 
         if (!response.ok) {
             handleErrorResponse(response);
+
         } else {
             window.location.href = window.location.origin;
         }

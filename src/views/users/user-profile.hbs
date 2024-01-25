@@ -1,1 +1,22 @@
-<h1>Hello World!</h1>
+<div class="container">
+    <h1 class="mt-5">👤 User Profile</h1>
+    <form id="userForm" class="mt-4">
+        <div class="mb-3">
+
+            <label for="username" class="form-label">Username:
+                <span style="color: #152e52">{{username}}</span>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="apikey" class="form-label">
+                API Key: (<span id="apiKeyDisplay"></span>)
+            </label>
+            <input type="text" class="form-control" id="apikey" name="apikey">
+        </div>
+        <div class="float-end">
+            <button type="button" class="btn btn-success" onclick="storeOpenAIKey()">Dodaj klucz API (na 24h)</button>
+            <button type="button" class="btn btn-success" onclick="removeOpenAIKey()">Wyczyść klucz API</button>
+        </div>
+    </form>
+</div>
+<script src="/assets/js/openai-api-key.js"></script>

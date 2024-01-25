@@ -22,7 +22,7 @@ export class HandlebarsController {
         @Req() request: RequestWithUser,
         @Res() res: Response
     ) {
-        return res.render('/index.hbs', {
+        return res.render('index.hbs', {
             ...getDomainAndPort(),
             ...getUserInfo(request),
         });
@@ -36,7 +36,7 @@ export class HandlebarsController {
         return res.render('auth/login.hbs');
     }
 
-    @Get('/users/:id')
+    @Get('/user/:id')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
     userProfile(
@@ -44,7 +44,7 @@ export class HandlebarsController {
         @Res() res: Response,
         @Param('id') id: string
     ) {
-        return res.render('/users/user-profile.hbs', {
+        return res.render('users/user-profile.hbs', {
             ...getDomainAndPort(),
             ...getUserInfo(request)
         });
