@@ -9,7 +9,7 @@ export function getDomainAndPort() {
 export function getUserInfo(request: RequestWithUser) {
     return {
         username: request.user.name,
-        id: request.user.id,
+        userId: request.user.id,
         userRole: request.user.roles,
     };
 }
