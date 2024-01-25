@@ -125,40 +125,53 @@ ul.dashed > li:before {
     color: #bdad7d;
 }
 
-.btn-secondary {
+.btn-gold {
     background-color: #bdad7d;
     border-color: #bdad7d;
     color: white;
 }
 
-.btn-secondary:hover {
+.btn-gold:hover {
     background-color: white;
         border-color: #bdad7d;
         color: #bdad7d;
     }
 
-.btn-outline-secondary {
+.btn-outline-gold {
     background-color: white;
     border-color: #bdad7d;
     color: #bdad7d;
 }
 
-.btn-outline-secondary:hover {
+.btn-outline-gold:hover {
     background-color: #bdad7d;
     border-color: #bdad7d;
     color: white;
 
 }
 
-.btn-success {
+.btn-darkblue {
     background-color: #152e52;
     border-color: #152e52;
+    color: white;
 }
 
-.btn-success:hover {
+.btn-darkblue:hover {
     background-color: white;
     border-color: #152e52;
     color: #152e52;
+}
+
+.btn-red {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-red:hover {
+    background-color: white;
+    border-color: #dc3545;
+    color: #dc3545;
 }
 
 .rer-link {
@@ -177,8 +190,3 @@ ul.dashed > li:before {
 
 }
 
-.btn-danger:hover {
-    background-color: white;
-    border-color: #dc3545;
-    color: #dc3545;
-}

@@ -1,5 +1,6 @@
+{{>page/navbar}}
 <div class="container">
-    <h1 class="mt-5">👤 User Profile</h1>
+    <h1 class="mt-5">👤 Profil użytkownika</h1>
     <form id="userForm" class="mt-4">
         <div class="mb-3">
 
@@ -14,8 +15,8 @@
             <input type="text" class="form-control" id="apikey" name="apikey">
         </div>
         <div class="float-end">
-            <button type="button" class="btn btn-success" onclick="storeOpenAIKey()">Dodaj klucz API (na 24h)</button>
-            <button type="button" class="btn btn-success" onclick="removeOpenAIKey()">Wyczyść klucz API</button>
+            <button type="button" class="btn btn-darkblue" onclick="storeOpenAIKey()">Dodaj klucz API (na 24h)</button>
+            <button type="button" class="btn btn-darkblue" onclick="removeOpenAIKey()">Wyczyść klucz API</button>
         </div>
     </form>
 </div>

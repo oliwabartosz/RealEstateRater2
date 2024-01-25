@@ -36,13 +36,12 @@ export class HandlebarsController {
         return res.render('auth/login.hbs');
     }
 
-    @Get('/user/:id')
+    @Get('/user/profile')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
     userProfile(
         @Req() request: RequestWithUser,
         @Res() res: Response,
-        @Param('id') id: string
     ) {
         return res.render('users/user-profile.hbs', {
             ...getDomainAndPort(),
