@@ -7,10 +7,13 @@ import JwtAuthGuard from "../guards/jwt-auth.guard";
 import * as process from "process";
 import {NotLoggedInFilter} from "../filters/not-logged-in.filter";
 import {FlatsService} from "../flats/flats.service";
+import {getDomainAndPort, getUserInfo} from "./utils/render-options";
 
 @Controller('/')
 export class HandlebarsController {
-    constructor(private flatsService: FlatsService) {}
+    constructor(private flatsService: FlatsService) {
+    }
+
     @Get()
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
@@ -19,11 +22,9 @@ export class HandlebarsController {
         @Req() request: RequestWithUser,
         @Res() res: Response
     ) {
-        return res.render('test.hbs', {
-            domain: process.env.DOMAIN,
-            port: process.env.PORT,
-            username: request.user.name,
-            id: request.user.id
+        return res.render('user-profile.hbs', {
+            ...getDomainAndPort(),
+            ...getUserInfo(request),
         });
     }
 
@@ -32,7 +33,7 @@ export class HandlebarsController {
         @Req() request: RequestWithUser,
         @Res() res: Response
     ) {
-        return res.render('login.hbs');
+        return res.render('auth/login.hbs');
     }
 
 
@@ -45,11 +46,9 @@ export class HandlebarsController {
         @Res() res: Response,
         @Param('id') id: string
     ) {
-        return res.render('test.hbs', {
-            domain: process.env.DOMAIN,
-            port: process.env.PORT,
-            username: request.user.name,
-            id: request.user.id
+        return res.render('/users/user-profile.hbs', {
+            ...getDomainAndPort(),
+            ...getUserInfo(request)
         });
     }
 
@@ -62,11 +61,8 @@ export class HandlebarsController {
         @Res() res: Response,
     ) {
         return res.render('forms/standard-rate/flats-table.hbs', {
-            domain: process.env.DOMAIN,
-            port: process.env.PORT,
-            username: request.user.name,
-            userRole: request.user.roles,
-            id: request.user.id,
+            ...getDomainAndPort(),
+            ...getUserInfo(request),
             flatsList: await this.flatsService.getAllRecords()
         })
     }
@@ -80,21 +76,20 @@ export class HandlebarsController {
         @Res() res: Response,
         @Param('number') number: number,
     ) {
+
+        // Checks if flat exists
         try {
             await this.flatsService.getOneRecord(number);
-        } catch(err) {
+        } catch (err) {
             return res.redirect('/flats/');
         }
 
         return res.render('forms/standard-rate/flat.hbs', {
-            domain: process.env.DOMAIN,
-            port: process.env.PORT,
-            username: request.user.name,
-            id: request.user.id,
+            ...getDomainAndPort(),
+            ...getUserInfo(request),
             flat_data: await this.flatsService.getOneRecord(number),
             lastNumber: await this.flatsService.getLastNumber(),
-
-        })
+        });
     }
 
 
