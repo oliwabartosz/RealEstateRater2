@@ -11,6 +11,7 @@ import {HousesModule} from './houses/houses.module';
 import {PlotsModule} from './plots/plots.module';
 import {ThrottlerModule, ThrottlerGuard} from '@nestjs/throttler';
 import {APP_GUARD} from '@nestjs/core';
+import { GptModule } from './gpt/gpt.module';
 import * as Joi from 'joi';
 
 
@@ -40,6 +41,7 @@ import * as Joi from 'joi';
         AuthModule,
         HousesModule,
         PlotsModule,
+        GptModule,
     ],
     controllers: [AppController],
     providers: [AppService,
