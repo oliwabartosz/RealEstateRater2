@@ -1,7 +1,10 @@
-import {Body, Controller, Inject, Post, Res} from '@nestjs/common';
+import {Body, Controller, Inject, Post, Res, UseGuards} from '@nestjs/common';
 import {GptService} from "./gpt.service";
 import {AddApiKeyDto} from "./dto/add-api-key.dto";
 import { Response } from 'express';
+import {RoleGuard} from "../guards/role.guard";
+import {Role} from "../interfaces/roles";
+import JwtAuthGuard from "../guards/jwt-auth.guard";
 
 @Controller('gpt')
 export class GptController {
@@ -9,6 +12,8 @@ export class GptController {
         @Inject(GptService) private gptService: GptService,
     ) {}
 
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
     @Post()
     setApiKeyCookie(
         @Body() AddApiKeyDto: AddApiKeyDto,
