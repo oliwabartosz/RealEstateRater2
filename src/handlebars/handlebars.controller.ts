@@ -11,8 +11,9 @@ import {getDomainAndPort, getUserInfo} from "./utils/render-options";
 
 @Controller('/')
 export class HandlebarsController {
-    constructor(private flatsService: FlatsService) {
-    }
+    constructor(
+        private flatsService: FlatsService
+    ) {}
 
     @Get()
     @UseGuards(RoleGuard(Role.User))
@@ -45,7 +46,7 @@ export class HandlebarsController {
     ) {
         return res.render('users/user-profile.hbs', {
             ...getDomainAndPort(),
-            ...getUserInfo(request)
+            ...getUserInfo(request),
         });
     }
 

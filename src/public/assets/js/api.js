@@ -45,28 +45,20 @@ const deleteRecords = async (realEstateType, ids) => {
 
 };
 
-const deleteAllRecords = async (realEstateType) => {
-    try {
-        const response = await fetch(`http://localhost:3001/api/${realEstateType}/all`, {
-            method: 'DELETE',
-            headers: {'Content-Type': 'application/json'},
-        });
+const logout = async () => {
 
-        location.reload();
+    const response = await fetch("http://localhost:3001/api/auth/logout", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
 
-        if (!response.ok) {
-            handleErrorResponse(response);
-        }
-
-    } catch (error) {
-        handleGeneralError();
-    }
-
+    });
+    window.location.href = window.location.origin;
 };
 
 const handleErrorResponse = (response) => {
     if (response.status === 400 || response.status === 401) {
-        showError('Wpisano niepoprawne login lub hasło!');
+        showError('Wpisano złe dane!');
     } else if (response.status === 429) {
         showError('Za dużo prób. Spróbuj za 60 sekund.');
     } else {

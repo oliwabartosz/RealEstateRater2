@@ -184,9 +184,30 @@ ul.dashed > li:before {
     text-decoration: none;
 }
 
+.rer-link-index {
+    color: white;
+    text-decoration: none;
+}
+
 .form-check-input:checked {
     background-color: #bdad7d;
     border-color: #bdad7d;
 
 }
 
+.box {
+    background: #152e52;
+    color: white;
+    width: 200px;
+    height: 100px;
+    border: 1px solid #152e52;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box:hover {
+    background: #bdad7d;
+    border: 1px solid #bdad7d;
+}

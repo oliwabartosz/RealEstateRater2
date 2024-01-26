@@ -1,30 +1,44 @@
-function storeOpenAIKey() {
-    const apiKey = document.getElementById('apikey').value;
-    removeOpenAIKey()
-    document.cookie = `openai_api_key=${apiKey}; max-age=86400; path=/`;
-    window.href = './';
-}
-
-function removeOpenAIKey() {
-    document.cookie = `openai_api_key=; max-age=0; path=/`;
-}
-
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-        const cookieValue = parts.pop().split(';').shift();
-        if (cookieValue && cookieValue.length >= 2) {
-            return cookieValue.substring(0, 2) + '-******';
-        } else {
-            return cookieValue;
-        }
+async function storeOpenAIKey() {
+    const apiKey = document.getElementById('apikey').value
+    const response = await fetch("http://localhost:3001/gpt/", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({apiKey}),
+    });
+    if (response.ok) {
+        window.location.reload();
+    } else {
+        handleErrorResponse(response);
     }
 }
 
-window.onload = function () {
-    const apiKey = getCookie('openai_api_key');
+async function removeOpenAIKey() {
+    const response = await fetch("http://localhost:3001/gpt/remove-key", {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+    });
+    if (response.ok) {
+        window.location.reload();
+    }
+}
+
+async function getCookie() {
+    const response = await fetch("http://localhost:3001/gpt/get-key", {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        return data.apiKey;
+    }
+}
+
+window.onload = async function () {
+    let apiKey = await getCookie();
     if (apiKey) {
+        apiKey = apiKey.slice(0, 2) + '-********************************';
         document.getElementById('apiKeyDisplay').textContent = apiKey;
     } else {
         document.getElementById('apiKeyDisplay').textContent = 'nie ustawiono';
