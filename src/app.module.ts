@@ -13,7 +13,9 @@ import { HandlebarsController } from './handlebars/handlebars.controller';
 import { HandlebarsModule } from './handlebars/handlebars.module';
 import {ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import {APP_GUARD} from '@nestjs/core';
-import Joi from 'joi';
+import { GptModule } from './gpt/gpt.module';
+import * as Joi from 'joi';
+
 
 @Module({
     imports: [
@@ -42,6 +44,7 @@ import Joi from 'joi';
         HousesModule,
         PlotsModule,
         HandlebarsModule,
+        GptModule,
     ],
     controllers: [AppController, HandlebarsController],
     providers: [AppService,
