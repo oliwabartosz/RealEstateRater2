@@ -13,11 +13,11 @@
 
 <div class="question">
 <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="law_status_1" name="lawStatus" value="1" {{#if (equals flat_ans_data.lawStatusAns 1)}}checked{{/if}} required>
+    <input class="form-check-input" type="radio" id="law_status_1" name="legalStatus" value="1" {{#if (equals flat_ans_data.lawStatusAns 1)}}checked{{/if}} required>
     <label class="form-check-label" for="law_status_1">Własnościowe</label>
 </div>
 <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="law_status_2" name="lawStatus" value="2" {{#if (equals flat_ans_data.lawStatusAns 2)}}checked{{/if}}>
+    <input class="form-check-input" type="radio" id="law_status_2" name="legalStatus" value="2" {{#if (equals flat_ans_data.lawStatusAns 2)}}checked{{/if}}>
     <label class="form-check-label" for="law_status_2">Spółdzielcze</label>
 </div>
     {{#if (convertToStr flat_gpt_data.lawStatusGPT)}}

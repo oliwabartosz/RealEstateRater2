@@ -3,5 +3,5 @@ export const handlebarsHelpers = {
     add: (a: string | number, b: string | number): number => Number(a) + Number(b),
     convertToStr: (text: string): string => String(text),
     convertBoolToEmoji: (bool: boolean): string => Boolean(bool) ? "✅" : "❌",
-    convertFalseToBlackSquare: (text: string): string => Boolean(text) ? text : "◾",
+    convertFalseToBlackSquare: (text: string): string => Boolean(text) ? text : "➖",
 }

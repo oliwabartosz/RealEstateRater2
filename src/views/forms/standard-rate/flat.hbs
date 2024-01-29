@@ -1,7 +1,7 @@
 {{> page/navbar }}
 
-<h1 class="mt-2 text-center">{{flat_data.offerId}}</h1>
-<h1 class="mt-2 text-center" id="offer-no">Oferta #{{flat_data.flatNumber}}/{{lastNumber}}</h1>
+<h1 class="mt-2 text-center" id="{{flat_data.id}}">{{flat_data.offerId}}</h1>
+<h2 class="mt-2 text-center" id="{{flat_data.flatNumber}}">Oferta #{{flat_data.flatNumber}}/{{lastNumber}}</h2>
 
 
 {{!-- navigation --}}
@@ -16,7 +16,7 @@
 {{!-- end navigation --}}
 <p>
     <strong>Status w bazie:</strong>
-    {{#if (equals flat_ans_data.rateStatus 'done')}}
+    {{#if (equals flat_ans_data.rateStatus '1')}}
         <img src="/images/general/tick.png" alt="" width="15" height="15">
         Oceniono
     {{else}}
@@ -29,7 +29,7 @@
 
 <h2 class="h2-break">Opis oferty</h2>
 {{> flats/flat_description}}
-<form action="{{add flat_data.number 1}}" method="post">
+
     <h2 class="h2-break">Dane techniczne</h2>
     {{> flats/flat_technology}}
     {{> flats/flat_law}}
@@ -52,10 +52,8 @@
     <div class="d-flex justify-content-center align-items-center" id="navigation">
         <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})" class="btn btn-outline-secondary btn-break"><</button>
         <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-secondary btn-break">></button>
-        <button type="submit" class="btn btn-success btn-space">Zapisz i nast.</button>
-
+        <button onclick="postAnswer()" class="btn btn-success btn-space">Zapisz i nast.</button>
     </div>
-</form>
 <script src="/assets/js/delete-checkbox.js"></script>
 <script src="/assets/js/navigation.js"></script>
 

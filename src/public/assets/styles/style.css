@@ -33,6 +33,16 @@
     margin-top: 10px;
 }
 
+#errorAnswer {
+    display: block;
+    padding: 10px;
+    background-color: #ff9999;
+    color: #990000;
+    border: 1px solid #990000;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .highlight {
     color: red;
 }
