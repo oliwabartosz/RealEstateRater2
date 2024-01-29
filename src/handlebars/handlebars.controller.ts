@@ -21,7 +21,7 @@ export class HandlebarsController {
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
     @UseFilters(NotLoggedInFilter)
-    getHello(
+    goHome(
         @Req() request: RequestWithUser,
         @Res() res: Response
     ) {
@@ -41,6 +41,7 @@ export class HandlebarsController {
     @Get('/user/profile')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
+    @UseFilters(NotLoggedInFilter)
     userProfile(
         @Req() request: RequestWithUser,
         @Res() res: Response,
@@ -54,7 +55,7 @@ export class HandlebarsController {
     @Get('/flats/')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
-
+    @UseFilters(NotLoggedInFilter)
     async flatList(
         @Req() request: RequestWithUser,
         @Res() res: Response,
@@ -70,7 +71,7 @@ export class HandlebarsController {
     @Get('/flats/:number')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
-
+    @UseFilters(NotLoggedInFilter)
     async flatProfile(
         @Req() request: RequestWithUser,
         @Res() res: Response,

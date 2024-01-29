@@ -9,6 +9,6 @@ export class NotLoggedInFilter implements ExceptionFilter {
         const response = ctx.getResponse<Response>();
         const status = exception.getStatus();
 
-        response.status(status).redirect('/login')
+        if (status === 401) response.status(status).redirect('/login')
     }
 }
