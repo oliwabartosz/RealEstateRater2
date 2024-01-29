@@ -47,7 +47,8 @@ import * as Joi from 'joi';
         GptModule,
     ],
     controllers: [AppController, HandlebarsController],
-    providers: [AppService,
+    providers: [
+        AppService,
         {
             provide: APP_GUARD,
             useClass: ThrottlerGuard

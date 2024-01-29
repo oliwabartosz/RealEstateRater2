@@ -12,6 +12,8 @@ const sendLogin = async () => {
             body: JSON.stringify({email, password}),
         });
 
+        console.log(response);
+
         if (!response.ok) {
             handleErrorResponse(response);
 

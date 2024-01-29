@@ -76,6 +76,12 @@ export class FlatsAnswersService {
     ) {
     }
 
+    public async getAllAnswersRecords(): Promise<FlatsAnswers[]> {
+        return await this.flatsAnswersRepository.find({
+            select: ["flatID", "rateStatus"]
+        });
+    }
+
     public async createOrUpdateAnswer(recordID: string, user: string, dto: AddFlatAnswersDto): Promise<FlatsAnswers> {
 
         await checkIfIdExists(this.flatsService, recordID);
@@ -93,8 +99,6 @@ export class FlatsAnswersService {
             }
         }
     }
-
-
 }
 
 @Injectable()
@@ -133,6 +137,5 @@ export class FlatsGPTService {
             }
         }
     }
-
 }
 

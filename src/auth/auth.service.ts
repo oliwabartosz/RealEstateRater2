@@ -62,13 +62,17 @@ export class AuthService {
         const token = this.jwtService.sign(payload);
 
         let secure = "";
+        let sameSite = "";
+        let httpOnly = "";
 
         if (process.env.DOMAIN.includes("https")) {
             secure = "Secure;"
+            sameSite = "SameSite=None;"
+            httpOnly = "HttpOnly;"
+
         }
 
-
-            return `jwt=${token}; HttpOnly; ${secure} Path=/; Max-Age=${this.configService.get('JWT_EXPIRATION_TIME')}`;
+            return `jwt=${token}; ${httpOnly} ${secure} ${sameSite} Path=/; Max-Age=${this.configService.get('JWT_EXPIRATION_TIME')}`;
     }
 
     public getCookieForLogOut() {

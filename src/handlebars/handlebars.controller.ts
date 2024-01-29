@@ -1,19 +1,21 @@
-import {Controller, Get, Param, Render, Req, Res, UseFilters, UseGuards} from '@nestjs/common';
+import {Controller, Get, Param, Req, Res, UseFilters, UseGuards} from '@nestjs/common';
 import {Response} from 'express';
 import {RequestWithUser} from "../interfaces/auth";
 import {RoleGuard} from "../guards/role.guard";
 import {Role} from "../interfaces/roles";
 import JwtAuthGuard from "../guards/jwt-auth.guard";
-import * as process from "process";
 import {NotLoggedInFilter} from "../filters/not-logged-in.filter";
 import {FlatsService} from "../flats/flats.service";
 import {getDomainAndPort, getUserInfo} from "./utils/render-options";
+import {HandlebarsService} from "./handlebars.service";
 
 @Controller('/')
 export class HandlebarsController {
     constructor(
+        private handlebarsService: HandlebarsService,
         private flatsService: FlatsService
-    ) {}
+    ) {
+    }
 
     @Get()
     @UseGuards(RoleGuard(Role.User))
@@ -31,7 +33,6 @@ export class HandlebarsController {
 
     @Get('/login')
     logIn(
-        @Req() request: RequestWithUser,
         @Res() res: Response
     ) {
         return res.render('auth/login.hbs');
@@ -61,7 +62,7 @@ export class HandlebarsController {
         return res.render('forms/standard-rate/flats-table.hbs', {
             ...getDomainAndPort(),
             ...getUserInfo(request),
-            flatsList: await this.flatsService.getAllRecords()
+            flatsList: await this.handlebarsService.combineData(this.flatsService, "flats"),
         })
     }
 
