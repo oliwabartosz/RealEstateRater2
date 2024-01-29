@@ -1,5 +1,6 @@
 export interface FlatRecord {
      id?: string;
+     flatNumber?: number;
      market?: string;
      offerId: string | number;
      offerIdExpected: string | number;

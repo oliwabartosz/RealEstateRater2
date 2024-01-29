@@ -62,7 +62,8 @@ export class HandlebarsController {
         return res.render('forms/standard-rate/flats-table.hbs', {
             ...getDomainAndPort(),
             ...getUserInfo(request),
-            flatsList: await this.handlebarsService.combineData(this.flatsService, "flats"),
+            flatsList2: await this.flatsService.getAllRecords(),
+            flatsList: await this.handlebarsService.combineFlatsData(),
         })
     }
 

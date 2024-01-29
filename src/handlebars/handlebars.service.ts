@@ -1,8 +1,7 @@
 import {Inject, Injectable} from '@nestjs/common';
-import {Repository} from "typeorm";
 import {FlatsAnswersService, FlatsGPTService, FlatsService} from "../flats/flats.service";
 
-import {RealEstateAnswersRecords, RealEstateRecord, RealEstateRecords} from "../interfaces/combined-data";
+import {RealEstateRecord} from "../interfaces/combined-data";
 import {FlatGPTRecord} from "../interfaces/flat-gpt-record";
 
 @Injectable()
@@ -14,42 +13,31 @@ export class HandlebarsService {
     ) {
     }
 
-    async combineData(service: any, realEstateType: "flats" | "houses" | "plots") {
-        //@TODO: after making GPT services for houses and plots remember to change GPT Interface;
+    async combineFlatsData() {
 
-        let idType: string;
+        const scrapedData = await this.flatsService.getAllRecords();
+        const answersData = await this.flatsAnswerService.getAllAnswersRecords();
+        const gptData = await this.flatsGPTService.getAllGPTRecords();
 
-        switch (realEstateType) {
-            case "flats":
-                idType = "flatID";
-                break;
-            case "houses":
-                idType = "houseID";
-                break;
-            case "plots":
-                idType = "plotID"
-        }
+        return scrapedData.map((item) => {
+            const answersRecord = answersData.find((record) => record.flatID === item.id);
+            const gptRecord: FlatGPTRecord = gptData.find((record) => record.flatID === item.id);
 
-        const scrapedData: RealEstateRecords = await service.getAllRecords();
-        const answersData: RealEstateAnswersRecords = await service.getAllAnswersRecords();
-
-
-        //@ TODO: change that when GPT houses and plots services available;
-        let gptData: any[] = [];
-
-        if (realEstateType === "flats") {
-            gptData = await this.flatsGPTService.getAllGPTRecords();
-        }
-
-        const combinedDataByID = scrapedData.map((item: RealEstateRecord) => {
-            const answersRecord = answersData.find((record) => record[idType] === item.id);
-            const gptRecord: FlatGPTRecord = gptData.find((record) => record[idType] === item.id);
             return {
-                ...item,
-                answersRecord,
-                gptRecord
+                id: item.id,
+                flatNumber: item.flatNumber,
+                offerId: item.offerId,
+                offerType: item.offerType,
+                offerStatus: item.offerStatus,
+                rateStatus: answersRecord ? answersRecord.rateStatus : false,
+                status: gptRecord ? gptRecord.status : false,
+                user: answersRecord ? answersRecord.user: false,
+                delete: answersRecord ? answersRecord.deleteAns: false,
             }
         });
+
+
     }
+
 
 }

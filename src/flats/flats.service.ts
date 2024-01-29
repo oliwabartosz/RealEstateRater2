@@ -78,7 +78,7 @@ export class FlatsAnswersService {
 
     public async getAllAnswersRecords(): Promise<FlatsAnswers[]> {
         return await this.flatsAnswersRepository.find({
-            select: ["flatID", "rateStatus"]
+            select: ["flatID", "rateStatus", "user", "deleteAns"]
         });
     }
 

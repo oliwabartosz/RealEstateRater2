@@ -25,7 +25,7 @@ export interface FlatGPTRecord {
     rentGPT?: number;
     rentSummary?: string;
     qualityGPT?: number;
-    status?: boolean;
+    status?: boolean | number;
 }
 
 export type FlatGPTListResponse = FlatGPTRecord[];

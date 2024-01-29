@@ -42,7 +42,7 @@ export async function createNewAnswersRecord(
 
     if (!(newAnsRecord instanceof FlatsGPT)) {
         newAnsRecord.user = user;
-        newAnsRecord.rateStatus = "done";
+        newAnsRecord.rateStatus = true;
     }
 
     await repository.save(newAnsRecord);

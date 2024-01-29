@@ -101,13 +101,12 @@ export class FlatsAnswers {
         type: "boolean",
         default: null,
     })
-    deleteAns: boolean | null;
+    deleteAns: boolean | number | null;
 
     @Column({
-        length: 5,
-        type: "varchar",
+        type: "boolean",
     })
-    rateStatus: string;
+    rateStatus: boolean | number;
 
     @Column({
         length: 10,

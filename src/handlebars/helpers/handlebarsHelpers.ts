@@ -1,7 +1,7 @@
 export const handlebarsHelpers = {
-    usernameLetter: (username: string) => username.slice(0, 1),
-    equals: (a, b) => a === b,
-    add: (a, b) => a + b,
-    convertToStr: (text) => String(text),
-
+    equals: (a: string | number, b: string | number): boolean => a === b,
+    add: (a: string | number, b: string | number): number => Number(a) + Number(b),
+    convertToStr: (text: string): string => String(text),
+    convertBoolToEmoji: (bool: boolean): string => Boolean(bool) ? "✅" : "❌",
+    convertFalseToBlackSquare: (text: string): string => Boolean(text) ? text : "◾",
 }
