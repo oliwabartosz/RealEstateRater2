@@ -17,6 +17,8 @@ export class UsersService {
             where: {email}
         });
 
+        console.log("USER:::::::", user)
+
         if (user) {
             return user;
         }
@@ -31,11 +33,9 @@ export class UsersService {
         return user;
     }
 
-    public async checkIfUserExists(email: string): Promise<void> {
+    public async checkIfUserExists(email: string): Promise<Users> {
         try {
-
-            await this.getUserByEmail(email);
-
+            return await this.getUserByEmail(email);
         } catch (err) {
 
             if (err instanceof HttpException && err.getStatus() === HttpStatus.NOT_FOUND) {
