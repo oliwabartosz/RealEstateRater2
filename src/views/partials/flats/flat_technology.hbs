@@ -2,10 +2,18 @@
 <p><strong>Materiał</strong>: {{ flat_data.material }}</p>
 <p><strong>Rodzaj budynku:</strong> {{  flat_data.buildingType }}</p>
 <p><strong>Rok budowy:</strong>
-    <input type="number" min="1700" name="year-built" class="form-control" name="yearBuilt"
+    <input type="number" min="1700" name="yearBuilt" class="form-control" name="yearBuilt"
            style="width: 33%; display: inline-block;"
            placeholder="Podaj rok budowy"
-           {{#if flat_ans_data.yearBuilt}}value="{{flat_ans_data.yearBuilt}}"{{/if}}>
+           {{#if flat_ans_data.yearBuiltAns}}
+                value="{{flat_ans_data.yearBuiltAns}}"
+           {{else}}
+                {{#if flat_data.yearBuilt}}
+                    value="{{flat_data.yearBuilt}}"
+                {{else}}
+                    value="0"
+
+           {{/if}}{{/if}}>
 </p>
 
 

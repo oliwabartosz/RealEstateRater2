@@ -69,7 +69,6 @@ export class FlatsService {
 @Injectable()
 export class FlatsAnswersService {
 
-
     constructor(
         @InjectRepository(FlatsAnswers) private flatsAnswersRepository: Repository<FlatsAnswers>,
         private readonly flatsService: FlatsService,
@@ -80,6 +79,10 @@ export class FlatsAnswersService {
         return await this.flatsAnswersRepository.find({
             select: ["flatID", "rateStatus", "user", "deleteAns"]
         });
+    }
+
+    public async getOneRecordByID(flatID: string): Promise<FlatsAnswers> {
+        return await this.flatsAnswersRepository.findOne({where: {flatID}});
     }
 
     public async createOrUpdateAnswer(recordID: string, user: string, dto: AddFlatAnswersDto): Promise<FlatsAnswers> {
@@ -107,6 +110,10 @@ export class FlatsGPTService {
         @InjectRepository(FlatsGPT) private flatsGPTRepository: Repository<FlatsGPT>,
         private flatsService: FlatsService
     ) {
+    }
+
+    public async getOneRecordByID(flatID: string): Promise<FlatsGPT> {
+        return await this.flatsGPTRepository.findOne({where: {flatID}});
     }
 
     public async getAllGPTRecords(): Promise<FlatGPTRecord[]> {

@@ -5,7 +5,7 @@ import {RoleGuard} from "../guards/role.guard";
 import {Role} from "../interfaces/roles";
 import JwtAuthGuard from "../guards/jwt-auth.guard";
 import {NotLoggedInFilter} from "../filters/not-logged-in.filter";
-import {FlatsService} from "../flats/flats.service";
+import {FlatsAnswersService, FlatsGPTService, FlatsService} from "../flats/flats.service";
 import {getDomainAndPort, getUserInfo} from "./utils/render-options";
 import {HandlebarsService} from "./handlebars.service";
 
@@ -13,7 +13,10 @@ import {HandlebarsService} from "./handlebars.service";
 export class HandlebarsController {
     constructor(
         private handlebarsService: HandlebarsService,
-        private flatsService: FlatsService
+        private flatsService: FlatsService,
+        private flatsAnswersService: FlatsAnswersService,
+        private flatsGPTService: FlatsGPTService,
+
     ) {
     }
 
@@ -63,7 +66,6 @@ export class HandlebarsController {
         return res.render('forms/standard-rate/flats-table.hbs', {
             ...getDomainAndPort(),
             ...getUserInfo(request),
-            flatsList2: await this.flatsService.getAllRecords(),
             flatsList: await this.handlebarsService.combineFlatsData(),
         })
     }
@@ -85,10 +87,15 @@ export class HandlebarsController {
             return res.redirect('/flats/');
         }
 
+        const flatData = await this.flatsService.getOneRecord(number)
+        const flatID = flatData.id
+
         return res.render('forms/standard-rate/flat.hbs', {
             ...getDomainAndPort(),
             ...getUserInfo(request),
-            flat_data: await this.flatsService.getOneRecord(number),
+            flat_data: flatData,
+            flat_ans_data: await this.flatsAnswersService.getOneRecordByID(flatID),
+            flats_gpt_data: await this.flatsGPTService.getOneRecordByID(flatID),
             lastNumber: await this.flatsService.getLastNumber(),
         });
     }

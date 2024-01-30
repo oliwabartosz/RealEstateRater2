@@ -15,6 +15,8 @@ import {FlatsGPT} from "./entities/flats-gpt.entity";
     controllers: [FlatsController],
     exports: [
         FlatsService,
+        FlatsAnswersService,
+        FlatsGPTService
     ]
 })
 export class FlatsModule {

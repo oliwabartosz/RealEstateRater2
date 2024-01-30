@@ -28,10 +28,13 @@ const sendLogin = async () => {
 
 const postAnswer = async () => {
     const currentYear = new Date().getFullYear()
-    function getSelectedValue(elementName) {
-        if (elementName === 'year-built') {
+    const currentID = document.querySelector('h1').id;
+    const currentNumber = document.querySelector('h2').id;
 
-            const yearBuiltInput = document.querySelector('input[name="year-built"]');
+    function getSelectedValue(elementName) {
+        if (elementName === 'yearBuilt') {
+
+            const yearBuiltInput = document.querySelector('input[name="yearBuilt"]');
             if (Number(yearBuiltInput.value) < 1700 || Number(yearBuiltInput.value) > currentYear) return {
                 value: null,
                 element: yearBuiltInput,
@@ -53,8 +56,7 @@ const postAnswer = async () => {
         }
     }
 
-    const id = document.querySelector('h1').id;
-    const elements = ['year-built', 'technology', 'legalStatus', 'balcony', 'elevator', 'basement', 'garage', 'garden', 'alarm', 'outbuilding', 'modernization', 'kitchen', 'quality', 'delete'];
+    const elements = ['yearBuilt', 'technology', 'legalStatus', 'balcony', 'elevator', 'basement', 'garage', 'garden', 'alarm', 'outbuilding', 'modernization', 'kitchen', 'quality'];
     const answers = {};
 
     const deleteCheckbox = document.querySelector('input[name="delete"]');
@@ -74,7 +76,7 @@ const postAnswer = async () => {
             const errorDiv = document.createElement('div');
             errorDiv.id = 'errorAnswer';
 
-            if (element === 'year-built') {
+            if (element === 'yearBuilt') {
                 errorDiv.textContent = `❗ Nie podano roku budowy lub jest poza przedziałem lat 1700-${currentYear}`;
             } else {
                 errorDiv.textContent = `❗ Nie wybrano odpowiedzi!`;
@@ -86,19 +88,24 @@ const postAnswer = async () => {
             return;
         }
 
-        answers[`${element}Ans`] = Number(result.value);
+        answers[`${element}Ans`] = result.value ? Number(result.value) : null;
     }
 
+    try {
+        const response = await fetch("http://localhost:3001/api/flats/answers/", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({
+                flatID: currentID,
+                ...answers
+            }),
+        });
+        window.location.href = `./${Number(currentNumber) + 1}`
+    } catch (err) {
+        console.log("Something went wrong");
+    }
 
-    const response = await fetch("http://localhost:3001/api/flats/answers/", {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'include',
-        body: JSON.stringify({
-            flatID: id,
-            ...answers
-        }),
-    });
 }
 const deleteRecords = async (realEstateType, ids) => {
     try {

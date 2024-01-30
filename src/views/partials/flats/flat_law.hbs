@@ -1,6 +1,6 @@
 <h4 class="h4-break">Prawo</h4>
 {{#if flat_data.lawStatus}}
-    <p><strong>Stan prawny:</strong> {{ flat_data.lawStatus }}</p>
+    <p><strong>Stan prawny:</strong> {{ flat_data.legalStatus }}</p>
 {{/if}}
 
 {{#if flat_data.communityFlatDesc}}
@@ -13,17 +13,17 @@
 
 <div class="question">
 <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="law_status_1" name="legalStatus" value="1" {{#if (equals flat_ans_data.lawStatusAns 1)}}checked{{/if}} required>
-    <label class="form-check-label" for="law_status_1">Własnościowe</label>
+    <input class="form-check-input" type="radio" id="legal_status_1" name="legalStatus" value="1" {{#if (equals flat_ans_data.legalStatusAns 1)}}checked{{/if}} required>
+    <label class="form-check-label" for="legal_status_1">Własnościowe</label>
 </div>
 <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="law_status_2" name="legalStatus" value="2" {{#if (equals flat_ans_data.lawStatusAns 2)}}checked{{/if}}>
-    <label class="form-check-label" for="law_status_2">Spółdzielcze</label>
+    <input class="form-check-input" type="radio" id="legal_status_2" name="legalStatus" value="2" {{#if (equals flat_ans_data.legalStatusAns 2)}}checked{{/if}}>
+    <label class="form-check-label" for="legal_status_2">Spółdzielcze</label>
 </div>
-    {{#if (convertToStr flat_gpt_data.lawStatusGPT)}}
+    {{#if (convertToStr flat_gpt_data.legalStatusGPT)}}
         <p class="p-break">
-            <span class="gpt">GPT: {{flat_gpt_data.lawStatusGPT}}</span>
-            <span class="gpt">GPT: {{flat_gpt_data.law_summary}}</span>
+            <span class="gpt">GPT: {{flat_gpt_data.legalStatusGPT}}</span>
+            <span class="gpt">GPT: {{flat_gpt_data.legal_summary}}</span>
         </p>
     {{/if}}
 </div>
