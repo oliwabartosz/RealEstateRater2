@@ -3,16 +3,8 @@
     <p><strong>Ogród:</strong> {{ flat_data.garden }}</p>
 {{/if}}
 
-{{#if flat_data.gardenDesc}}
-    <p>ogród: {{ flat_data.gardenDesc }}</p>
-{{/if}}
-
-{{#if flat_data.gardenDesc2}}
-    <p>ogrod: {{ flat_data.gardenDesc2 }}</p>
-{{/if}}
-
-{{#if flat_data.gardenDesc3}}
-    <p>działka: {{ flat_data.gardenDesc3 }}</p>
+{{#if flat_data.gardenLemma}}
+    <p>Fragmenty: {{ flat_data.gardenLemma }}</p>
 {{/if}}
 
 <div class="question">
@@ -24,10 +16,11 @@
         <input class="form-check-input" type="radio" id="garden_no" name="garden" value="0" {{#if (equals flat_ans_data.gardenAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="garden_no">Nie</label>
     </div>
-    {{#if (convertToStr flat_gpt_data.gardenGPT)}}
+    {{#if (convertToStr flats_gpt_data.gardenGPT)}}
         <p class="p-break">
-            <span class="gpt">GPT: {{flat_gpt_data.gardenGPT}}</span>
-            <span class="gpt">GPT: {{flat_gpt_data.garden_summary}}</span>
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.gardenGPT}}</span>
+            <br />
+            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.gardenSummary}}</span>
         </p>
     {{/if}}
 </div>

@@ -58,10 +58,11 @@
                {{#if (equals flat_ans_data.technologyAns 9)}}checked{{/if}}>
         <label class="form-check-label" for="technology_9">Alternatywna</label>
     </div>
-    {{#if (convertToStr flat_gpt_data.technologyGPT)}}
+    {{#if (convertToStr flats_gpt_data.technologyGPT)}}
         <p class="p-break">
-            <span class="gpt">GPT: {{flat_gpt_data.technologyGPT}}</span>
-            <span class="gpt">GPT: {{flat_gpt_data.technology_summary}}</span>
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.technologyGPT}}</span>
+            <br />
+            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.technologySummary}}</span>
         </p>
     {{/if}}
 </div>

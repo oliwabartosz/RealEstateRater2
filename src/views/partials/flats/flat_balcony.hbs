@@ -18,8 +18,8 @@
     <p><strong>Liczba loggii:</strong> {{flat_data.loggiasQuantity}}</p>
 {{/if}}
 
-{{#if flat_data.balconyDesc}}
-    <p>balkon: {{flat_data.balconyLemma}}</p>
+{{#if flat_data.balconyLemma}}
+    <p>Fragmenty: {{flat_data.balconyLemma}}</p>
 {{/if}}
 
 <div class="question">
@@ -32,11 +32,11 @@
         <input class="form-check-input" type="radio" id="balcony_0" name="balcony" {{#if (equals flat_ans_data.balconyAns 0)}}checked{{/if}} value="0">
         <label class="form-check-label" for="balcony_0">Nie</label>
     </div>
-    {{#if (convertToStr flat_gpt_data.balconyGPT)}}
+    {{#if (convertToStr flats_gpt_data.balconyGPT)}}
         <p class="p-break">
-            <span class="gpt">Ocena GPT: {{flat_gpt_data.balconyGPT}}</span>
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.balconyGPT}}</span>
             <br />
-            <span class="gpt">Podsumowanie modelu GPT: {{flat_gpt_data.balcony_summary}}</span>
+            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.balconySummary}}</span>
         </p>
     {{/if}}
 </div>

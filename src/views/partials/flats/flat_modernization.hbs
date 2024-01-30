@@ -15,32 +15,8 @@
     <p><strong>Lokalizacja:</strong> {{ flat_data.localization }}</p>
 {{/if}}
 
-{{#if flat_data.insulatedBuildingDesc}}
-    <p>ocieplony: {{ flat_data.insulatedBuildingDesc }}</p>
-{{/if}}
-
-{{#if flat_data.insulatedBuildingDesc2}}
-    <p>ociepl: {{ flat_data.insulatedBuildingDesc2 }}</p>
-{{/if}}
-
-{{#if flat_data.modernizatedBuildingDesc}}
-    <p>moderniz: {{ flat_data.modernizatedBuildingDesc }}</p>
-{{/if}}
-
-{{#if flat_data.restoredBuildingDesc}}
-    <p>odrestaur: {{ flat_data.restoredBuildingDesc }}</p>
-{{/if}}
-
-{{#if flat_data.renewedBuildingDesc}}
-    <p>odnow: {{ flat_data.renewedBuildingDesc }}</p>
-{{/if}}
-
-{{#if flat_data.renovationDesc}}
-    <p>remon: {{ flat_data.renovationDesc }}</p>
-{{/if}}
-
-{{#if flat_data.elevationDesc}}
-    <p>elewac: {{ flat_data.elevationDesc }}</p>
+{{#if flat_data.modernizationLemma}}
+    <p>Fragmenty: {{ flat_data.modernizationLemma }}</p>
 {{/if}}
 
 <div class="question">
@@ -56,10 +32,11 @@
         <input class="form-check-input" type="radio" id="modernization_3" name="modernization" value="0" {{#if (equals flat_ans_data.modernizationAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="modernization_3">Puste</label>
     </div>
-    {{#if (convertToStr flat_gpt_data.modernizationGPT)}}
+    {{#if (convertToStr flats_gpt_data.modernizationGPT)}}
         <p class="p-break">
-            <span class="gpt">GPT: {{flat_gpt_data.modernizationGPT}}</span>
-            <span class="gpt">GPT: {{flat_gpt_data.modernization_summary}}</span>
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.modernizationGPT}}</span>
+            <br />
+            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.modernizationSummary}}</span>
         </p>
     {{/if}}
 </div>

@@ -1,15 +1,7 @@
 <h4 class="h4-break">Oficyna</h4>
 
-{{#if flat_data.outbuildingDesc}}
-    <p>oficyn: {{ flat_data.outbuildingDesc }}</p>
-{{/if}}
-
-{{#if flat_data.outbuildingDesc2}}
-    <p>linia: {{ flat_data.outbuildingDesc2 }}</p>
-{{/if}}
-
-{{#if flat_data.outbuildingDesc3}}
-    <p>linii: {{ flat_data.outbuildingDesc3 }}</p>
+{{#if flat_data.outbuildingLemma}}
+    <p>Fragmenty: {{ flat_data.outbuildingLemma }}</p>
 {{/if}}
 
 <div class="question">
@@ -21,10 +13,11 @@
         <input class="form-check-input" type="radio" id="outbuilding_no" name="outbuilding" value="0" {{#if (equals flat_ans_data.outbuildingAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="outbuilding_no">Nie</label>
     </div>
-    {{#if (convertToStr flat_gpt_data.outbuildingGPT)}}
+    {{#if (convertToStr flats_gpt_data.outbuildingGPT)}}
         <p class="p-break">
-            <span class="gpt">GPT: {{flat_gpt_data.outbuildingGPT}}</span>
-            <span class="gpt">GPT: {{flat_gpt_data.outbuilding_summary}}</span>
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.outbuildingGPT}}</span>
+            <br />
+            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.outbuildingSummary}}</span>
         </p>
     {{/if}}
 </div>

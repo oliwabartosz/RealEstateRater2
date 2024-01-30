@@ -7,20 +7,19 @@
 {{!-- navigation --}}
 <div id="navigation" class="d-flex justify-content-center align-items-center">
     <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})"
-            class="btn btn-outline-secondary btn-break"><
+            class="btn btn-outline-gold btn-break"><
     </button>
-    <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}}, {{lastNumber}})" class="btn btn-outline-secondary btn-break">
+    <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}}, {{lastNumber}})" class="btn btn-outline-gold btn-break">
         >
     </button>
 </div>
 {{!-- end navigation --}}
 
-{{log flat_ans_data}}
 <p>
     <strong>Status w bazie:</strong>
-    {{#if (equals flat_data.rateStatus '1')}}
+    {{#if (equals flat_ans_data.rateStatus true)}}
         <img src="/images/general/tick.png" alt="" width="15" height="15">
-        Oceniono
+            Oceniono przez użytkownika 👤 <span style="color:#152e52;"> {{flat_ans_data.user}}</span>
     {{else}}
         <img src="/images/general/cross.png" alt="" width="15" height="15">
         Wymaga oceny
@@ -52,9 +51,9 @@
 
     <!--<button class="btn btn-success" onclick="postData(getData())">Zapisz i nast.</button>-->
     <div class="d-flex justify-content-center align-items-center" id="navigation">
-        <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})" class="btn btn-outline-secondary btn-break"><</button>
-        <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-secondary btn-break">></button>
-        <button onclick="postAnswer()" class="btn btn-success btn-space">Zapisz i nast.</button>
+        <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})" class="btn btn-outline-gold btn-break"><</button>
+        <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-gold btn-break">></button>
+        <button onclick="postAnswer()" class="btn btn-darkblue btn-space">Zapisz i nast.</button>
     </div>
 <script src="/assets/js/delete-checkbox.js"></script>
 <script src="/assets/js/navigation.js"></script>

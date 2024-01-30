@@ -3,28 +3,8 @@
     <p><strong>Typ kuchni</strong>: {{ flat_data.kitchenType}}</p>
 {{/if}}
 
-{{#if flat_data.kitchenAnnexDesc}}
-    <p>aneks: {{ flat_data.kitchenAnnexDesc}}</p>
-{{/if}}
-
-{{#if flat_data.kitchenBrightDesc}}
-    <p>widna: {{ flat_data.kitchenBrightDesc}}</p>
-{{/if}}
-
-{{#if flat_data.kitchenDarkDesc}}
-    <p>ciemna: {{ flat_data.kitchenDarkDesc}}</p>
-{{/if}}
-
-{{#if flat_data.kitchenClearanceDesc}}
-    <p>prześwit: {{ flat_data.kitchenClearanceDesc}}</p>
-{{/if}}
-
-{{#if flat_data.kitchenWindowDesc}}
-    <p>z oknem: {{ flat_data.kitchenWindowDesc}}</p>
-{{/if}}
-
-{{#if flat_data.kitchenDiningRoomDesc}}
-    <p>z jadalni: {{ flat_data.kitchenDiningRoomDesc}}</p>
+{{#if flat_data.kitchenLemma}}
+    <p>Fragmenty: {{ flat_data.kitchenLemma}}</p>
 {{/if}}
 
 
@@ -41,10 +21,11 @@
         <input class="form-check-input" type="radio" id="kitchen_3" name="kitchen" value="3" {{#if (equals flat_ans_data.kitchenAns 3)}}checked{{/if}}>
         <label class="form-check-label" for="kitchen_3">Aneks</label>
     </div>
-    {{#if (convertToStr flat_gpt_data.kitchenGPT)}}
+    {{#if (convertToStr flats_gpt_data.kitchenGPT)}}
         <p class="p-break">
-            <span class="gpt">GPT: {{flat_gpt_data.kitchenGPT}}</span>
-            <span class="gpt">GPT: {{flat_gpt_data.kitchen_summary}}</span>
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.kitchenGPT}}</span>
+            <br />
+            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.kitchenSummary}}</span>
         </p>
     {{/if}}
 </div>

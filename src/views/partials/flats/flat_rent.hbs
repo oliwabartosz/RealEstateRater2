@@ -1,21 +1,23 @@
 <h4 class="h4-break">Czynsz</h4>
 <p><strong>Czynsz administracyjny:</strong> {{ flat_data.rent }}</p>
 
-<p>czynsz: {{flat_data.rentDesc}}</p>
-<p>bezczynsz:{{flat_data.withoutRentDesc}}</p>
-<p>opłat: {{flat_data.feesDesc}}</p>
+{{#if flat_data.rentLemma}}
+    <p>Fragmenty: {{flat_data.rentLemma}}</p>
+{{/if}}
 
 <div class="question">
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">PLN</span>
         </div>
-        <input type="number" name="rent" class="form-control" placeholder="Wpisz wartość czynszu (opcjonalne)" {{#if flat_ans_data.rentAns}}value="{{flat_ans_data.rentAns}}"{{/if}}>
+        <input type="number" name="rent" class="form-control" placeholder="Wpisz wartość czynszu (opcjonalne)"
+               {{#if flat_ans_data.rentAns}}value="{{flat_ans_data.rentAns}}"{{/if}}>
     </div>
-    {{#if (convertToStr flat_gpt_data.rentGPT)}}
+    {{#if (convertToStr flats_gpt_data.rentGPT)}}
         <p class="p-break">
-            <span class="gpt">GPT: {{flat_gpt_data.rentGPT}}</span>
-            <span class="gpt">GPT: {{flat_gpt_data.rent_summary}}</span>
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.rentGPT}}</span>
+            <br />
+            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.rentSummary}}</span>
         </p>
     {{/if}}
 </div>

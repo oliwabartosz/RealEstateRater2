@@ -16,6 +16,15 @@
         <input class="form-check-input" type="radio" id="quality_3" name="quality" value="3" {{#if (equals flat_ans_data.qualityAns 3)}}checked{{/if}}>
         <label class="form-check-label" for="quality_3">Niski</label>
     </div>
+
+    {{#if (convertToStr flats_gpt_data.qualityGPT)}}
+        <p class="p-break">
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.qualityGPT}}</span>
+            <br />
+            {{!-- <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.qualitySummary}} </span>--}}
+        </p>
+    {{/if}}
 </div>
+
 
 <hr class="mt-0 mb-4">

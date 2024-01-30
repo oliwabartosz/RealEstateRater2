@@ -16,7 +16,6 @@ export class HandlebarsController {
         private flatsService: FlatsService,
         private flatsAnswersService: FlatsAnswersService,
         private flatsGPTService: FlatsGPTService,
-
     ) {
     }
 

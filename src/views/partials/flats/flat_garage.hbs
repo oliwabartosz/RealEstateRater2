@@ -11,26 +11,9 @@
     <p><strong>Cena za parking (miejsce):</strong> {{ flat_data.priceParkingGround }}</p>
 {{/if}}
 
-{{#if flat_data.garageDesc}}
-    <p>garaż: {{ flat_data.garageDesc }}</p>
+{{#if flat_data.garageLemma}}
+    <p>Fragmenty: {{ flat_data.garageLemma }}</p>
 {{/if}}
-
-{{#if flat_data.parkingSpaceDesc}}
-    <p>parking: {{ flat_data.parkingSpaceDesc }}</p>
-{{/if}}
-
-{{#if flat_data.parkingPlaceDesc}}
-    <p>postojow: {{ flat_data.parkingPlaceDesc }}</p>
-{{/if}}
-
-{{#if flat_data.possibilityDesc}}
-    <p>postojow: {{ flat_data.possibilityDesc }}</p>
-{{/if}}
-
-{{#if flat_data.belongingDesc}}
-    <p>przynależ: {{ flat_data.belongingDesc }}</p>
-{{/if}}
-
 
 <div class="question">
     <div class="form-check form-check-inline">
@@ -41,10 +24,11 @@
         <input class="form-check-input" type="radio" id="garage_no" name="garage" value="0" {{#if (equals flat_ans_data.garageAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="garage_no">Nie</label>
     </div>
-    {{#if (convertToStr flat_gpt_data.garageGPT)}}
+    {{#if (convertToStr flats_gpt_data.garageGPT)}}
         <p class="p-break">
-            <span class="gpt">GPT: {{flat_gpt_data.garageGPT}}</span>
-            <span class="gpt">GPT: {{flat_gpt_data.garage_summary}}</span>
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.garageGPT}}</span>
+            <br />
+            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.garageSummary}}</span>
         </p>
     {{/if}}
 </div>

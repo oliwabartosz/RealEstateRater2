@@ -7,36 +7,8 @@
     <p><strong>Osiedle strzeżone:</strong> {{ flat_data.guardedEstate }}</p>
 {{/if}}
 
-{{#if flat_data.monitoringDesc}}
-    <p>monitoring: {{ flat_data.monitoringDesc }}</p>
-{{/if}}
-
-{{#if flat_data.monitoringDesc2}}
-    <p>monit: {{ flat_data.monitoringDesc2 }}</p>
-{{/if}}
-
-{{#if flat_data.alarmDesc}}
-    <p>alarm: {{ flat_data.alarmDesc }}</p>
-{{/if}}
-
-{{#if flat_data.guardedDesc}}
-    <p>strzeż: {{ flat_data.guardedDesc }}</p>
-{{/if}}
-
-{{#if flat_data.securityDesc}}
-    <p>ochron: {{ flat_data.securityDesc }}</p>
-{{/if}}
-
-{{#if flat_data.supervisionDesc}}
-    <p>dozór: {{ flat_data.supervisionDesc }}</p>
-{{/if}}
-
-{{#if flat_data.supervisionDesc2}}
-    <p>dozor: {{ flat_data.supervisionDesc2 }}</p>
-{{/if}}
-
-{{#if flat_data.doorkeeperDesc}}
-    <p>portier: {{ flat_data.doorkeeperDesc }}</p>
+{{#if flat_data.monitoringLemma}}
+    <p>Fragmenty: {{ flat_data.monitoringLemma }}</p>
 {{/if}}
 
 <div class="question">
@@ -48,10 +20,11 @@
         <input class="form-check-input" type="radio" id="alarm_no" name="alarm" value="0" {{#if (equals flat_ans_data.alarmAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="alarm_no">Nie</label>
     </div>
-    {{#if (convertToStr flat_gpt_data.alarmGPT)}}
+    {{#if (convertToStr flats_gpt_data.alarmGPT)}}
         <p class="p-break">
-            <span class="gpt">GPT: {{flat_gpt_data.alarmGPT}}</span>
-            <span class="gpt">GPT: {{flat_gpt_data.alarm_summary}}</span>
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.alarmGPT}}</span>
+            <br />
+            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.alarmSummary}}</span>
         </p>
     {{/if}}
 </div>

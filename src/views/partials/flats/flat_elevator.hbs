@@ -7,8 +7,8 @@
     <p><strong>Winda:</strong> {{flat_data.elevator}}</p>
 {{/if}}
 
-{{#if flat_data.elevatorDesc}}
-    <p>wind: {{flat_data.elevatorDesc}}</p>
+{{#if flat_data.elevatorLemma}}
+    <p>Fragmenty: {{flat_data.elevatorLemma}}</p>
 {{/if}}
 
 <div class="question">
@@ -20,10 +20,11 @@
         <input class="form-check-input" type="radio" id="elevator_no" name="elevator" value="0" {{#if (equals flat_ans_data.elevatorAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="elevator_no">Nie</label>
     </div>
-    {{#if (convertToStr flat_gpt_data.elevatorGPT)}}
+    {{#if (convertToStr flats_gpt_data.elevatorGPT)}}
         <p class="p-break">
-            <span class="gpt">GPT: {{flat_gpt_data.elevatorGPT}}</span>
-            <span class="gpt">GPT: {{flat_gpt_data.elevator_summary}}</span>
+            <span class="gpt">Ocena GPT: {{flats_gpt_data.elevatorGPT}}</span>
+            <br />
+            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.elevatorSummary}}</span>
         </p>
     {{/if}}
 </div>
