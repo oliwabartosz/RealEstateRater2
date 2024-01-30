@@ -27,46 +27,60 @@ const sendLogin = async () => {
 };
 
 const postAnswer = async () => {
+    const currentYear = new Date().getFullYear()
     function getSelectedValue(elementName) {
-        let radios = document.getElementsByName(elementName);
+        if (elementName === 'year-built') {
 
-        for (let i = 0; i < radios.length; i++) {
-            if (radios[i].checked) {
-                return {value: radios[i].value, element: null};
+            const yearBuiltInput = document.querySelector('input[name="year-built"]');
+            if (Number(yearBuiltInput.value) < 1700 || Number(yearBuiltInput.value) > currentYear) return {
+                value: null,
+                element: yearBuiltInput,
+                parentElement: yearBuiltInput.parentNode
+            };
+            return yearBuiltInput.value ? {value: yearBuiltInput.value, element: null} : {
+                value: null,
+                element: yearBuiltInput,
+                parentElement: yearBuiltInput.parentNode
+            };
+        } else {
+            let radios = document.getElementsByName(elementName);
+            for (let i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    return {value: radios[i].value, element: null};
+                }
             }
+            return {value: null, element: radios[0], parentElement: radios[0].parentNode.parentNode};
         }
-
-        // If no radio button is checked, return the first radio button and its grandparent element
-        return {value: null, element: radios[0], parentElement: radios[0].parentNode.parentNode};
     }
 
     const id = document.querySelector('h1').id;
-    const elements = ['technology', 'legalStatus', 'balcony', 'elevator', 'basement', 'garage', 'garden', 'alarm', 'outbuilding', 'modernization', 'kitchen', 'quality', 'delete'];
+    const elements = ['year-built', 'technology', 'legalStatus', 'balcony', 'elevator', 'basement', 'garage', 'garden', 'alarm', 'outbuilding', 'modernization', 'kitchen', 'quality', 'delete'];
     const answers = {};
 
-    // Check if the 'delete' checkbox is checked
     const deleteCheckbox = document.querySelector('input[name="delete"]');
     const isDeleteChecked = deleteCheckbox && deleteCheckbox.checked;
+    answers.deleteAns = isDeleteChecked;
 
     for (const element of elements) {
         const result = await getSelectedValue(element);
-
         if (result.value === null && !isDeleteChecked) {
-            // Scroll to the radio button
             result.element.scrollIntoView({behavior: 'smooth', block: 'center'});
 
-            // If an error message already exists, remove it
             const existingError = document.getElementById('errorAnswer');
             if (existingError) {
                 existingError.remove();
             }
 
-            // Create a new div element for the error message
             const errorDiv = document.createElement('div');
-            errorDiv.id = 'errorAnswer'; // Assign the id
-            errorDiv.textContent = `❗ Nie wybrano odpowiedzi!`;
+            errorDiv.id = 'errorAnswer';
 
-            // Append the error message to the grandparent element of the radio buttons
+            if (element === 'year-built') {
+                errorDiv.textContent = `❗ Nie podano roku budowy lub jest poza przedziałem lat 1700-${currentYear}`;
+            } else {
+                errorDiv.textContent = `❗ Nie wybrano odpowiedzi!`;
+
+            }
+
             result.parentElement.appendChild(errorDiv);
 
             return;
@@ -75,23 +89,16 @@ const postAnswer = async () => {
         answers[`${element}Ans`] = Number(result.value);
     }
 
-    try {
-        const response = await fetch("http://localhost:3001/api/flats/answers/", {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify({
-                flatID: id,
-                ...answers
-            }),
-        });
 
-        const recordNumber = document.querySelector('h2').id;
-        window.location.href = `./${Number(recordNumber) + 1}`;
-    } catch(error) {
-        console.log(error)
-    }
-
+    const response = await fetch("http://localhost:3001/api/flats/answers/", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({
+            flatID: id,
+            ...answers
+        }),
+    });
 }
 const deleteRecords = async (realEstateType, ids) => {
     try {
