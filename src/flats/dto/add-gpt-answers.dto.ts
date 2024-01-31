@@ -106,6 +106,10 @@ export class AddGPTAnswersDto {
     @IsNumber()
     qualityGPT: number | null;
 
+    @IsOptional()
+    @IsString()
+    qualitySummary: string | null;
+
     @IsNotEmpty()
     @IsBoolean()
     status: boolean;

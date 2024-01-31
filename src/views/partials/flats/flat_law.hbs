@@ -1,5 +1,5 @@
 <h4 class="h4-break">Prawo</h4>
-{{#if flat_data.lawStatus}}
+{{#if flat_data.legalStatus}}
     <p><strong>Stan prawny:</strong> {{ flat_data.legalStatus }}</p>
 {{/if}}
 
@@ -19,9 +19,9 @@
 </div>
     {{#if (convertToStr flats_gpt_data.legalStatusGPT)}}
         <p class="p-break">
-            <span class="gpt">Ocena GPT: {{flats_gpt_data.legalStatusGPT}}</span>
+            <span class="gpt ai-legalStatus-rate">Ocena GPT: {{flats_gpt_data.legalStatusGPT}}</span>
             <br />
-            <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.legalSummary}}</span>
+            <span class="gpt ai-legalStatus-summary">Podsumowanie modelu GPT: {{flats_gpt_data.legalSummary}}</span>
         </p>
     {{/if}}
 </div>

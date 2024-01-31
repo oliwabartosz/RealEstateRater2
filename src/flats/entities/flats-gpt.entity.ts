@@ -159,6 +159,12 @@ export class FlatsGPT {
     qualityGPT: number | null;
 
     @Column({
+        type: "text",
+        default: null,
+    })
+    qualitySummary: string | null;
+
+    @Column({
         type: "boolean",
         default: null,
     })

@@ -15,6 +15,14 @@
 </div>
 {{!-- end navigation --}}
 
+
+{{#if (equals flats_gpt_data.status true)}}
+<div id="navigation" class="d-flex justify-content-center align-items-center">
+    <button class="btn btn-gold" onclick="replaceWithAIAnswers()">Zastąp ocenami AI</button>
+</div>
+{{/if}}
+
+
 <p>
     <strong>Status w bazie:</strong>
     {{#if (equals flat_ans_data.rateStatus true)}}
@@ -55,6 +63,8 @@
         <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-gold btn-break">></button>
         <button onclick="postAnswer()" class="btn btn-darkblue btn-space">Zapisz i nast.</button>
     </div>
-<script src="/assets/js/delete-checkbox.js"></script>
-<script src="/assets/js/navigation.js"></script>
+
+<script src="/assets/js/single-record/take-gpt-answers.js"></script>
+<script src="/assets/js/single-record/delete-checkbox.js"></script>
+<script src="/assets/js/single-record/navigation.js"></script>
 
