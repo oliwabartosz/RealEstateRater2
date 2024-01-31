@@ -15,6 +15,16 @@ const replaceOneWithAIAnswer = (elementName) => {
 
 }
 
+const alwaysReplaceWithAIAnswers = () => {
+    document.getElementById('flexSwitchCheckDefault').addEventListener('change', function() {
+        if(this.checked) {
+            document.cookie = "alwaysAI=on; path=/; SameSite=Lax";
+        } else {
+            document.cookie = "alwaysAI=off; path=/; SameSite=Lax";
+        }
+    });
+}
+
 
 function checkRadioButton(rate, elementName) {
     let radios = document.getElementsByName(elementName);
@@ -33,3 +43,11 @@ function getValue(elementName) {
         }
 }
 
+window.onload = function() {
+    const cookies = document.cookie.split('; ');
+    const alwaysAI = cookies.find(row => row.startsWith('alwaysAI=')).split('=')[1];
+    if (alwaysAI === 'on') {
+        document.getElementById('flexSwitchCheckDefault').checked = true;
+        replaceAllWithAIAnswers();
+    }
+};
