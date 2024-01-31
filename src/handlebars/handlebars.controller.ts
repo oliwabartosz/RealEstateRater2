@@ -69,6 +69,22 @@ export class HandlebarsController {
         })
     }
 
+    @Get('/flats/quick-rate')
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
+    @UseFilters(NotLoggedInFilter)
+    async flatQuickRateList(
+        @Req() request: RequestWithUser,
+        @Res() res: Response,
+    ) {
+        return res.render('forms/quick-rate/flats-table.hbs', {
+            ...getDomainAndPort(),
+            ...getUserInfo(request),
+            flatsList: await this.handlebarsService.combineFlatsData(),
+        })
+    }
+
+
     @Get('/flats/:number')
     @UseGuards(RoleGuard(Role.User))
     @UseGuards(JwtAuthGuard)
@@ -98,6 +114,7 @@ export class HandlebarsController {
             lastNumber: await this.flatsService.getLastNumber(),
         });
     }
+
 
 
 }

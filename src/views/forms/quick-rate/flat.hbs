@@ -1,10 +1,6 @@
-<h1 class="mt-2 text-center">
-    {{flat_data.offerId}}
-    {{#if (equals flat_data.offerId flat_data.offerIdExpected)}}
-        ({{flat_data.offerIdExpected}})
-    {{ else }}
-        <span style="background-color:red;">({{flat_data.offerIdExpected}})</span>
-    {{/if}}</h1>
+<h1 class="mt-2 text-center" id="{{flat_data.id}}">{{flat_data.offerId}}</h1>
+<h2 class="mt-2 text-center" id="{{flat_data.flatNumber}}">Oferta #{{flat_data.flatNumber}}/{{lastNumber}}</h2>
+
 <h1 class="mt-2 text-center">Oferta #{{flat_data.number}}/{{ lastNumber }}</h1>
 {{!-- navigation --}}
 <div id="navigation" class="d-flex justify-content-center align-items-center">
