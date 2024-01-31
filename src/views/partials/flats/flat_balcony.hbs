@@ -19,7 +19,7 @@
 {{/if}}
 
 {{#if flat_data.balconyLemma}}
-    <p>Fragmenty: {{flat_data.balconyLemma}}</p>
+    <p style="font-style: italic;">Fragmenty: {{flat_data.balconyLemma}}</p>
 {{/if}}
 
 <div class="question">
@@ -34,7 +34,7 @@
     </div>
     {{#if (convertToStr flats_gpt_data.balconyGPT)}}
         <p class="p-break">
-            <span class="gpt ai-balcony-rate">Ocena GPT: {{flats_gpt_data.balconyGPT}}</span>
+            <a style="text-decoration: none;" role="button"><span class="gpt ai-balcony-rate" onclick="replaceOneWithAIAnswer('balcony')">Ocena GPT: {{flats_gpt_data.balconyGPT}}</span></a>
             <br />
             <span class="gpt ai-balcony-summary">Podsumowanie modelu GPT: {{flats_gpt_data.balconySummary}}</span>
         </p>

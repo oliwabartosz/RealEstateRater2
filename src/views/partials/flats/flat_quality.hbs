@@ -19,7 +19,9 @@
 
     {{#if (convertToStr flats_gpt_data.qualityGPT)}}
         <p class="p-break">
-            <span class="gpt ai-quality-rate">Ocena GPT: {{flats_gpt_data.qualityGPT}}</span>
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-quality-rate"  onclick="replaceOneWithAIAnswer('quality')">Ocena GPT: {{flats_gpt_data.qualityGPT}}</span>
+            </a>
             <br />
             <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.qualitySummary}}</span>
         </p>

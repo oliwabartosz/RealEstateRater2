@@ -12,7 +12,7 @@
 {{/if}}
 
 {{#if flat_data.basementLemma}}
-    <p>Fragmenty: {{flats_data.basementLemma}}</p>
+    <p style="font-style: italic;">Fragmenty: {{flats_data.basementLemma}}</p>
 {{/if}}
 
 
@@ -27,7 +27,9 @@
     </div>
     {{#if (convertToStr flats_gpt_data.basementGPT)}}
         <p class="p-break">
-            <span class="gpt ai-basement-rate">Ocena GPT: {{flats_gpt_data.basementGPT}}</span>
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-basement-rate" onclick="replaceOneWithAIAnswer('basement')">Ocena GPT: {{flats_gpt_data.basementGPT}}</span>
+            </a>
             <br />
             <span class="gpt ai-basement-summary">Podsumowanie modelu GPT: {{flats_gpt_data.basementSummary}}</span>
         </p>

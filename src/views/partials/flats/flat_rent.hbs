@@ -2,7 +2,7 @@
 <p><strong>Czynsz administracyjny:</strong> {{ flat_data.rent }}</p>
 
 {{#if flat_data.rentLemma}}
-    <p>Fragmenty: {{flat_data.rentLemma}}</p>
+    <p style="font-style: italic;">Fragmenty: {{flat_data.rentLemma}}</p>
 {{/if}}
 
 <div class="question">
@@ -15,7 +15,10 @@
     </div>
     {{#if (convertToStr flats_gpt_data.rentGPT)}}
         <p class="p-break">
-            <span class="gpt ai-rent-rate">Ocena GPT: {{flats_gpt_data.rentGPT}}</span>
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-rent-rate" onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{flats_gpt_data.rentGPT}}</span>
+            </a>
+
             <br />
             <span class="gpt ai-rent-summary">Podsumowanie modelu GPT: {{flats_gpt_data.rentSummary}}</span>
         </p>

@@ -4,7 +4,7 @@
 {{/if}}
 
 {{#if flat_data.kitchenLemma}}
-    <p>Fragmenty: {{ flat_data.kitchenLemma}}</p>
+    <p style="font-style: italic;">Fragmenty: {{ flat_data.kitchenLemma}}</p>
 {{/if}}
 
 
@@ -23,7 +23,10 @@
     </div>
     {{#if (convertToStr flats_gpt_data.kitchenGPT)}}
         <p class="p-break">
-            <span class="gpt ai-kitchen-rate">Ocena GPT: {{flats_gpt_data.kitchenGPT}}</span>
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-kitchen-rate" onclick="replaceOneWithAIAnswer('kitchen')">Ocena GPT: {{flats_gpt_data.kitchenGPT}}</span>
+            </a>
+
             <br />
             <span class="gpt ai-kitchen-summary">Podsumowanie modelu GPT: {{flats_gpt_data.kitchenSummary}}</span>
         </p>

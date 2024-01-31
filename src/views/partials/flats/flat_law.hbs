@@ -4,7 +4,7 @@
 {{/if}}
 
 {{#if flat_data.legalStatusLemma}}
-    <p>Fragmenty: {{ flat_data.legalStatusLemma }}</p>
+    <p style="font-style: italic;">Fragmenty: {{ flat_data.legalStatusLemma }}</p>
 {{/if}}
 
 
@@ -19,7 +19,10 @@
 </div>
     {{#if (convertToStr flats_gpt_data.legalStatusGPT)}}
         <p class="p-break">
-            <span class="gpt ai-legalStatus-rate">Ocena GPT: {{flats_gpt_data.legalStatusGPT}}</span>
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-legalStatus-rate" onclick="replaceOneWithAIAnswer('legalStatus')">Ocena GPT: {{flats_gpt_data.legalStatusGPT}}</span>
+            </a>
+
             <br />
             <span class="gpt ai-legalStatus-summary">Podsumowanie modelu GPT: {{flats_gpt_data.legalSummary}}</span>
         </p>

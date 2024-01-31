@@ -8,7 +8,7 @@
 {{/if}}
 
 {{#if flat_data.monitoringLemma}}
-    <p>Fragmenty: {{ flat_data.monitoringLemma }}</p>
+    <p style="font-style: italic;">Fragmenty: {{ flat_data.monitoringLemma }}</p>
 {{/if}}
 
 <div class="question">
@@ -22,7 +22,11 @@
     </div>
     {{#if (convertToStr flats_gpt_data.alarmGPT)}}
         <p class="p-break">
-            <span class="gpt ai-alarm-rate">Ocena GPT: {{flats_gpt_data.alarmGPT}}</span>
+
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-alarm-rate" onclick="replaceOneWithAIAnswer('alarm')">Ocena GPT: {{flats_gpt_data.alarmGPT}}</span>
+            </a>
+
             <br />
             <span class="gpt ai-alarm-summary">Podsumowanie modelu GPT: {{flats_gpt_data.alarmSummary}}</span>
         </p>

@@ -12,7 +12,7 @@
 {{/if}}
 
 {{#if flat_data.garageLemma}}
-    <p>Fragmenty: {{ flat_data.garageLemma }}</p>
+    <p style="font-style: italic;">Fragmenty: {{ flat_data.garageLemma }}</p>
 {{/if}}
 
 <div class="question">
@@ -26,7 +26,10 @@
     </div>
     {{#if (convertToStr flats_gpt_data.garageGPT)}}
         <p class="p-break">
-            <span class="gpt ai-garage-rate">Ocena GPT: {{flats_gpt_data.garageGPT}}</span>
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-garage-rate" onclick="replaceOneWithAIAnswer('garage')">Ocena GPT: {{flats_gpt_data.garageGPT}}</span>
+            </a>
+
             <br />
             <span class="gpt ai-garage-summary">Podsumowanie modelu GPT: {{flats_gpt_data.garageSummary}}</span>
         </p>

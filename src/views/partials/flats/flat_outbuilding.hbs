@@ -1,22 +1,29 @@
 <h4 class="h4-break">Oficyna</h4>
 
 {{#if flat_data.outbuildingLemma}}
-    <p>Fragmenty: {{ flat_data.outbuildingLemma }}</p>
+    <p style="font-style: italic;">Fragmenty: {{ flat_data.outbuildingLemma }}</p>
 {{/if}}
 
 <div class="question">
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" id="outbuilding_yes" name="outbuilding" value="1" {{#if (equals flat_ans_data.outbuildingAns 1)}}checked{{/if}} required>
+        <input class="form-check-input" type="radio" id="outbuilding_yes" name="outbuilding" value="1"
+               {{#if (equals flat_ans_data.outbuildingAns 1)}}checked{{/if}} required>
         <label class="form-check-label" for="outbuilding_yes">Tak</label>
     </div>
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" id="outbuilding_no" name="outbuilding" value="0" {{#if (equals flat_ans_data.outbuildingAns 0)}}checked{{/if}}>
+        <input class="form-check-input" type="radio" id="outbuilding_no" name="outbuilding" value="0"
+               {{#if (equals flat_ans_data.outbuildingAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="outbuilding_no">Nie</label>
     </div>
     {{#if (convertToStr flats_gpt_data.outbuildingGPT)}}
         <p class="p-break">
-            <span class="gpt ai-outbuilding-rate">Ocena GPT: {{flats_gpt_data.outbuildingGPT}}</span>
-            <br />
+
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-outbuilding-rate"
+                      onclick="replaceOneWithAIAnswer('outbuilding')">Ocena GPT: {{flats_gpt_data.outbuildingGPT}}</span>
+            </a>
+
+            <br/>
             <span class="gpt ai-outbuilding-summary">Podsumowanie modelu GPT: {{flats_gpt_data.outbuildingSummary}}</span>
         </p>
     {{/if}}

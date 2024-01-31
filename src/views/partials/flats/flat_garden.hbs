@@ -4,7 +4,7 @@
 {{/if}}
 
 {{#if flat_data.gardenLemma}}
-    <p>Fragmenty: {{ flat_data.gardenLemma }}</p>
+    <p style="font-style: italic;">Fragmenty: {{ flat_data.gardenLemma }}</p>
 {{/if}}
 
 <div class="question">
@@ -18,7 +18,10 @@
     </div>
     {{#if (convertToStr flats_gpt_data.gardenGPT)}}
         <p class="p-break">
-            <span class="gpt ai-garden-rate">Ocena GPT: {{flats_gpt_data.gardenGPT}}</span>
+           <p style="font-style: italic;">Fragmenty:
+                <span class="gpt ai-garden-rate" onclick="replaceOneWithAIAnswer('garden')">Ocena GPT: {{flats_gpt_data.gardenGPT}}</span>
+            </a>
+
             <br />
             <span class="gpt ai-garden-summary">Podsumowanie modelu GPT: {{flats_gpt_data.gardenSummary}}</span>
         </p>
