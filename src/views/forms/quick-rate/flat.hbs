@@ -1,15 +1,8 @@
-<h1 class="mt-2 text-center" id="{{flat_data.id}}">{{flat_data.offerId}}</h1>
-<h2 class="mt-2 text-center" id="{{flat_data.flatNumber}}">Oferta #{{flat_data.flatNumber}}/{{lastNumber}}</h2>
+{{> page/navbar }}
 
-<h1 class="mt-2 text-center">Oferta #{{flat_data.number}}/{{ lastNumber }}</h1>
+{{> flats/flat_header}}
 
-{{!-- navigation --}}
-<div id="navigation" class="d-flex justify-content-center align-items-center">
-    <button type="button" onclick="goToPreviousOffer({{flat_data.number}})" class="btn btn-outline-secondary btn-break"><</button>
-    <button type="button" onclick="goToNextOffer({{flat_data.number}})" class="btn btn-outline-secondary btn-break">></button>
-</div>
-{{!-- end navigation --}}
-
+{{> flats/flat_upper_nav}}
 
 <span><p><strong>Status w bazie: </strong></p></span>
 <span>{{flat_data.offerType}}</span>
@@ -19,17 +12,18 @@
 
     <h2>Dane techniczne</h2>
     {{>gallery}}
-    {{> flats/gpt/flat_technology}}
-    {{!-- @TODO: moderinization PUSTE should be ..., NIE DOTYCZY, PUSTE--}}
-    {{> flats/gpt/flat_modernization}}
-    {{> flats/gpt/flat_kitchen}}
-    {{> flats/gpt/flat_quality}}
-    {{> flats/gpt/flat_comments}}
+    {{> flats/flat_technology}}
+    {{> flats/flat_modernization}}
+    {{> flats/flat_balcony}}
+    {{> flats/flat_garden}}
+    {{> flats/flat_kitchen}}
+    {{> flats/flat_quality}}
     {{> flats/flat_delete}}
 
-    <button onclick="postAnswer()" class="btn btn-success">Zapisz i nast.</button>
+    <button onclick="postAnswerWithoutValidation()" class="btn btn-success">Zapisz i nast.</button>
 </form>
 
 <script src="/assets/js/fill-modernization-radio-button.js"></script>
-<script src="/assets/js/delete-checkbox.js"></script>
-<script src="/assets/js/navigation.js"></script>
+<script src="/assets/js/single-record/take-gpt-answers.js"></script>
+<script src="/assets/js/single-record/delete-checkbox.js"></script>
+<script src="/assets/js/single-record/navigation.js"></script>

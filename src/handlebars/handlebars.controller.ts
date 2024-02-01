@@ -115,6 +115,34 @@ export class HandlebarsController {
         });
     }
 
+    @Get('/flats/quick-rate/:number')
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
+    @UseFilters(NotLoggedInFilter)
+    async flatQuickRateProfile(
+        @Req() request: RequestWithUser,
+        @Res() res: Response,
+        @Param('number') number: number,
+    ) {
+
+        try {
+            await this.flatsService.getOneRecord(number);
+        } catch (err) {
+            return res.redirect('/flats/quick-rate/');
+        }
+
+        const flatData = await this.flatsService.getOneRecord(number)
+        const flatID = flatData.id
+
+        return res.render('forms/quick-rate/flat.hbs', {
+            ...getDomainAndPort(),
+            ...getUserInfo(request),
+            flat_data: flatData,
+            flat_ans_data: await this.flatsAnswersService.getOneRecordByID(flatID),
+            flats_gpt_data: await this.flatsGPTService.getOneRecordByID(flatID),
+            lastNumber: await this.flatsService.getLastNumber(),
+        });
+    }
 
 
 }

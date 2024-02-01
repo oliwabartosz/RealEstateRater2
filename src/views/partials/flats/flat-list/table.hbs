@@ -15,8 +15,8 @@
         </tr>
         {{#each flatsList}}
             <tr>
-                <td>{{this.flatNumber}}.</td>
-                <td><a class="rer-link" href="/flats/{{this.flatNumber}}">{{this.offerId}}</a></td>
+                <td>{{this.flatNumber}}</td>
+                <td><a class="rer-link" href="{{../url}}{{this.flatNumber}}">{{this.offerId}}</a></td>
                 <td>{{this.offerType}}</td>
                 <td>{{this.offerStatus}}</td>
                 <td>{{convertBoolToEmoji this.rateStatus}}</td>

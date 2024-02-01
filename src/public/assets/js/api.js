@@ -27,47 +27,9 @@ const sendLogin = async () => {
 };
 
 const postAnswer = async () => {
-    const currentYear = new Date().getFullYear()
     const currentID = document.querySelector('h1').id;
     const currentNumber = document.querySelector('h2').id;
-
-    function getSelectedValue(elementName) {
-        if (elementName === 'yearBuilt') {
-
-            const yearBuiltInput = document.querySelector('input[name="yearBuilt"]');
-            if (Number(yearBuiltInput.value) < 1700 || Number(yearBuiltInput.value) > currentYear) return {
-                value: null,
-                element: yearBuiltInput,
-                parentElement: yearBuiltInput.parentNode
-            };
-            return yearBuiltInput.value ? {value: yearBuiltInput.value, element: null} : {
-                value: null,
-                element: yearBuiltInput,
-                parentElement: yearBuiltInput.parentNode
-            };
-        } else if (elementName === 'rent') {
-
-                const rentInput = document.querySelector('input[name="rent"]');
-                if (Number(rentInput.value) < -9) return {
-                    value: null,
-                    element: rentInput,
-                    parentElement: rentInput.parentNode
-                };
-                return rentInput.value ? {value: rentInput.value, element: null} : {
-                    value: null,
-                    element: rentInput,
-                    parentElement: rentInput.parentNode
-                };
-        } else {
-            let radios = document.getElementsByName(elementName);
-            for (let i = 0; i < radios.length; i++) {
-                if (radios[i].checked) {
-                    return {value: radios[i].value, element: null};
-                }
-            }
-            return {value: null, element: radios[0], parentElement: radios[0].parentNode.parentNode};
-        }
-    }
+    const currentYear = new Date().getFullYear()
 
     const elements = ['yearBuilt', 'technology', 'legalStatus', 'balcony', 'elevator', 'basement', 'garage', 'garden', 'alarm', 'outbuilding', 'rent', 'modernization', 'kitchen', 'quality'];
     const answers = {};
@@ -126,6 +88,84 @@ const postAnswer = async () => {
     }
 
 }
+
+const postAnswerWithoutValidation = async () => {
+    const currentYear = new Date().getFullYear()
+    const currentID = document.querySelector('h1').id;
+    const currentNumber = document.querySelector('h2').id;
+
+
+    const elements = ['yearBuilt', 'technology', 'modernization', 'balcony', 'garden', 'kitchen', 'quality'];
+    const answers = {};
+
+    const deleteCheckbox = document.querySelector('input[name="delete"]');
+    const isDeleteChecked = deleteCheckbox && deleteCheckbox.checked;
+    answers.deleteAns = isDeleteChecked;
+
+    for (const element of elements) {
+        const result = await getSelectedValue(element);
+        alert(result.value)
+
+        answers[`${element}GPT`] = result.value ? Number(result.value) : null;
+        answers[`${element}Summary`] = result.value ? "Oceniono przez użytkownika." : null;
+    }
+
+
+    try {
+        const response = await fetch("http://localhost:3001/api/flats/quick-rate/", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({
+                flatID: currentID,
+                ...answers
+            }),
+        });
+        window.location.href = `./${Number(currentNumber) + 1}`
+    } catch (err) {
+        console.log("Something went wrong");
+    }
+}
+
+function getSelectedValue(elementName, currentYear = new Date().getFullYear()) {
+    if (elementName === 'yearBuilt') {
+
+        const yearBuiltInput = document.querySelector('input[name="yearBuilt"]');
+        if (Number(yearBuiltInput.value) < 1700 || Number(yearBuiltInput.value) > currentYear) return {
+            value: null,
+            element: yearBuiltInput,
+            parentElement: yearBuiltInput.parentNode
+        };
+        return yearBuiltInput.value ? {value: yearBuiltInput.value, element: null} : {
+            value: null,
+            element: yearBuiltInput,
+            parentElement: yearBuiltInput.parentNode
+        };
+    } else if (elementName === 'rent') {
+
+        const rentInput = document.querySelector('input[name="rent"]');
+        if (Number(rentInput.value) < -9) return {
+            value: null,
+            element: rentInput,
+            parentElement: rentInput.parentNode
+        };
+        return rentInput.value ? {value: rentInput.value, element: null} : {
+            value: null,
+            element: rentInput,
+            parentElement: rentInput.parentNode
+        };
+    } else {
+        let radios = document.getElementsByName(elementName);
+        for (let i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                return {value: radios[i].value, element: null};
+            }
+        }
+        return {value: null, element: radios[0], parentElement: radios[0].parentNode.parentNode};
+    }
+}
+
+
 const deleteRecords = async (realEstateType, ids) => {
     try {
         const response = await fetch(`http://localhost:3001/api/${realEstateType}/`, {

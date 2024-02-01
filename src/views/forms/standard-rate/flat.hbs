@@ -1,20 +1,8 @@
 {{> page/navbar }}
 
-<h1 class="mt-2 text-center" id="{{flat_data.id}}">{{flat_data.offerId}}</h1>
-<h2 class="mt-2 text-center" id="{{flat_data.flatNumber}}">Oferta #{{flat_data.flatNumber}}/{{lastNumber}}</h2>
+{{> flats/flat_header}}
 
-
-{{!-- navigation --}}
-<div id="navigation" class="d-flex justify-content-center align-items-center">
-    <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})"
-            class="btn btn-outline-gold btn-break"><
-    </button>
-    <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}}, {{lastNumber}})" class="btn btn-outline-gold btn-break">
-        >
-    </button>
-</div>
-{{!-- end navigation --}}
-
+{{> flats/flat_upper_nav}}
 
 {{#if (equals flats_gpt_data.status true)}}
 <div id="navigation" class="d-flex justify-content-center align-items-center">
@@ -68,6 +56,8 @@
         <button onclick="postAnswer()" class="btn btn-darkblue btn-space">Zapisz i nast.</button>
     </div>
 
+
+<script src="/assets/js/fill-modernization-radio-button.js"></script>
 <script src="/assets/js/single-record/take-gpt-answers.js"></script>
 <script src="/assets/js/single-record/delete-checkbox.js"></script>
 <script src="/assets/js/single-record/navigation.js"></script>
