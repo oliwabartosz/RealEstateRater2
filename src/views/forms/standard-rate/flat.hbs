@@ -49,13 +49,7 @@
     {{> flats/flat_comments}}
     {{> flats/flat_delete}}
 
-    <!--<button class="btn btn-success" onclick="postData(getData())">Zapisz i nast.</button>-->
-    <div class="d-flex justify-content-center align-items-center" id="navigation">
-        <button type="button" onclick="goToPreviousOffer({{flat_data.flatNumber}})" class="btn btn-outline-gold btn-break"><</button>
-        <button type="button" onclick="goToNextOffer({{flat_data.flatNumber}})" class="btn btn-outline-gold btn-break">></button>
-        <button onclick="postAnswer()" class="btn btn-darkblue btn-space">Zapisz i nast.</button>
-    </div>
-
+{{> flats/flat_send_button postFunction="postAnswer()"}}
 
 <script src="/assets/js/fill-modernization-radio-button.js"></script>
 <script src="/assets/js/single-record/take-gpt-answers.js"></script>

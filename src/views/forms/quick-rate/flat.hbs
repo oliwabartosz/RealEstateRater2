@@ -8,7 +8,6 @@
 <span>{{flat_data.offerType}}</span>
 <hr class="mt-0 mb-4">
 
-<form action="{{add flat_data.number 1}}" method="post">
 
     <h2>Dane techniczne</h2>
     {{>gallery}}
@@ -20,8 +19,8 @@
     {{> flats/flat_quality}}
     {{> flats/flat_delete}}
 
-    <button onclick="postAnswerWithoutValidation()" class="btn btn-success">Zapisz i nast.</button>
-</form>
+{{> flats/flat_send_button postFunction="postAnswerWithoutValidation()"}}
+
 
 <script src="/assets/js/fill-modernization-radio-button.js"></script>
 <script src="/assets/js/single-record/take-gpt-answers.js"></script>

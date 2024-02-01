@@ -97,17 +97,25 @@ const postAnswerWithoutValidation = async () => {
 
     const elements = ['yearBuilt', 'technology', 'modernization', 'balcony', 'garden', 'kitchen', 'quality'];
     const answers = {};
+    const answersAI = {};
 
     const deleteCheckbox = document.querySelector('input[name="delete"]');
     const isDeleteChecked = deleteCheckbox && deleteCheckbox.checked;
+
+
     answers.deleteAns = isDeleteChecked;
 
     for (const element of elements) {
         const result = await getSelectedValue(element);
-        alert(result.value)
 
-        answers[`${element}GPT`] = result.value ? Number(result.value) : null;
-        answers[`${element}Summary`] = result.value ? "Oceniono przez użytkownika." : null;
+        if (element !== 'yearBuilt') {
+        answersAI[`${element}GPT`] = result.value ? Number(result.value) : null;
+        answersAI[`${element}Summary`] = result.value ? "Oceniono przez użytkownika." : null;
+        answersAI['status'] = false;
+        answers[`${element}Ans`] = result.value ? Number(result.value) : null;
+    } else {
+            answers.yearBuiltAns = result.value ? Number(result.value) : null;
+        }
     }
 
 
@@ -118,9 +126,20 @@ const postAnswerWithoutValidation = async () => {
             credentials: 'include',
             body: JSON.stringify({
                 flatID: currentID,
+                ...answersAI
+            }),
+        });
+
+        const responseAnswers = await fetch("http://localhost:3001/api/flats/answers/", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({
+                flatID: currentID,
                 ...answers
             }),
         });
+
         window.location.href = `./${Number(currentNumber) + 1}`
     } catch (err) {
         console.log("Something went wrong");
