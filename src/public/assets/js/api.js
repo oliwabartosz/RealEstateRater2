@@ -45,6 +45,19 @@ const postAnswer = async () => {
                 element: yearBuiltInput,
                 parentElement: yearBuiltInput.parentNode
             };
+        } else if (elementName === 'rent') {
+
+                const rentInput = document.querySelector('input[name="rent"]');
+                if (Number(rentInput.value) < -9) return {
+                    value: null,
+                    element: rentInput,
+                    parentElement: rentInput.parentNode
+                };
+                return rentInput.value ? {value: rentInput.value, element: null} : {
+                    value: null,
+                    element: rentInput,
+                    parentElement: rentInput.parentNode
+                };
         } else {
             let radios = document.getElementsByName(elementName);
             for (let i = 0; i < radios.length; i++) {
@@ -56,7 +69,7 @@ const postAnswer = async () => {
         }
     }
 
-    const elements = ['yearBuilt', 'technology', 'legalStatus', 'balcony', 'elevator', 'basement', 'garage', 'garden', 'alarm', 'outbuilding', 'modernization', 'kitchen', 'quality'];
+    const elements = ['yearBuilt', 'technology', 'legalStatus', 'balcony', 'elevator', 'basement', 'garage', 'garden', 'alarm', 'outbuilding', 'rent', 'modernization', 'kitchen', 'quality'];
     const answers = {};
 
     const deleteCheckbox = document.querySelector('input[name="delete"]');
@@ -78,6 +91,8 @@ const postAnswer = async () => {
 
             if (element === 'yearBuilt') {
                 errorDiv.textContent = `❗ Nie podano roku budowy lub jest poza przedziałem lat 1700-${currentYear}`;
+            } else if (element === 'rent') {
+                errorDiv.textContent = `❗ Nie podano liczby lub wartość jest mniejsza od 0`;
             } else {
                 errorDiv.textContent = `❗ Nie wybrano odpowiedzi!`;
 
@@ -90,6 +105,10 @@ const postAnswer = async () => {
 
         answers[`${element}Ans`] = result.value ? Number(result.value) : null;
     }
+
+    const commentInput = document.querySelector('input[name="comments"]');
+    answers['commentsAns'] = commentInput.value ? commentInput.value : null;
+
 
     try {
         const response = await fetch("http://localhost:3001/api/flats/answers/", {

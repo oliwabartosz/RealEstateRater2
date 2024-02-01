@@ -1,7 +1,5 @@
 import {Inject, Injectable} from '@nestjs/common';
 import {FlatsAnswersService, FlatsGPTService, FlatsService} from "../flats/flats.service";
-
-import {RealEstateRecord} from "../interfaces/combined-data";
 import {FlatGPTRecord} from "../interfaces/flat-gpt-record";
 
 @Injectable()

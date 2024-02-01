@@ -10,16 +10,27 @@
         <div class="input-group-prepend">
             <span class="input-group-text">PLN</span>
         </div>
-        <input type="number" name="rent" class="form-control" placeholder="Wpisz wartość czynszu (opcjonalne)"
-               {{#if flat_ans_data.rentAns}}value="{{flat_ans_data.rentAns}}"{{/if}}>
+        <p>
+            <input type="number" name="rent" class="form-control" style="width: 200%; display: inline-block;"
+                   placeholder="Wpisz wartość czynszu (opcjonalne)"
+                {{#if flat_ans_data.rentAns}}
+                   value="{{flat_ans_data.rentAns}}"
+                {{else}}
+                    {{#if flat_data.rent}}
+                   value="{{flat_data.rent}}"
+                    {{else}}
+                   value="-9"
+                    {{/if}}{{/if}}>
+        </p>
     </div>
     {{#if (convertToStr flats_gpt_data.rentGPT)}}
         <p class="p-break">
             <a style="text-decoration: none;" role="button">
-                <span class="gpt ai-rent-rate" onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{flats_gpt_data.rentGPT}}</span>
+                <span class="gpt ai-rent-rate"
+                      onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{flats_gpt_data.rentGPT}}</span>
             </a>
 
-            <br />
+            <br/>
             <span class="gpt ai-rent-summary">Podsumowanie modelu GPT: {{flats_gpt_data.rentSummary}}</span>
         </p>
     {{/if}}
