@@ -2,6 +2,7 @@
 <h2 class="mt-2 text-center" id="{{flat_data.flatNumber}}">Oferta #{{flat_data.flatNumber}}/{{lastNumber}}</h2>
 
 <h1 class="mt-2 text-center">Oferta #{{flat_data.number}}/{{ lastNumber }}</h1>
+
 {{!-- navigation --}}
 <div id="navigation" class="d-flex justify-content-center align-items-center">
     <button type="button" onclick="goToPreviousOffer({{flat_data.number}})" class="btn btn-outline-secondary btn-break"><</button>
@@ -10,7 +11,7 @@
 {{!-- end navigation --}}
 
 
-<span><p><strong>Status w bazie: </strong></p></span>{{!-- polaczyc w bazie tabele --}}
+<span><p><strong>Status w bazie: </strong></p></span>
 <span>{{flat_data.offerType}}</span>
 <hr class="mt-0 mb-4">
 
@@ -28,6 +29,7 @@
 
     <button onclick="postAnswer()" class="btn btn-success">Zapisz i nast.</button>
 </form>
+
 <script src="/assets/js/fill-modernization-radio-button.js"></script>
 <script src="/assets/js/delete-checkbox.js"></script>
 <script src="/assets/js/navigation.js"></script>
