@@ -74,4 +74,8 @@ export class AddPlotAnswersDto {
     @IsBoolean()
     deleteAns: boolean;
 
+    @IsOptional()
+    @IsString()
+    rateStatus: string | null;
+
 }

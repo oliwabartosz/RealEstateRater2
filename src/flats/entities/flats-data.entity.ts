@@ -321,86 +321,98 @@ export class FlatsData {
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
     })
     description: string;
 
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
     })
     balconyLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     elevatorLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     basementLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     garageLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     gardenLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     modernizationLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     monitoringLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     legalStatusLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     kitchenLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     technologyLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     outbuildingLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     rentLemma: string;
 
     @Column({
         type: "text",
-        default: "",
+        default: null,
+
     })
     streetLemma: string;
 

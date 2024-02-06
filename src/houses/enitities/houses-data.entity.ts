@@ -303,55 +303,46 @@ export class HousesData {
 
     @Column({
         type: "text",
-        default: "",
     })
     description: string;
 
     @Column({
         type: "text",
-        default: "",
     })
     garageLemma: string;
 
     @Column({
         type: "text",
-        default: "",
     })
     modernizationLemma: string;
 
     @Column({
         type: "text",
-        default: "",
     })
     monitoringLemma: string;
 
     @Column({
         type: "text",
-        default: "",
     })
     legalStatusLemma: string;
 
     @Column({
         type: "text",
-        default: "",
     })
     buildingTypeLemma: string;
 
     @Column({
         type: "text",
-        default: "",
     })
     kitchenLemma: string;
 
     @Column({
         type: "text",
-        default: "",
     })
     bathroomLemma: string;
 
     @Column({
         type: "text",
-        default: "",
     })
     streetLemma: string;
 

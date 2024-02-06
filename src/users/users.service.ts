@@ -17,7 +17,6 @@ export class UsersService {
             where: {email}
         });
 
-        console.log("USER:::::::", user)
 
         if (user) {
             return user;

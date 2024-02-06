@@ -7,8 +7,9 @@ import {NestExpressApplication} from '@nestjs/platform-express';
 import helmet from "helmet";
 import cookieParser from 'cookie-parser';
 import hbs from 'express-handlebars';
-import { resolve } from 'path';
+import path, { resolve } from 'path';
 import {handlebarsHelpers} from "./handlebars/helpers/handlebarsHelpers";
+import express from 'express';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -32,6 +33,8 @@ async function bootstrap() {
 
     // hbs
     app.useStaticAssets(resolve('./src/public'));
+    // Serve static files from the /public directory
+    app.use('/public', express.static(path.join(process.cwd(), 'src/public')));
     app.setBaseViewsDir(resolve('./src/views'));
     app.engine('hbs', hbs({ extname: 'hbs', helpers: handlebarsHelpers }));
     app.setViewEngine('hbs');

@@ -54,4 +54,8 @@ export class AddHouseAnswersDto {
     @IsBoolean()
     deleteAns: boolean;
 
+    @IsOptional()
+    @IsString()
+    rateStatus: string | null;
+
 }

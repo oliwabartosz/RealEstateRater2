@@ -103,10 +103,12 @@ export class FlatsAnswers {
     })
     deleteAns: boolean | number | null;
 
+
     @Column({
-        type: "boolean",
+        length: 5,
+        type: "varchar",
     })
-    rateStatus: boolean | number;
+    rateStatus: string;
 
     @Column({
         length: 10,
