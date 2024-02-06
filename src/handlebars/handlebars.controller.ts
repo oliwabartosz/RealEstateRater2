@@ -6,9 +6,8 @@ import {Role} from "../interfaces/roles";
 import JwtAuthGuard from "../guards/jwt-auth.guard";
 import {NotLoggedInFilter} from "../filters/not-logged-in.filter";
 import {FlatsAnswersService, FlatsGPTService, FlatsService} from "../flats/flats.service";
-import {getDomainAndPort, getUserInfo} from "./utils/render-options";
+import {getDomainAndPort, getUserInfo, getImagesFromDirectory} from "./utils/render-options";
 import {HandlebarsService} from "./handlebars.service";
-import { getFilesFromDirectory } from './utils/get-images-list';
 import path from 'path';
 
 @Controller('/')
@@ -106,9 +105,9 @@ export class HandlebarsController {
 
         const flatData = await this.flatsService.getOneRecord(number)
         const flatID = flatData.id
-        console.log(flatData.offerId)
+
         const imagesDir = path.join(process.cwd(), 'src/public/images/offers', flatData.offerId);
-        const images = await getFilesFromDirectory(imagesDir);
+        const images = await getImagesFromDirectory(imagesDir);
         const imageUrls = images.map(image => `${flatData.offerId}/${image}`);
         
 
@@ -141,6 +140,10 @@ export class HandlebarsController {
 
         const flatData = await this.flatsService.getOneRecord(number)
         const flatID = flatData.id
+        const imagesDir = path.join(process.cwd(), 'src/public/images/offers', flatData.offerId);
+        const images = await getImagesFromDirectory(imagesDir);
+        const imageUrls = images.map(image => `${flatData.offerId}/${image}`);
+        
 
         return res.render('forms/quick-rate/flat.hbs', {
             ...getDomainAndPort(),
@@ -149,6 +152,7 @@ export class HandlebarsController {
             flat_ans_data: await this.flatsAnswersService.getOneRecordByID(flatID),
             flats_gpt_data: await this.flatsGPTService.getOneRecordByID(flatID),
             lastNumber: await this.flatsService.getLastNumber(),
+            images: imageUrls,
         });
     }
 

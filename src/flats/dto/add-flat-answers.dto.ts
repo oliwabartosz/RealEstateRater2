@@ -70,4 +70,8 @@ export class AddFlatAnswersDto {
     @IsBoolean()
     deleteAns: boolean | null;
 
+    @IsOptional()
+    @IsString()
+    rateStatus: string | null;
+
 }
