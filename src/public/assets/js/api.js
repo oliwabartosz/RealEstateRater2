@@ -70,6 +70,7 @@ const postAnswer = async () => {
 
     const commentInput = document.querySelector('input[name="comments"]');
     answers['commentsAns'] = commentInput.value ? commentInput.value : null;
+    answers['rateStatus'] = 'yes';
 
 
     try {
@@ -104,6 +105,8 @@ const postAnswerWithoutValidation = async () => {
 
 
     answers.deleteAns = isDeleteChecked;
+    answers.rateStatus = 'part';
+
 
     for (const element of elements) {
         const result = await getSelectedValue(element);
@@ -117,6 +120,7 @@ const postAnswerWithoutValidation = async () => {
             answers.yearBuiltAns = result.value ? Number(result.value) : null;
         }
     }
+
 
 
     try {
