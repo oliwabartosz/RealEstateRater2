@@ -6,6 +6,9 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {FlatsData} from "../flats/entities/flats-data.entity";
 import {FlatsAnswers} from "../flats/entities/flats-answers.entity";
 import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
+import { HousesAnswers } from 'src/houses/entities/houses-answers.entity';
+import { HousesData } from 'src/houses/entities/houses-data.entity';
+import { HousesAnswersService, HousesService } from '../houses/houses.service';
 
 
 @Module({
@@ -13,6 +16,8 @@ import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
         FlatsData,
         FlatsAnswers,
         FlatsGPT,
+        HousesData,
+        HousesAnswers,
     ])],
     controllers: [
         HandlebarsController
@@ -21,7 +26,9 @@ import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
         HandlebarsService,
         FlatsService,
         FlatsAnswersService,
-        FlatsGPTService
+        FlatsGPTService,
+        HousesService,
+        HousesAnswersService
     ],
     exports: [
         HandlebarsService,

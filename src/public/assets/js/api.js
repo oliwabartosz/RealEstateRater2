@@ -26,12 +26,12 @@ const sendLogin = async () => {
     }
 };
 
-const postAnswer = async () => {
+const postAnswer = async (elements, realEstateType) => {
     const currentID = document.querySelector('h1').id;
     const currentNumber = document.querySelector('h2').id;
     const currentYear = new Date().getFullYear()
+    const mainURL = window.location.origin;
 
-    const elements = ['yearBuilt', 'technology', 'legalStatus', 'balcony', 'elevator', 'basement', 'garage', 'garden', 'alarm', 'outbuilding', 'rent', 'modernization', 'kitchen', 'quality'];
     const answers = {};
 
     const deleteCheckbox = document.querySelector('input[name="delete"]');
@@ -53,7 +53,7 @@ const postAnswer = async () => {
 
             if (element === 'yearBuilt') {
                 errorDiv.textContent = `❗ Nie podano roku budowy lub jest poza przedziałem lat 1700-${currentYear}`;
-            } else if (element === 'rent') {
+            } else if (element === 'rent' || element === 'bathNumber') {
                 errorDiv.textContent = `❗ Nie podano liczby lub wartość jest mniejsza od 0`;
             } else {
                 errorDiv.textContent = `❗ Nie wybrano odpowiedzi!`;
@@ -72,20 +72,29 @@ const postAnswer = async () => {
     answers['commentsAns'] = commentInput.value ? commentInput.value : null;
     answers['rateStatus'] = 'yes';
 
+    let id;
+
+    if (realEstateType === 'flats') {
+        id = {flatID: currentID};
+    } else if (realEstateType === 'houses') {
+        id = {houseID: currentID};
+    } else {
+        id = {plotID: currentID};
+    }
 
     try {
-        const response = await fetch("http://localhost:3001/api/flats/answers/", {
+        const response = await fetch(`${mainURL}/api/${realEstateType}/answers/`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             credentials: 'include',
             body: JSON.stringify({
-                flatID: currentID,
+                ...id,
                 ...answers
             }),
         });
         window.location.href = `./${Number(currentNumber) + 1}`
     } catch (err) {
-        console.log("Something went wrong");
+        console.log("Something went wrong", err);
     }
 
 }
@@ -167,7 +176,7 @@ function getSelectedValue(elementName, currentYear = new Date().getFullYear()) {
     } else if (elementName === 'rent') {
 
         const rentInput = document.querySelector('input[name="rent"]');
-        if (Number(rentInput.value) < -9) return {
+        if (Number(rentInput.value) !== -9 || Number(rentInput.value) < 0) return {
             value: null,
             element: rentInput,
             parentElement: rentInput.parentNode
@@ -177,6 +186,23 @@ function getSelectedValue(elementName, currentYear = new Date().getFullYear()) {
             element: rentInput,
             parentElement: rentInput.parentNode
         };
+
+    } else if (elementName === 'bathNumber') {
+
+        const bathsNumberInput = document.querySelector('input[name="bathNumber"]');
+        if (Number(bathsNumberInput.value) < 0) return {
+            value: null,
+            element: bathsNumberInput,
+            parentElement: bathsNumberInput.parentNode
+        };
+        return bathsNumberInput.value ? {value: bathsNumberInput.value, element: null} : {
+            value: null,
+            element: bathsNumberInput,
+            parentElement: bathsNumberInput.parentNode
+        };
+
+    
+
     } else {
         let radios = document.getElementsByName(elementName);
         for (let i = 0; i < radios.length; i++) {

@@ -1,6 +1,8 @@
 import {Inject, Injectable} from '@nestjs/common';
 import {FlatsAnswersService, FlatsGPTService, FlatsService} from "../flats/flats.service";
 import {FlatGPTRecord} from "../interfaces/flat-gpt-record";
+import { HousesAnswersService, HousesService } from 'src/houses/houses.service';
+import { HouseRecord } from 'src/interfaces/house-record';
 
 @Injectable()
 export class HandlebarsService {
@@ -8,6 +10,8 @@ export class HandlebarsService {
         @Inject(FlatsService) private flatsService: FlatsService,
         @Inject(FlatsAnswersService) private flatsAnswerService: FlatsAnswersService,
         @Inject(FlatsGPTService) private flatsGPTService: FlatsGPTService,
+        @Inject(HousesService) private housesService: HousesService,
+        @Inject(HousesAnswersService) private housesAnswerService: HousesAnswersService,
     ) {
     }
 
@@ -29,6 +33,29 @@ export class HandlebarsService {
                 offerStatus: item.offerStatus,
                 rateStatus: answersRecord ? answersRecord.rateStatus : false,
                 status: gptRecord ? gptRecord.status : false,
+                user: answersRecord ? answersRecord.user: false,
+                delete: answersRecord ? answersRecord.deleteAns: false,
+            }
+        });
+    }
+
+    async combineHousesData() {
+
+        const scrapedData = await this.housesService.getAllRecords();
+        const answersData = await this.housesAnswerService.getAllAnswersRecords();
+
+
+        return scrapedData.map((item) => {
+            const answersRecord = answersData.find((record) => record.houseID === item.id);
+    
+
+            return {
+                id: item.id,
+                houseNumber: item.houseNumber,
+                offerId: item.offerId,
+                offerType: item.offerType,
+                offerStatus: item.offerStatus,
+                rateStatus: answersRecord ? answersRecord.rateStatus : false,
                 user: answersRecord ? answersRecord.user: false,
                 delete: answersRecord ? answersRecord.deleteAns: false,
             }

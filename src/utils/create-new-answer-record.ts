@@ -1,5 +1,5 @@
 import {AddHouseAnswersDto} from "../houses/dto/add-house-answers.dto";
-import {HousesAnswers} from "../houses/enitities/houses-answers.entity";
+import {HousesAnswers} from "../houses/entities/houses-answers.entity";
 import {HttpException, HttpStatus} from "@nestjs/common";
 import {Repository} from "typeorm";
 import {FlatsAnswers} from "../flats/entities/flats-answers.entity";

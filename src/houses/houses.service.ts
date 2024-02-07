@@ -1,8 +1,8 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {DeleteResult, Repository} from "typeorm";
-import {HousesData} from "./enitities/houses-data.entity";
-import {HousesAnswers} from "./enitities/houses-answers.entity";
+import {HousesData} from "./entities/houses-data.entity";
+import {HousesAnswers} from "./entities/houses-answers.entity";
 import {HouseListResponse} from "../interfaces/house-record";
 import {CreateHouseDto} from "./dto/create-house.dto";
 import {AddHouseAnswersDto} from "./dto/add-house-answers.dto";
@@ -26,6 +26,7 @@ export class HousesService {
 
         });
     }
+    
 
     public async getAllRecordsIDs(): Promise<HouseListResponse> {
         return await this.houseDataRepository.find({
@@ -72,6 +73,16 @@ export class HousesAnswersService {
         @InjectRepository(HousesAnswers) private houseAnswersRepository: Repository<HousesAnswers>,
         private houseService: HousesService,
     ) {
+    }
+
+    public async getAllAnswersRecords(): Promise<HousesAnswers[]> {
+        return await this.houseAnswersRepository.find({
+            select: ["houseID", "rateStatus", "user", "deleteAns"]
+        });
+    }
+
+    public async getOneRecordByID(houseID: string): Promise<HousesAnswers> {
+        return await this.houseAnswersRepository.findOne({where: {houseID}});
     }
 
     public async createOrUpdateAnswer(recordID: string, user: string, dto: AddHouseAnswersDto): Promise<HousesAnswers> {

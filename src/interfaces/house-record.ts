@@ -1,5 +1,6 @@
 
 export interface HouseRecord {
+    houseNumber: number;
     id?: string;
     market?: string;
     offerId: string;

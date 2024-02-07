@@ -8,7 +8,9 @@ import {NotLoggedInFilter} from "../filters/not-logged-in.filter";
 import {FlatsAnswersService, FlatsGPTService, FlatsService} from "../flats/flats.service";
 import {getDomainAndPort, getUserInfo, getImagesFromDirectory} from "./utils/render-options";
 import {HandlebarsService} from "./handlebars.service";
+import { HousesAnswersService, HousesService } from 'src/houses/houses.service';
 import path from 'path';
+
 
 @Controller('/')
 export class HandlebarsController {
@@ -17,6 +19,8 @@ export class HandlebarsController {
         private flatsService: FlatsService,
         private flatsAnswersService: FlatsAnswersService,
         private flatsGPTService: FlatsGPTService,
+        private housesService: HousesService,
+        private housesAnswersService: HousesAnswersService,
     ) {
     }
 
@@ -107,8 +111,8 @@ export class HandlebarsController {
         const flatID = flatData.id
 
         const imagesDir = path.join(process.cwd(), 'src/public/images/offers', flatData.offerId);
-        const images = await getImagesFromDirectory(imagesDir);
-        const imageUrls = images.map(image => `${flatData.offerId}/${image}`);
+        const imageFiles = await getImagesFromDirectory(imagesDir);
+ 
         
 
         return res.render('forms/standard-rate/flat.hbs', {
@@ -118,7 +122,7 @@ export class HandlebarsController {
             flat_ans_data: await this.flatsAnswersService.getOneRecordByID(flatID),
             flats_gpt_data: await this.flatsGPTService.getOneRecordByID(flatID),
             lastNumber: await this.flatsService.getLastNumber(),
-            images: imageUrls,
+            images: imageFiles ? imageFiles.map(image => `${flatData.offerId}/${image}`) : [],
         });
     }
 
@@ -152,6 +156,108 @@ export class HandlebarsController {
             flat_ans_data: await this.flatsAnswersService.getOneRecordByID(flatID),
             flats_gpt_data: await this.flatsGPTService.getOneRecordByID(flatID),
             lastNumber: await this.flatsService.getLastNumber(),
+            images: imageUrls,
+        });
+    }
+
+
+    // ------------------------------------------------------------------
+    // -----------------------------HOUSES-------------------------------
+    // ------------------------------------------------------------------
+    
+    @Get('/houses/')
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
+    @UseFilters(NotLoggedInFilter)
+    async houseList(
+        @Req() request: RequestWithUser,
+        @Res() res: Response,
+    ) {
+        return res.render('forms/standard-rate/houses-table.hbs', {
+            ...getDomainAndPort(),
+            ...getUserInfo(request),
+            housesList: await this.handlebarsService.combineHousesData(),
+        })
+    }
+
+    @Get('/houses/quick-rate')
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
+    @UseFilters(NotLoggedInFilter)
+    async houseQuickRateList(
+        @Req() request: RequestWithUser,
+        @Res() res: Response,
+    ) {
+        return res.render('forms/quick-rate/houses-table.hbs', {
+            ...getDomainAndPort(),
+            ...getUserInfo(request),
+            housesList: await this.handlebarsService.combineHousesData(),
+        })
+    }
+
+
+    @Get('/houses/:number')
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
+    @UseFilters(NotLoggedInFilter)
+    async houseProfile(
+        @Req() request: RequestWithUser,
+        @Res() res: Response,
+        @Param('number') number: number,
+    ) {
+
+        // Checks if house exists
+        try {
+            await this.housesService.getOneRecord(number);
+        } catch (err) {
+            return res.redirect('/houses/');
+        }
+
+        const houseData = await this.housesService.getOneRecord(number)
+        const houseID = houseData.id
+
+        const imagesDir = path.join(process.cwd(), 'src/public/images/offers', houseData.offerId);
+        const imageFiles = await getImagesFromDirectory(imagesDir);
+      
+        return res.render('forms/standard-rate/house.hbs', {
+            ...getDomainAndPort(),
+            ...getUserInfo(request),
+            house_data: houseData,
+            house_ans_data: await this.housesAnswersService.getOneRecordByID(houseID),
+            lastNumber: await this.housesService.getLastNumber(),
+            images: imageFiles ? imageFiles.map(image => `${houseData.offerId}/${image}`) : [],
+        });
+    }
+
+    @Get('/houses/quick-rate/:number')
+    @UseGuards(RoleGuard(Role.User))
+    @UseGuards(JwtAuthGuard)
+    @UseFilters(NotLoggedInFilter)
+    async housesQuickRateProfile(
+        @Req() request: RequestWithUser,
+        @Res() res: Response,
+        @Param('number') number: number,
+    ) {
+
+        try {
+            await this.housesService.getOneRecord(number);
+        } catch (err) {
+            return res.redirect('/houses/quick-rate/');
+        }
+
+        const houseData = await this.housesService.getOneRecord(number)
+        const houseID = houseData.id
+        const imagesDir = path.join(process.cwd(), 'src/public/images/offers', houseData.offerId);
+        const images = await getImagesFromDirectory(imagesDir);
+        const imageUrls = images.map(image => `${houseData.offerId}/${image}`);
+        
+
+        return res.render('forms/quick-rate/house.hbs', {
+            ...getDomainAndPort(),
+            ...getUserInfo(request),
+            house_data: houseData,
+            house_ans_data: await this.housesAnswersService.getOneRecordByID(houseID),
+            lastNumber: await this.housesService.getLastNumber(),
             images: imageUrls,
         });
     }
