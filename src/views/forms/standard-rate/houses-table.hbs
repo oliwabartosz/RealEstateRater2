@@ -1,0 +1,20 @@
+{{> page/navbar }}
+<h2 class="h2-break">🏠 Lista domów</h2>
+<div><a class="rer-link" style="font-size: 14px;" href="./houses/quick-rate">⏩ Quick Rate</a></div>
+<hr class="mt-0 mb-4">
+
+<div class="text-center">
+    {{#if (equals userRole "Admin")}}
+        <div class="col-md-12 text-end" style="margin-bottom: 10px">
+            {{!-- <button class="btn btn-gold btn-space-list">Oceń zaznaczone (GPT)</button> --}}
+            <button class="btn btn-red btn-space-list" onclick="deleteRecords('flats', selectedRecordsIDs())">Usuń
+                zaznaczone
+            </button>
+        </div>
+    {{/if}}
+
+    {{> common/records-list/table url="/houses/"}}
+    
+</div>
+
+{{> common/records-list/scripts}}

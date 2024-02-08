@@ -1,0 +1,54 @@
+{{> page/navbar }}
+
+{{> houses/house_header}}
+
+{{> houses/house_upper_nav}}
+
+{{!-- {{#if (equals houses_gpt_data.status true)}} --}}
+{{!-- <div id="navigation" class="d-flex justify-content-center align-items-center"> --}}
+    {{!-- <button class="btn btn-gold" onclick="replaceAllWithAIAnswers()">Zastąp ocenami AI</button> --}}
+{{!-- </div> --}}
+{{!-- <div class="form-check form-switch"> --}}
+    {{!-- <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onclick="alwaysReplaceWithAIAnswers()"> --}}
+    {{!-- <label class="form-check-label" for="flexSwitchCheckDefault">Zawsze zaznaczaj oceny AI</label> --}}
+{{!-- </div> --}}
+{{!-- {{/if}} --}}
+
+
+<p>
+    <strong>Status w bazie:</strong>
+    {{#if (equals house_ans_data.rateStatus 'yes')}}
+        {{convertRateStatusToEmoji house_ans_data.rateStatus}}
+            Oceniono przez użytkownika 👤 <span style="color:#152e52;"> {{house_ans_data.user}}</span>
+    {{else}}
+        {{convertRateStatusToEmoji house_ans_data.rateStatus}}
+        Wymaga oceny
+    {{/if}}
+
+</p>
+<hr class="mt-0 mb-4">
+
+<h2 class="h2-break">Opis oferty</h2>
+{{> houses/house_description}}
+
+    <h2 class="h2-break">Dane techniczne</h2>
+    {{> houses/house_technology}}
+    {{> houses/house_law}}
+    {{> houses/house_type}}
+    {{> houses/house_garage}}
+    {{> houses/house_monitoring}}
+    {{> houses/house_bathrooms}}
+    {{> gallery}}
+    {{> houses/house_modernization}}
+    {{> houses/house_kitchen}}
+    {{> houses/house_quality}}
+    {{> houses/house_comments}}
+    {{> houses/house_delete}}
+
+{{> houses/house_send_button postFunction="postAnswer(['yearBuilt', 'technology', 'legalStatus', 'houseType', 'garage', 'alarm', 'bathNumber', 'modernization', 'kitchen', 'quality'], 'houses')"}}
+
+<script src="/assets/js/fill-modernization-radio-button.js"></script>
+<script src="/assets/js/single-record/take-gpt-answers.js"></script>
+<script src="/assets/js/single-record/delete-checkbox.js"></script>
+<script src="/assets/js/single-record/navigation.js"></script>
+

@@ -1,0 +1,38 @@
+<h4 class="h4-break">Garaż/Miejsca parkingowe</h4>
+{{#if house_data.parkingPlace}}
+    <p><strong>Garaż/Miejsca parkingowe:</strong> {{ house_data.parkingPlace }}</p>
+{{/if}}
+
+{{#if house_data.priceParkingUnderground}}
+    <p><strong>Cena za parking podziemny (miejsce):</strong> {{ house_data.priceParkingUnderground }}</p>
+{{/if}}
+
+{{#if house_data.priceParkingGround}}
+    <p><strong>Cena za parking (miejsce):</strong> {{ house_data.priceParkingGround }}</p>
+{{/if}}
+
+{{#if house_data.garageLemma}}
+    <p style="font-style: italic;">Fragmenty: {{ house_data.garageLemma }}</p>
+{{/if}}
+
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="garage_yes" name="garage" value="1" {{#if (equals house_ans_data.garageAns 1)}}checked{{/if}} required>
+        <label class="form-check-label" for="garage_yes">Tak</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="garage_no" name="garage" value="0" {{#if (equals house_ans_data.garageAns 0)}}checked{{/if}}>
+        <label class="form-check-label" for="garage_no">Nie</label>
+    </div>
+    {{#if (houses_gpt_data.garageGPT)}}
+        <p class="p-break">
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-garage-rate" onclick="replaceOneWithAIAnswer('garage')">Ocena GPT: {{houses_gpt_data.garageGPT}}</span>
+            </a>
+
+            <br />
+            <span class="gpt ai-garage-summary">Podsumowanie modelu GPT: {{houses_gpt_data.garageSummary}}</span>
+        </p>
+    {{/if}}
+</div>
+<hr class="mt-0 mb-4">

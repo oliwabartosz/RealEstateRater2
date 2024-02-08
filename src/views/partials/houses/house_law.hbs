@@ -1,0 +1,31 @@
+<h4 class="h4-break">Prawo do budynku</h4>
+{{#if house_data.legalStatus}}
+    <p><strong>Stan prawny:</strong> {{ house_data.legalStatus }}</p>
+{{/if}}
+
+{{#if house_data.legalStatusLemma}}
+    <p style="font-style: italic;">Fragmenty: {{ house_data.legalStatusLemma }}</p>
+{{/if}}
+
+
+<div class="question">
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="legal_status_1" name="legalStatus" value="1" {{#if (equals house_ans_data.legalStatusAns 1)}}checked{{/if}} required>
+    <label class="form-check-label" for="legal_status_1">Własnościowe</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="legal_status_2" name="legalStatus" value="2" {{#if (equals house_ans_data.legalStatusAns 2)}}checked{{/if}}>
+    <label class="form-check-label" for="legal_status_2">Spółdzielcze</label>
+</div>
+    {{#if (houses_gpt_data.legalStatusGPT)}}
+        <p class="p-break">
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-legalStatus-rate" onclick="replaceOneWithAIAnswer('legalStatus')">Ocena GPT: {{houses_gpt_data.legalStatusGPT}}</span>
+            </a>
+
+            <br />
+            <span class="gpt ai-legalStatus-summary">Podsumowanie modelu GPT: {{houses_gpt_data.legalSummary}}</span>
+        </p>
+    {{/if}}
+</div>
+<hr class="mt-0 mb-4">

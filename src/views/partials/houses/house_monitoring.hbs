@@ -1,0 +1,35 @@
+<h4 class="h4-break">Infrastruktura alarmowa</h4>
+{{#if house_data.monitoring}}
+    <p><strong>Monitoring:</strong> {{ house_data.monitoring }}</p>
+{{/if}}
+
+{{#if house_data.guardedEstate}}
+    <p><strong>Osiedle strzeżone:</strong> {{ house_data.guardedEstate }}</p>
+{{/if}}
+
+{{#if house_data.monitoringLemma}}
+    <p style="font-style: italic;">Fragmenty: {{ house_data.monitoringLemma }}</p>
+{{/if}}
+
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="alarm_yes" name="alarm" value="1" {{#if (equals house_ans_data.alarmAns 1)}}checked{{/if}} required>
+        <label class="form-check-label" for="alarm_yes">Tak</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="alarm_no" name="alarm" value="0" {{#if (equals house_ans_data.alarmAns 0)}}checked{{/if}}>
+        <label class="form-check-label" for="alarm_no">Nie</label>
+    </div>
+    {{#if (houses_gpt_data.alarmGPT)}}
+        <p class="p-break">
+
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-alarm-rate" onclick="replaceOneWithAIAnswer('alarm')">Ocena GPT: {{houses_gpt_data.alarmGPT}}</span>
+            </a>
+
+            <br />
+            <span class="gpt ai-alarm-summary">Podsumowanie modelu GPT: {{houses_gpt_data.alarmSummary}}</span>
+        </p>
+    {{/if}}
+</div>
+<hr class="mt-0 mb-4">

@@ -1,3 +1,5 @@
+const DOMAIN = window.location.origin;
+
 const sendLogin = async () => {
     hideError();
 
@@ -5,7 +7,7 @@ const sendLogin = async () => {
     const password = document.getElementById('password').value;
 
     try {
-        const response = await fetch("http://localhost:3001/api/auth/login", {
+        const response = await fetch(`${DOMAIN}/api/auth/login`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             credentials: 'include',
@@ -104,7 +106,6 @@ const postAnswerWithoutValidation = async () => {
     const currentID = document.querySelector('h1').id;
     const currentNumber = document.querySelector('h2').id;
 
-
     const elements = ['yearBuilt', 'technology', 'modernization', 'balcony', 'garden', 'kitchen', 'quality'];
     const answers = {};
     const answersAI = {};
@@ -112,10 +113,8 @@ const postAnswerWithoutValidation = async () => {
     const deleteCheckbox = document.querySelector('input[name="delete"]');
     const isDeleteChecked = deleteCheckbox && deleteCheckbox.checked;
 
-
     answers.deleteAns = isDeleteChecked;
     answers.rateStatus = 'part';
-
 
     for (const element of elements) {
         const result = await getSelectedValue(element);
@@ -130,10 +129,8 @@ const postAnswerWithoutValidation = async () => {
         }
     }
 
-
-
     try {
-        const response = await fetch("http://localhost:3001/api/flats/quick-rate/", {
+        const response = await fetch(`${DOMAIN}/api/flats/quick-rate/`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             credentials: 'include',
@@ -143,7 +140,7 @@ const postAnswerWithoutValidation = async () => {
             }),
         });
 
-        const responseAnswers = await fetch("http://localhost:3001/api/flats/answers/", {
+        const responseAnswers = await fetch(`${DOMAIN}/api/flats/answers/`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             credentials: 'include',
@@ -176,12 +173,16 @@ function getSelectedValue(elementName, currentYear = new Date().getFullYear()) {
     } else if (elementName === 'rent') {
 
         const rentInput = document.querySelector('input[name="rent"]');
-        if (Number(rentInput.value) !== -9 || Number(rentInput.value) < 0) return {
+        if (Number(rentInput.value) === -9) return { value: rentInput.value, element: null }
+      
+        if (Number(rentInput.value) < 0) return {
             value: null,
             element: rentInput,
             parentElement: rentInput.parentNode
         };
-        return rentInput.value ? {value: rentInput.value, element: null} : {
+
+
+        return rentInput.value ? { value: rentInput.value, element: null } : {
             value: null,
             element: rentInput,
             parentElement: rentInput.parentNode
@@ -190,19 +191,20 @@ function getSelectedValue(elementName, currentYear = new Date().getFullYear()) {
     } else if (elementName === 'bathNumber') {
 
         const bathsNumberInput = document.querySelector('input[name="bathNumber"]');
+        if (Number(bathsNumberInput.value) === -9) return { value: bathsNumberInput.value, element: null }
+
         if (Number(bathsNumberInput.value) < 0) return {
             value: null,
             element: bathsNumberInput,
             parentElement: bathsNumberInput.parentNode
         };
+
         return bathsNumberInput.value ? {value: bathsNumberInput.value, element: null} : {
             value: null,
             element: bathsNumberInput,
             parentElement: bathsNumberInput.parentNode
         };
-
     
-
     } else {
         let radios = document.getElementsByName(elementName);
         for (let i = 0; i < radios.length; i++) {
@@ -214,10 +216,9 @@ function getSelectedValue(elementName, currentYear = new Date().getFullYear()) {
     }
 }
 
-
 const deleteRecords = async (realEstateType, ids) => {
     try {
-        const response = await fetch(`http://localhost:3001/api/${realEstateType}/`, {
+        const response = await fetch(`${DOMAIN}/api/${realEstateType}/`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json'},
             credentials: 'include',
@@ -238,7 +239,7 @@ const deleteRecords = async (realEstateType, ids) => {
 
 const logout = async () => {
 
-    const response = await fetch("http://localhost:3001/api/auth/logout", {
+    const response = await fetch(`${DOMAIN}/api/auth/logout`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',

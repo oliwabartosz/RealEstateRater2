@@ -1,0 +1,47 @@
+<h4 class="h4-break">Stan budynku</h4>
+{{#if house_data.material}}
+    <p><strong>Materiał</strong>: {{ house_data.material }}</p>
+{{/if}}
+
+{{#if house_data.yearBuilt}}
+    <p><strong>Rok budowy</strong>: {{ house_data.yearBuilt }}</p>
+{{/if}}
+
+{{#if house_data.street}}
+    <p><strong>Ulica:</strong> {{ house_data.street }}</p>
+{{/if}}
+
+{{#if house_data.localization}}
+    <p><strong>Lokalizacja:</strong> {{ house_data.localization }}</p>
+{{/if}}
+
+{{#if house_data.modernizationLemma}}
+    <p style="font-style: italic;">Fragmenty: {{ house_data.modernizationLemma }}</p>
+{{/if}}
+
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="modernization_1" name="modernization" value="4" {{#if (equals house_ans_data.modernizationAns 4)}}checked{{/if}} required>
+        <label class="form-check-label" for="modernization_1">Po modernizacji</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="modernization_2" name="modernization" value="5" {{#if (equals house_ans_data.modernizationAns 5)}}checked{{/if}}>
+        <label class="form-check-label" for="modernization_2">Wymaga modernizacji</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="modernization_3" name="modernization" value="0" {{#if (equals house_ans_data.modernizationAns 0)}}checked{{/if}}>
+        <label class="form-check-label" for="modernization_3">Puste</label>
+    </div>
+    {{#if (houses_gpt_data.modernizationGPT)}}
+        <p class="p-break">
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-modernization-rate" onclick="replaceOneWithAIAnswer('modernization')">Ocena GPT: {{houses_gpt_data.modernizationGPT}}</span>
+            </a>
+            <br />
+            <span class="gpt ai-modernization-summary">Podsumowanie modelu GPT: {{houses_gpt_data.modernizationSummary}}</span>
+        </p>
+    {{/if}}
+</div>
+
+<hr class="mt-0 mb-4">
+

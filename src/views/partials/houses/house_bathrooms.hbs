@@ -1,0 +1,38 @@
+<h4 class="h4-break">Liczba łazienek</h4>
+<p><strong>Liczba łazieniek:</strong> {{ house_data.bathsNumber }}</p>
+
+{{#if house_data.rentLemma}}
+    <p style="font-style: italic;">Fragmenty: {{house_data.bathroomLemma}}</p>
+{{/if}}
+
+<div class="question">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">PLN</span>
+        </div>
+        <p>
+            <input type="number" name="bathNumber" class="form-control" style="width: 200%; display: inline-block;"
+                   placeholder="Wpisz liczbę łazienek"
+                {{#if house_ans_data.bathNumberAns}}
+                   value="{{house_ans_data.bathNumberAns}}"
+                {{else}}
+                    {{#if house_data.bathsNumber}}
+                   value="{{house_data.bathsNumber}}"
+                    {{else}}
+                   value="-9"
+                    {{/if}}{{/if}}>
+        </p>
+    </div>
+    {{#if (houses_gpt_data.bathroomsGPT)}}
+        <p class="p-break">
+            <a style="text-decoration: none;" role="button">
+                <span class="gpt ai-rent-rate"
+                      onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{houses_gpt_data.bathroomsGPT}}</span>
+            </a>
+
+            <br/>
+            <span class="gpt ai-rent-summary">Podsumowanie modelu GPT: {{houses_gpt_data.bathroomsSummary}}</span>
+        </p>
+    {{/if}}
+</div>
+<hr class="mt-0 mb-4">
