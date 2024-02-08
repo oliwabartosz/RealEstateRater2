@@ -10,6 +10,7 @@ import {PlotsAnswers} from "./entities/plots-answers.entity";
     TypeOrmModule.forFeature([PlotsData, PlotsAnswers]),
   ],
   controllers: [PlotsController],
-  providers: [PlotsService, PlotsAnswersService]
+  providers: [PlotsService, PlotsAnswersService],
+  exports: [PlotsService, PlotsAnswersService]
 })
 export class PlotsModule {}

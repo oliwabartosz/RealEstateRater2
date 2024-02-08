@@ -9,6 +9,9 @@ import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
 import { HousesAnswers } from 'src/houses/entities/houses-answers.entity';
 import { HousesData } from 'src/houses/entities/houses-data.entity';
 import { HousesAnswersService, HousesService } from '../houses/houses.service';
+import { PlotsAnswersService, PlotsService } from 'src/plots/plots.service';
+import { PlotsData } from 'src/plots/entities/plots.entity';
+import { PlotsAnswers } from 'src/plots/entities/plots-answers.entity';
 
 
 @Module({
@@ -18,6 +21,8 @@ import { HousesAnswersService, HousesService } from '../houses/houses.service';
         FlatsGPT,
         HousesData,
         HousesAnswers,
+        PlotsData,
+        PlotsAnswers,
     ])],
     controllers: [
         HandlebarsController
@@ -28,11 +33,14 @@ import { HousesAnswersService, HousesService } from '../houses/houses.service';
         FlatsAnswersService,
         FlatsGPTService,
         HousesService,
-        HousesAnswersService
+        HousesAnswersService,
+        PlotsService,
+        PlotsAnswersService,
     ],
     exports: [
         HandlebarsService,
     ]
 })
+
 export class HandlebarsModule {
 }

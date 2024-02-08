@@ -71,6 +71,18 @@ export class PlotsAnswersService {
         private plotService: PlotsService,
     ) {}
 
+    public async getAllAnswersRecords(): Promise<PlotsAnswers[]> {
+        return await this.plotsAnswersRepository.find({
+            select: ["plotID", "rateStatus", "user", "deleteAns"]
+        });
+    }
+
+
+    public async getOneRecordByID(plotID: string): Promise<PlotsAnswers> {
+        return await this.plotsAnswersRepository.findOne({where: {plotID}});
+    }
+
+
     public async createOrUpdateAnswer(recordID: string, user: string, dto: AddPlotAnswersDto): Promise<PlotsAnswers> {
         await checkIfIdExists(this.plotService, recordID);
 

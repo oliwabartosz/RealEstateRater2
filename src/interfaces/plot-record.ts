@@ -1,6 +1,7 @@
 
 export interface PlotRecord {
     id?: string;
+    plotNumber: number | null;
     market?: string | null;
     offerId: string | null;
     offerIdExpected: string | null;

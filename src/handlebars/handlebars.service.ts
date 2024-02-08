@@ -3,6 +3,7 @@ import {FlatsAnswersService, FlatsGPTService, FlatsService} from "../flats/flats
 import {FlatGPTRecord} from "../interfaces/flat-gpt-record";
 import { HousesAnswersService, HousesService } from 'src/houses/houses.service';
 import { HouseRecord } from 'src/interfaces/house-record';
+import { PlotsAnswersService, PlotsService } from 'src/plots/plots.service';
 
 @Injectable()
 export class HandlebarsService {
@@ -12,6 +13,8 @@ export class HandlebarsService {
         @Inject(FlatsGPTService) private flatsGPTService: FlatsGPTService,
         @Inject(HousesService) private housesService: HousesService,
         @Inject(HousesAnswersService) private housesAnswerService: HousesAnswersService,
+        @Inject(PlotsService) private plotsService: PlotsService,
+        @Inject(PlotsAnswersService) private plotsAnswerService: PlotsAnswersService,
     ) {
     }
 
@@ -52,6 +55,31 @@ export class HandlebarsService {
             return {
                 id: item.id,
                 houseNumber: item.houseNumber,
+                offerId: item.offerId,
+                offerType: item.offerType,
+                offerStatus: item.offerStatus,
+                rateStatus: answersRecord ? answersRecord.rateStatus : false,
+                user: answersRecord ? answersRecord.user: false,
+                delete: answersRecord ? answersRecord.deleteAns: false,
+            }
+        });
+
+
+    }
+
+    async combinePlotsData() {
+
+        const scrapedData = await this.plotsService.getAllRecords();
+        const answersData = await this.plotsAnswerService.getAllAnswersRecords();
+
+
+        return scrapedData.map((item) => {
+            const answersRecord = answersData.find((record) => record.plotID === item.id);
+    
+
+            return {
+                id: item.id,
+                plotNumber: item.plotNumber,
                 offerId: item.offerId,
                 offerType: item.offerType,
                 offerStatus: item.offerStatus,
