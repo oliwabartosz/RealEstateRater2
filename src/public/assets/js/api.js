@@ -157,6 +157,7 @@ const postAnswerWithoutValidation = async () => {
 }
 
 function getSelectedValue(elementName, currentYear = new Date().getFullYear()) {
+    console.log(elementName);
     if (elementName === 'yearBuilt') {
 
         const yearBuiltInput = document.querySelector('input[name="yearBuilt"]');

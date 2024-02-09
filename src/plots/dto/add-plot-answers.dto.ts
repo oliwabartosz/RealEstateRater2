@@ -48,6 +48,10 @@ export class AddPlotAnswersDto {
 
     @IsOptional()
     @IsNumber()
+    electricityAns: number | null;
+
+    @IsOptional()
+    @IsNumber()
     sewersAns: number | null;
 
     @IsOptional()
@@ -57,6 +61,10 @@ export class AddPlotAnswersDto {
     @IsOptional()
     @IsNumber()
     accessRoadAns: number | null;
+
+    @IsOptional()
+    @IsNumber()
+    buildingPermitAns: number | null;
 
     @IsOptional()
     @IsNumber()

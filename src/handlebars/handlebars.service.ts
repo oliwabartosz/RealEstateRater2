@@ -2,7 +2,6 @@ import {Inject, Injectable} from '@nestjs/common';
 import {FlatsAnswersService, FlatsGPTService, FlatsService} from "../flats/flats.service";
 import {FlatGPTRecord} from "../interfaces/flat-gpt-record";
 import { HousesAnswersService, HousesService } from 'src/houses/houses.service';
-import { HouseRecord } from 'src/interfaces/house-record';
 import { PlotsAnswersService, PlotsService } from 'src/plots/plots.service';
 
 @Injectable()
@@ -17,6 +16,7 @@ export class HandlebarsService {
         @Inject(PlotsAnswersService) private plotsAnswerService: PlotsAnswersService,
     ) {
     }
+    
 
     async combineFlatsData() {
 

@@ -279,66 +279,79 @@ export class PlotsData {
 
     @Column({
         type: "text",
+        default: null,
     })
     description: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     houseTypeLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     electricityLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     gasLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     waterLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     sewersLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     buildingOnPlotLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     roadLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     legalStatusLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     fenceLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     lotShapeLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     planningLemma: string;
 
     @Column({
         type: "text",
+        default: null,
     })
     buildingAllowanceLemma: string;
 

@@ -11,6 +11,6 @@ import {PlotsAnswers} from "./entities/plots-answers.entity";
   ],
   controllers: [PlotsController],
   providers: [PlotsService, PlotsAnswersService],
-  exports: [PlotsService, PlotsAnswersService]
+  exports: [PlotsService, PlotsAnswersService],
 })
 export class PlotsModule {}

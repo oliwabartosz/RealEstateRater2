@@ -16,12 +16,6 @@ export class PlotsAnswers {
         type: "tinyint",
         default: null,
     })
-    plotPurposeAns: number | null;
-
-    @Column({
-        type: "tinyint",
-        default: null,
-    })
     plotPurposeJrAns: number | null;
 
     @Column({
@@ -58,6 +52,12 @@ export class PlotsAnswers {
         type: "tinyint",
         default: null,
     })
+    buildingPermitAns: number | null;
+
+    @Column({
+        type: "tinyint",
+        default: null,
+    })
     waterAns: number | null;
 
     @Column({
@@ -72,11 +72,6 @@ export class PlotsAnswers {
     })
     sewersAns: number | null;
 
-    @Column({
-        type: "tinyint",
-        default: null,
-    })
-    isBuildingOnPlotAns: number | null;
 
     @Column({
         type: "tinyint",
