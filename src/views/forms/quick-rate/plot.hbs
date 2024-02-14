@@ -1,0 +1,62 @@
+{{> page/navbar }}
+
+{{> plots/plot_header}}
+
+{{> plots/plot_upper_nav}}
+
+{{!-- {{#if (equals houses_gpt_data.status true)}} --}}
+{{!-- <div id="navigation" class="d-flex justify-content-center align-items-center"> --}}
+    {{!-- <button class="btn btn-gold" onclick="replaceAllWithAIAnswers()">Zastąp ocenami AI</button> --}}
+{{!-- </div> --}}
+{{!-- <div class="form-check form-switch"> --}}
+    {{!-- <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onclick="alwaysReplaceWithAIAnswers()"> --}}
+    {{!-- <label class="form-check-label" for="flexSwitchCheckDefault">Zawsze zaznaczaj oceny AI</label> --}}
+{{!-- </div> --}}
+{{!-- {{/if}} --}}
+
+
+<p>
+    <strong>Status w bazie:</strong>
+    {{#if (equals house_ans_data.rateStatus 'yes')}}
+        {{convertRateStatusToEmoji house_ans_data.rateStatus}}
+            Oceniono przez użytkownika 👤 <span style="color:#152e52;"> {{plot_ans_data.user}}</span>
+    {{else}}
+        {{convertRateStatusToEmoji house_ans_data.rateStatus}}
+        Wymaga oceny
+    {{/if}}
+
+</p>
+<hr class="mt-0 mb-4">
+<h2 class="h2-break">Opis oferty</h2>
+<hr class="mt-0 mb-4">
+
+{{> plots/plot_description}}
+
+    <h2 class="h2-break">Dane techniczne</h2>
+    <hr class="mt-0 mb-4">
+    {{> plots/plot_document}}
+    {{> plots/plot_purpose_plot}}
+    {{> plots/plot_house_type}}
+    {{> plots/plot_lot_shape}}
+    {{> plots/plot_building_permit}}
+    {{> plots/plot_water}}
+    {{> plots/plot_electricity}}
+    {{> plots/plot_gas}}
+    {{> plots/plot_sewers}}
+    {{> plots/plot_building_on_plot}}
+    
+    {{> gallery}}
+
+    {{> plots/plot_access_road}}
+    {{> plots/plot_fence}}
+
+
+
+
+{{> plots/plot_send_button postFunction="postAnswer(['document', 'plotPurposeJr', 'plotPurposeJwr', 'plotPurposeWr', 'plotPurposeFmt', 'houseType', 'lotShape', 'buildingPermit', 'water', 'electricity', 'gas', 'sewers', 'buildingOnPlot', 'accessRoad', 'fence'], 'plots')"}}
+
+<script src="/assets/js/fill-modernization-radio-button.js"></script>
+<script src="/assets/js/single-record/take-gpt-answers.js"></script>
+<script src="/assets/js/single-record/delete-checkbox.js"></script>
+<script src="/assets/js/single-record/navigation.js"></script>
+

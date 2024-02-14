@@ -1,0 +1,32 @@
+<h4 class="h4-break">Pozwolenie na budowę</h4>
+<p><strong>Aktualne pozwolenie na budowę:</strong> {{ plot_data.buildingPermit }}</p>
+
+{{#if plot_data.buildingAllowanceLemma}}
+    <div style="margin-bottom: 10px;"></div>
+    <p style="font-style: italic;">Fragmenty: {{ plot_data.buildingAllowanceLemma }}</p>
+{{/if}}
+
+
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="buildingPermit_yes" name="buildingPermit" value="1" 
+        
+        {{#if (equals plot_ans_data.buildingPermitAns 1)}}checked{{/if}} required>
+    
+    <label class="form-check-label" for="buildingPermit_yes">Tak</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="buildingPermit_no" name="buildingPermit" value="0" 
+        {{#if (equals plot_ans_data.buildingPermitAns 0)}}checked{{/if}}>
+    <label class="form-check-label" for="buildingPermit_no">Nie</label>
+</div>
+
+{{#if (plots_gpt_data.buildingPermitGPT)}}
+    <p class="p-break">
+        <a style="text-decoration: none;" role="button">
+            <span class="gpt ai-technology-rate" onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{plots_gpt_data.buildingPermitGPT}}</span>
+        </a>
+        <br />
+        <span class="gpt ai-technology-summary">Podsumowanie modelu GPT: {{plots_gpt_data.buildingPermitSummary}}</span>
+    </p>
+{{/if}}
+<hr class="mt-0 mb-4">

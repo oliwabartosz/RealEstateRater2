@@ -1,0 +1,32 @@
+<h4 class="h4-break">Elektryczność</h4>
+<p><strong>Prąd:</strong> {{ plot_data.electricity }}</p>
+
+{{#if plot_data.electricityLemma}}
+    <div style="margin-bottom: 10px;"></div>
+    <p style="font-style: italic;">Fragmenty: {{ plot_data.electricityLemma }}</p>
+{{/if}}
+
+
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="electricity_yes" name="electricity" value="1" 
+        
+        {{#if (equals plot_ans_data.electricityAns 1)}}checked{{/if}} required>
+    
+    <label class="form-check-label" for="electricity_yes">Tak</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="electricity_no" name="electricity" value="0" 
+        {{#if (equals plot_ans_data.electricityAns 0)}}checked{{/if}}>
+    <label class="form-check-label" for="electricity_no">Nie</label>
+</div>
+
+{{#if (plots_gpt_data.electricityGPT)}}
+    <p class="p-break">
+        <a style="text-decoration: none;" role="button">
+            <span class="gpt ai-technology-rate" onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{plots_gpt_data.electricityGPT}}</span>
+        </a>
+        <br />
+        <span class="gpt ai-technology-summary">Podsumowanie modelu GPT: {{plots_gpt_data.electricitySummary}}</span>
+    </p>
+{{/if}}
+<hr class="mt-0 mb-4">

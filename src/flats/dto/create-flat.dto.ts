@@ -175,6 +175,10 @@ export class CreateFlatDto {
 
     @IsOptional()
     @IsString()
+    guardedEstate?: string;
+
+    @IsOptional()
+    @IsString()
     securityControl?: string;
 
     @IsString()

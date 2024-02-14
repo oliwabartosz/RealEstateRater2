@@ -1,0 +1,28 @@
+<div class="border-primary">
+
+    {{#if plot_data.price}}
+        <p><strong>Cena:</strong> {{ plot_data.price }}</p>
+    {{/if}}
+
+    {{#if plot_data.priceOffer}}
+        <p><strong>Cena ofertowa:</strong> {{ plot_data.priceOffer }}</p>
+    {{/if}}
+
+    {{#if plot_data.priceSold}}
+        <p><strong>Cena transakcji:</strong> {{ plot_data.priceSold }}</p>
+    {{/if}}
+
+    {{#if plot_data.priceM2}}
+        <p><strong>Cena za m2:</strong> {{ plot_data.priceM2 }}</p>
+    {{/if}}
+
+    {{#if plot_data.plotArea}}
+        <p><strong>Powierzchnia:</strong> {{ plot_data.livingArea }} m2</p>
+    {{/if}}
+
+
+    <div style="text-align: justify">
+        <p class="text-justify">{{ plot_data.description }}</p>
+    </div>
+</div>
+<hr class="mt-0 mb-4">

@@ -1,0 +1,40 @@
+<h4 class="h4-break">Kształ działki</h4>
+
+<p><strong>Kształt działki:</strong> {{ plot_data.lotShape }}</p>
+
+{{#if plot_data.lotShapeLemma}}
+    <div style="margin-bottom: 10px;"></div>
+    <p style="font-style: italic;">Fragmenty: {{ plot_data.lotShapeLemma }}</p>
+{{/if}}
+
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="lotShape_1" name="lotShape" value="1" 
+        {{#if (equals plot_ans_data.lotShape 1)}}checked{{/if}} required>
+    <label class="form-check-label" for="lotShape_1">Regularny</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="lotShape_2" name="lotShape" value="2" 
+        {{#if (equals plot_ans_data.lotShape 2)}}checked{{/if}}>
+    <label class="form-check-label" for="lotShape_2">Nieregularny</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="lotShape_3" name="lotShape" value="3" 
+        {{#if (equals plot_ans_data.lotShape 3)}}checked{{/if}}>
+    <label class="form-check-label" for="lotShape_3">Wydłużony</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="lotShape_4" name="lotShape" value="4" 
+        {{#if (equals plot_ans_data.lotShape 4)}}checked{{/if}}>
+    <label class="form-check-label" for="lotShape_4">Mocno wydłużony</label>
+</div>
+
+{{#if (plots_gpt_data.lotShapeGPT)}}
+    <p class="p-break">
+        <a style="text-decoration: none;" role="button">
+            <span class="gpt ai-technology-rate" onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{plots_gpt_data.lotShapeGPT}}</span>
+        </a>
+        <br />
+        <span class="gpt ai-technology-summary">Podsumowanie modelu GPT: {{plots_gpt_data.lotShapeSummary}}</span>
+    </p>
+{{/if}}
+<hr class="mt-0 mb-4">

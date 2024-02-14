@@ -1,0 +1,32 @@
+<h4 class="h4-break">Woda</h4>
+<p><strong>Ujęcie wody:</strong> {{ plot_data.water }}</p>
+
+{{#if plot_data.waterLemma}}
+    <div style="margin-bottom: 10px;"></div>
+    <p style="font-style: italic;">Fragmenty: {{ plot_data.waterLemma }}</p>
+{{/if}}
+
+
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="water_yes" name="water" value="1" 
+        
+        {{#if (equals plot_ans_data.waterAns 1)}}checked{{/if}} required>
+    
+    <label class="form-check-label" for="water_yes">Tak</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="water_no" name="water" value="0" 
+        {{#if (equals plot_ans_data.waterAns 0)}}checked{{/if}}>
+    <label class="form-check-label" for="water_no">Nie</label>
+</div>
+
+{{#if (plots_gpt_data.waterGPT)}}
+    <p class="p-break">
+        <a style="text-decoration: none;" role="button">
+            <span class="gpt ai-technology-rate" onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{plots_gpt_data.waterGPT}}</span>
+        </a>
+        <br />
+        <span class="gpt ai-technology-summary">Podsumowanie modelu GPT: {{plots_gpt_data.waterSummary}}</span>
+    </p>
+{{/if}}
+<hr class="mt-0 mb-4">

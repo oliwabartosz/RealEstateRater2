@@ -1,0 +1,33 @@
+<h4 class="h4-break">Budynek do rozbiórki</h4>
+<p><strong>Obecna zabudowa działki: :</strong> {{ plot_data.buildingOnPlot }}</p>
+
+{{#if plot_data.buildingOnPlotLemma}}
+    <div style="margin-bottom: 10px;"></div>
+    <p style="font-style: italic;">Fragmenty: {{ plot_data.buildingOnPlotLemma }}</p>
+{{/if}}
+
+
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="buildingOnPlot_yes" name="buildingOnPlot" value="1" 
+        
+        {{#if (equals plot_ans_data.buildingOnPlotAns 1)}}checked{{/if}} required>
+    
+    <label class="form-check-label" for="buildingOnPlot_yes">Tak</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="buildingOnPlot_no" name="buildingOnPlot" value="0" 
+        {{#if (equals plot_ans_data.buildingOnPlotAns 0)}}checked{{/if}}>
+
+    <label class="form-check-label" for="buildingOnPlot_no">Nie</label>
+</div>
+
+{{#if (plots_gpt_data.buildingOnPlotGPT)}}
+    <p class="p-break">
+        <a style="text-decoration: none;" role="button">
+            <span class="gpt ai-technology-rate" onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{plots_gpt_data.buildingOnPlotGPT}}</span>
+        </a>
+        <br />
+        <span class="gpt ai-technology-summary">Podsumowanie modelu GPT: {{plots_gpt_data.buildingOnPlotGPT}}</span>
+    </p>
+{{/if}}
+<hr class="mt-0 mb-4">

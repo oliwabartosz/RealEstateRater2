@@ -1,0 +1,51 @@
+<h4 class="h4-break">Rodzaj zabudowy</h4>
+
+<p><strong>Obecna zabudowa działki:</strong> {{ plot_data.buildingOnPlot }}</p>
+
+{{#if plot_data.houseTypeLemma}}
+    <div style="margin-bottom: 10px;"></div>
+    <p style="font-style: italic;">Fragmenty: {{ plot_data.houseTypeLemma }}</p>
+{{/if}}
+
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="houseType_1" name="houseType" value="1" {{#if (equals
+        plot_ans_data.houseTypeAns 1)}}checked{{/if}} required>
+    <label class="form-check-label" for="houseType_1">Bliźniacza</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="houseType_2" name="houseType" value="2" {{#if (equals
+        plot_ans_data.houseTypeAns 2)}}checked{{/if}}>
+    <label class="form-check-label" for="houseType_2">Szeregowa</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="houseType_3" name="houseType" value="3" {{#if (equals
+        plot_ans_data.houseTypeAns 3)}}checked{{/if}}>
+    <label class="form-check-label" for="houseType_3">Wolnostojąca</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="houseType_4" name="houseType" value="4" {{#if (equals
+        plot_ans_data.houseTypeAns 4)}}checked{{/if}}>
+    <label class="form-check-label" for="houseType_4">Wielorodzinna niska</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="houseType_5" name="houseType" value="5" {{#if (equals
+        plot_ans_data.houseTypeAns 5)}}checked{{/if}}>
+    <label class="form-check-label" for="houseType_5">Wielorodzinna wysoka</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="houseType_6" name="houseType" value="6" {{#if (equals
+        plot_ans_data.houseTypeAns 6)}}checked{{/if}}>
+    <label class="form-check-label" for="houseType_6">Wielorodzinna średnia</label>
+</div>
+
+{{#if (plots_gpt_data.houseTypeGPT)}}
+    <p class="p-break">
+        <a style="text-decoration: none;" role="button">
+            <span class="gpt ai-technology-rate" onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{plots_gpt_data.houseTypeGPT}}</span>
+        </a>
+        <br />
+        <span class="gpt ai-technology-summary">Podsumowanie modelu GPT: {{plots_gpt_data.houseTypeSummary}}</span>
+    </p>
+{{/if}}
+
+<hr class="mt-0 mb-4">

@@ -1,0 +1,38 @@
+<h4 class="h4-break">Dokument przeznaczenia</h4>
+<p><strong>Plan miejscowy</strong>: {{ plot_data.localPlan }}</p>
+<p><strong>Przeznaczenie działki w planie lub studium</strong>: {{ plot_data.plotPurposeInPlan }}</p>
+<p><strong>Wydane warunki zabudowy</strong>: {{ plot_data.building_conditions }}</p>
+
+{{#if plot_data.planningLemma}}
+    <div style="margin-bottom: 10px;"></div>
+    <p style="font-style: italic;">Fragmenty: {{ plot_data.planningLemma }}</p>
+{{/if}}
+
+
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="document_1" name="document" value="1" 
+         {{#if (equals plot_ans_data.documentAns 1)}}checked{{/if}} required>
+    <label class="form-check-label" for="document_1">MPZP</label>
+</div>
+
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="document_2" name="document" value="2" 
+        {{#if (equals plot_ans_data.documentAns 2)}}checked{{/if}}>
+    <label class="form-check-label" for="document_2">Studium</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="document_3" name="document" value="3" 
+         {{#if (equals plot_ans_data.documentAns 3)}}checked{{/if}}>
+    <label class="form-check-label" for="document_3">Warunki zabudowy</label>
+</div>
+
+{{#if (plots_gpt_data.documentGPT)}}
+    <p class="p-break">
+        <a style="text-decoration: none;" role="button">
+            <span class="gpt ai-technology-rate" onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{plots_gpt_data.documentGPT}}</span>
+        </a>
+        <br />
+        <span class="gpt ai-technology-summary">Podsumowanie modelu GPT: {{plots_gpt_data.documentSummary}}</span>
+    </p>
+{{/if}}
+<hr class="mt-0 mb-4">
