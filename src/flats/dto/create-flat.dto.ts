@@ -98,7 +98,7 @@ export class CreateFlatDto {
     flatQuality?: string;
 
     @IsOptional()
-    @IsString()
+    @IsNumber()
     floor?: number;
 
     @IsOptional()
@@ -106,7 +106,7 @@ export class CreateFlatDto {
     balcony?: string;
 
     @IsOptional()
-    @IsString()
+    @IsNumber()
     balconyQuantity?: number;
 
     @IsOptional()

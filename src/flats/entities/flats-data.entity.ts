@@ -38,14 +38,14 @@ export class FlatsData {
     offerIdExpected: string | null;
 
     @Column({
-        length: 13,
+        length: 30,
         nullable: true,
         default: null,
     })
     offerType: string | null;
 
     @Column({
-        length: 23,
+        length: 60,
         nullable: true,
         default: null,
     })
@@ -311,6 +311,14 @@ export class FlatsData {
         default: null,
     })
     guardedArea: string | null;
+
+    @Column({
+        length: 3,
+        nullable: true,
+        default: null,
+    })
+    guardedEstate: string | null;
+
 
     @Column({
         length: 3,
