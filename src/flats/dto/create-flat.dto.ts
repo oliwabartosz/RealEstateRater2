@@ -34,7 +34,7 @@ export class CreateFlatDto {
     dateUpdated?: string;
 
     @IsOptional()
-    @IsDate()
+    @IsString()
     dateEndTransaction?: string;
 
     @IsString()

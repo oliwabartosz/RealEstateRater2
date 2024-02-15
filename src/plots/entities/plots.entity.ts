@@ -1,4 +1,4 @@
-import {AfterInsert, BeforeInsert, Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {AfterLoad, BeforeInsert, Column, Entity, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import dataSource from "../../db/data-source";
 import {PlotsAnswers} from "./plots-answers.entity";
 
@@ -38,14 +38,14 @@ export class PlotsData {
     offerIdExpected: string | null;
 
     @Column({
-        length: 13,
+        length: 40,
         nullable: true,
         default: null,
     })
     offerType: string | null;
 
     @Column({
-        length: 23,
+        length: 50,
         nullable: true,
         default: null,
     })
@@ -371,8 +371,8 @@ export class PlotsData {
         this.plotNumber = lastRecordNumber ? lastRecordNumber.plotNumber + 1 : 1;
     }
 
-    @AfterInsert()
-    async calculatePlotWidthToLengthRatio() {
+    @AfterLoad()
+    calculatePlotWidthToLengthRatio() {
         this.plotLengthToWidthRatio = this.plotLength / this.plotWidth;
     }
 
