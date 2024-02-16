@@ -34,7 +34,7 @@ import * as Joi from 'joi';
             {
                 name: 'long',
                 ttl: 60000,
-                limit: 10,
+                limit: 100,
             },
         ]),
         TypeOrmModule.forRoot(dataSourceOptions),

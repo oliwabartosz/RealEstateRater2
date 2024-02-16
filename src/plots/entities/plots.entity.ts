@@ -371,9 +371,4 @@ export class PlotsData {
         this.plotNumber = lastRecordNumber ? lastRecordNumber.plotNumber + 1 : 1;
     }
 
-    @AfterLoad()
-    calculatePlotWidthToLengthRatio() {
-        this.plotLengthToWidthRatio = this.plotLength / this.plotWidth;
-    }
-
 }

@@ -2,6 +2,12 @@
 
 <p><strong>Kształt działki:</strong> {{ plot_data.lotShape }}</p>
 
+{{#if plot_data.plotLength}}
+    <p><strong>Długość działki:</strong> {{plot_data.plotLength}}</p>
+    <p><strong>Szerokość działki:</strong> {{plot_data.plotWidth}}</p>
+    <p><strong>Długość/Szerokość działki:</strong> {{roundFloat plot_data.plotLengthToWidthRatio}}%</p>
+{{/if}}
+
 {{#if plot_data.lotShapeLemma}}
     <div style="margin-bottom: 10px;"></div>
     <p style="font-style: italic;">Fragmenty: {{ plot_data.lotShapeLemma }}</p>

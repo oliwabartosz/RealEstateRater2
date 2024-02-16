@@ -62,6 +62,7 @@ export class PlotsService {
     public async removeAll(): Promise<DeleteResult> {
         return await this.plotsDataRepository.delete({});
     }
+
 }
 
 @Injectable()

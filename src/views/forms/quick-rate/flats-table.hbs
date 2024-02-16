@@ -1,18 +1,18 @@
 {{> page/navbar }}
 
 <h2 class="h2-break">🏬 Lista mieszkań</h2>
-<div><a class="rer-link" style="font-size: 14px;" href="/flats">▶️ Standard Rate</a></div>
+<div><a class="rer-link" style="font-size: 14px;" href="{{getUrl}}/flats">▶️ Standard Rate</a></div>
 <hr class="mt-0 mb-4">
 
 <div class="text-center">
     {{#if (equals userRole "Admin")}}
-        <div class="col-md-12 text-end" style="margin-bottom: 10px">
-            <button class="btn btn-red btn-space-list" onclick="deleteRecords('flats', selectedRecordsIDs())">Usuń
-                zaznaczone
-            </button>
-        </div>
+    <div class="col-md-12 text-end" style="margin-bottom: 10px">
+        <button class="btn btn-red btn-space-list" onclick="deleteRecords('flats', selectedRecordsIDs())">Usuń
+            zaznaczone
+        </button>
+    </div>
     {{/if}}
-    {{> flats/flat-list/table url="/flats/quick-rate/"}}
-</div>
-{{> flats/flat-list/scripts}}
+    {{> common/records-list/table url="/flats/quick-rate"}}
 
+</div>
+{{> common/records-list/scripts}}

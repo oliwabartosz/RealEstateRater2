@@ -57,10 +57,16 @@ export class PlotsController {
     @Post('/')
     @UseGuards(RoleGuard(Role.Scraper))
     @UseGuards(JwtAuthGuard)
-    createRecord(
+    async createRecord(
         @Body(TransformLawStatusPipe) createPlotDto: CreatePlotDto
     ): Promise<PlotsData> {
-        return this.plotsService.createNewRecord(createPlotDto);
+        createPlotDto.plotLengthToWidthRatio = createPlotDto.plotLength / createPlotDto.plotWidth;
+        
+        if (isNaN(createPlotDto.plotLengthToWidthRatio)) {
+            createPlotDto.plotLengthToWidthRatio = null;
+        }
+
+        return await this.plotsService.createNewRecord(createPlotDto);
     }
 
     @Delete('/')
