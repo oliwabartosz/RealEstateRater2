@@ -24,6 +24,7 @@
     "migration:revert": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
+    "@langchain/openai": "^0.0.14",
     "@nestjs/throttler": "^5.1.1",
     "@types/express-handlebars": "^5.3.0",
     "bcrypt": "^5.1.1",

@@ -39,13 +39,23 @@ export class GptController {
         res.json({ success: true });
     }
 
-    @UseGuards(RoleGuard(Role.User))
-    @UseGuards(JwtAuthGuard)
-    @Get('/get-key')
-    getApiKeyCookie(@Req() req: Request) {
-        const apiKey = req.cookies['openai-api-key'];
-        return { apiKey };
-    }
+    //@TODO: Check is this necessary???
+    // @UseGuards(RoleGuard(Role.User))
+    // @UseGuards(JwtAuthGuard)
+    // @Get('/get-key')
+    // getApiKeyCookie(@Req() req: Request) {
+    //     const apiKey = req.cookies['openai-api-key'];
+    //     return { apiKey };
+    // }
 
+    @UseGuards(RoleGuard(Role.Admin))
+    @UseGuards(JwtAuthGuard)
+    @Post('/flats/rate')
+    rateFlats(@Req() req: Request) {
+        const apiKey: string = req.cookies['openai-api-key'];
+        return this.gptService.rateFlats(apiKey);
+
+    }
+ 
 }
 
