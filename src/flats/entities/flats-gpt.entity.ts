@@ -9,6 +9,12 @@ export class FlatsGPT {
     flatID: string;
 
     @Column({
+        type: "text",
+        default: null,
+    })
+    descriptionEN: string | null;
+
+    @Column({
         type: "tinyint",
         default: null,
     })
