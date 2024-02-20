@@ -58,25 +58,29 @@ export class GptController {
     @UseGuards(JwtAuthGuard)
     @Post('/flats/rate')
     async rateFlats(
-        @Body() flatsNumbers: number[],
+        @Body() body: { flatsNumbers: number[] },
         @Req() request: Request
         ) {
         const apiKey: string = request.cookies['openai-api-key'];
+        const result = {};
 
-        for (const flatNumber of flatsNumbers) {
+        for (const flatNumber of body.flatsNumbers) {
             const flatID = (await this.flatsService.getOneRecord(flatNumber)).id;
-            const translatedDescription = await this.gptService.translateDescription(apiKey)
             
-            this.flatsGPTService.createOrUpdateGPTAnswer(flatID, 'no-user-here', )
-        
+            // Translate description
+            const translatedLemma = await this.gptService.translateLemmatization(apiKey, flatNumber, 'technologyLemma')
+            
+            //  Rate the rest of parameters
+            await this.gptService.rateFeatures(apiKey, flatNumber, translatedLemma);
+            
+            // // Save translated description to db
+            // await this.flatsGPTService.createTranslatedDescription(apiKey, flatNumber, translatedDescription);
+            
+            // result.flatID = flatID;
+            
 
         }
-
-      
-        
-     
-
-        return this.gptService.rateFlats(apiKey, request);
+        return result;
         
 
     }

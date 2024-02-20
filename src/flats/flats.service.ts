@@ -24,7 +24,6 @@ export class FlatsService {
         return await this.flatsDataRepository.find({
             select: ["id", "flatNumber", "offerId", "price", "offerType", "offerStatus"],
             order: {flatNumber: 'ASC'}
-
         });
     }
 
@@ -144,5 +143,13 @@ export class FlatsGPTService {
             }
         }
     }
+
+
+    public async createTranslatedDescription(recordID: string, description: string): Promise<FlatsGPT> {
+        const translatedDescription = this.flatsGPTRepository.create({ descriptionEN: description });
+        await this.flatsGPTRepository.save(translatedDescription);
+        return translatedDescription;
+    }
+
 }
 
