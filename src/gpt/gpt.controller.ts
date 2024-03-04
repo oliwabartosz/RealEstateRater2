@@ -66,12 +66,8 @@ export class GptController {
 
         for (const flatNumber of body.flatsNumbers) {
             const flatID = (await this.flatsService.getOneRecord(flatNumber)).id;
-            
-            // Translate description
-            const translatedLemma = await this.gptService.translateLemmatization(apiKey, flatNumber, 'technologyLemma')
-            
-            //  Rate the rest of parameters
-            await this.gptService.rateFeatures(apiKey, flatNumber, translatedLemma);
+
+            await this.gptService.rateFeatures(apiKey, flatNumber);
             
             // // Save translated description to db
             // await this.flatsGPTService.createTranslatedDescription(apiKey, flatNumber, translatedDescription);

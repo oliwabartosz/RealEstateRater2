@@ -6,9 +6,9 @@ import {
 } from 'src/flats/flats.service';
 import { ChatOpenAI } from '@langchain/openai';
 import { PromptTemplate } from '@langchain/core/prompts';
-import { RunnableSequence } from '@langchain/core/runnables';
+import { RunnableSequence, RunnablePassthrough } from '@langchain/core/runnables';
 import { StringOutputParser } from "@langchain/core/output_parsers";
-import { technologySummaryPrompt, translateDescriptionPrompt, translateLemma } from './prompts/flats/flats-prompts';
+import { rolePrompt, technologyRatingPrompt, technologySummaryPrompt, translateDescriptionPrompt, translateLemma } from './prompts/flats/flats-prompts';
 
 
 @Injectable()
@@ -33,49 +33,67 @@ private outputParser: StringOutputParser;
     });
   }
 
-  public async translateLemmatization(apiKey: string, flatNumber: number, flatFeatureLemma: string) {
-
+  public async rateFeatures(apiKey: string, flatNumber: number) {
+    
     const model = this.initializeModel(apiKey);
 
+    const lemma: string = (await this.flatsService.getOneRecord(flatNumber)).technologyLemma;
+    const material: string = (await this.flatsService.getOneRecord(flatNumber)).material;
+    const yearBuilt: number = (await this.flatsService.getOneRecord(flatNumber)).yearBuilt;
+    const buildingType: string = (await this.flatsService.getOneRecord(flatNumber)).buildingType;
+    const floorNumbersPlus1: number = (await this.flatsService.getOneRecord(flatNumber)).floorsNumber + 1;
+    
+    const expandedLemma: string = lemma.concat(
+      material ? "The building is made of " + material : "",
+      yearBuilt ? ". It was built in " + yearBuilt : "",
+      buildingType ? ". The type of building is: " + buildingType : "",
+      floorNumbersPlus1 ? ". The building has " + floorNumbersPlus1 + " floors." : ""
+  );
 
-    const promptTemplate = PromptTemplate.fromTemplate(
+    const promptLemmaTranslation = PromptTemplate.fromTemplate(
       translateLemma
     );
-
-    // You can also create a chain using an array of runnables
-    const chain = RunnableSequence.from([promptTemplate, model, this.outputParser]);
     
-    const id: string = (await this.flatsService.getOneRecord(flatNumber)).id;
-    const lemma: string = (await this.flatsService.getOneRecord(flatNumber))[flatFeatureLemma];
-    const result: string = await chain.invoke({ offerLemma: lemma});
-
-    return result;
-
-
-  }
-
-  public async rateFeatures(apiKey: string, flatNumber: number, translatedLemma: string) {
-    
-    const model = this.initializeModel(apiKey);
-
-    const material = (await this.flatsService.getOneRecord(flatNumber)).material;
-    const yearBuilt = (await this.flatsService.getOneRecord(flatNumber)).yearBuilt;
-    const buildingType = (await this.flatsService.getOneRecord(flatNumber)).buildingType;
-    const floorNumbersPlus1 = (await this.flatsService.getOneRecord(flatNumber)).floorsNumber + 1;
-
-    translatedLemma = translatedLemma.concat("The building is made of " + material + " and was built in " + yearBuilt + ". It is a " + buildingType + " with " + floorNumbersPlus1 + " floors.");
-    
-    const promptTemplate = PromptTemplate.fromTemplate(
-      technologySummaryPrompt
+    const promptSummary = PromptTemplate.fromTemplate(
+      rolePrompt + technologySummaryPrompt
     );
 
-    const chain = RunnableSequence.from([promptTemplate, model, out]);
+    const promptRating = PromptTemplate.fromTemplate(
+      technologyRatingPrompt
+    );
 
-    const result = await chain.invoke({ offerDescription: translatedLemma});
+    const translationChain = promptLemmaTranslation.pipe(model).pipe(this.outputParser);
+    const summaryChain = promptSummary.pipe(model).pipe(this.outputParser);
+    const ratingChain = promptRating.pipe(model).pipe(this.outputParser);
+
+  //   chain = (
+  //     {"synopsis": synopsis_chain} 
+  //     | RunnablePassthrough.assign(review=review_chain)
+  //     | RunnablePassthrough.assign(summary=summary_chain)
+  // )
+
+    const chain = RunnableSequence.from([
+      {
+        translatedLemma: translationChain,
+      },
+      new RunnablePassthrough(summary),
+  
+    ]);
+
+    // const combinedChain = RunnableSequence.from([
+    //   {
+    //     translatedLemma: promptLemmaTranslation.pipe(model).pipe(this.outputParser),
+    //     summary: promptTechnologySummary.pipe(model).pipe(this.outputParser),
+    //   },
+    //   promptTechnologyRating,
+    //   model,
+    //   this.outputParser
+    // ]);
+
+    const result = await chain.invoke({ offerLemma: expandedLemma});
     
     
     console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    console.log(translatedLemma)
     console.log(result)
 
   
