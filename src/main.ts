@@ -41,11 +41,7 @@ async function bootstrap() {
   app.setViewEngine('hbs');
 
   app.enableCors({
-    origin: [
-      'http://127.0.0.1:3001',
-      'http://localhost:3001',
-      'https://www.nbp.szczecin.pl/',
-    ],
+    origin: ['http://127.0.0.1:3001', 'http://localhost:3001'],
     allowedHeaders: ['Content-Type'],
     methods: ['GET', 'POST', 'DELETE'],
     credentials: true,

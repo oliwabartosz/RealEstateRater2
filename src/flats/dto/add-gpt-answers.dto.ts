@@ -1,117 +1,121 @@
-import {IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString} from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class AddGPTAnswersDto {
+  @IsNotEmpty()
+  @IsString()
+  flatID: string;
 
-    @IsNotEmpty()
-    @IsString()
-    flatID: string;
+  @IsOptional()
+  @IsNumber()
+  technologyGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    technologyGPT: number | null;
+  @IsOptional()
+  @IsString()
+  technologySummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    technologySummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  lawStatusGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    lawStatusGPT: number | null;
+  @IsOptional()
+  @IsString()
+  lawSummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    lawSummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  balconyGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    balconyGPT: number | null;
+  @IsOptional()
+  @IsString()
+  balconySummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    balconySummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  elevatorGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    elevatorGPT: number | null;
+  @IsOptional()
+  @IsString()
+  elevatorSummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    elevatorSummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  basementGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    basementGPT: number | null;
+  @IsOptional()
+  @IsString()
+  basementSummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    basementSummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  garageGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    garageGPT: number | null;
+  @IsOptional()
+  @IsString()
+  garageSummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    garageSummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  gardenGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    gardenGPT: number | null;
+  @IsOptional()
+  @IsString()
+  gardenSummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    gardenSummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  modernizationGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    modernizationGPT: number | null;
+  @IsOptional()
+  @IsString()
+  modernizationSummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    modernizationSummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  alarmGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    alarmGPT: number | null;
+  @IsOptional()
+  @IsString()
+  alarmSummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    alarmSummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  kitchenGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    kitchenGPT: number | null;
+  @IsOptional()
+  @IsString()
+  kitchenSummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    kitchenSummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  outbuildingGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    outbuildingGPT: number | null;
+  @IsOptional()
+  @IsString()
+  outbuildingSummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    outbuildingSummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  rentGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    rentGPT: number | null;
+  @IsOptional()
+  @IsString()
+  rentSummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    rentSummary: string | null;
+  @IsOptional()
+  @IsNumber()
+  qualityGPT: number | null;
 
-    @IsOptional()
-    @IsNumber()
-    qualityGPT: number | null;
+  @IsOptional()
+  @IsString()
+  qualitySummary: string | null;
 
-    @IsOptional()
-    @IsString()
-    qualitySummary: string | null;
-
-    @IsNotEmpty()
-    @IsBoolean()
-    status: boolean;
-
+  @IsNotEmpty()
+  @IsBoolean()
+  status: boolean;
 }

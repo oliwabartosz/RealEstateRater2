@@ -15,7 +15,7 @@ import { RequestWithUser } from '../interfaces/auth';
 import { Response } from 'express';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import JwtAuthGuard from '../guards/jwt-auth.guard';
-import { SkipThrottle, Throttle } from '@nestjs/throttler';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @SkipThrottle({ short: true })
 @Controller('/api/auth')

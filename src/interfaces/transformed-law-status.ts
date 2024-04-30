@@ -1,7 +1,7 @@
 export interface TransformedLawStatus {
-    lawStatus?: string;
-    lawStatusLemma?: string;
+  lawStatus?: string;
+  lawStatusLemma?: string;
 
-    legalStatus?: string;
-    legalStatusLemma?: string
+  legalStatus?: string;
+  legalStatusLemma?: string;
 }

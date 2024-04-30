@@ -4,6 +4,6 @@ import { GptController } from './gpt.controller';
 
 @Module({
   providers: [GptService],
-  controllers: [GptController]
+  controllers: [GptController],
 })
 export class GptModule {}
