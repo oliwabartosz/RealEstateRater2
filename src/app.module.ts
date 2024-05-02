@@ -14,6 +14,7 @@ import { HandlebarsModule } from './handlebars/handlebars.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { GptModule } from './gpt/gpt.module';
+import { TaskQueueService } from './task-queue/task-queue.service';
 import * as Joi from 'joi';
 
 @Module({
@@ -52,6 +53,7 @@ import * as Joi from 'joi';
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
+    TaskQueueService,
   ],
 })
 export class AppModule {}

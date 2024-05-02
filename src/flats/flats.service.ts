@@ -179,4 +179,15 @@ export class FlatsGPTService {
       }
     }
   }
+
+  public async createTranslatedDescription(
+    recordID: string,
+    description: string,
+  ): Promise<FlatsGPT> {
+    const translatedDescription = this.flatsGPTRepository.create({
+      descriptionEN: description,
+    });
+    await this.flatsGPTRepository.save(translatedDescription);
+    return translatedDescription;
+  }
 }
