@@ -9,7 +9,7 @@ import { FlatsAnswers } from './flats-answers.entity';
 import dataSource from '../../db/data-source';
 
 @Entity({
-  name: 'flats_data',
+  name: 'rer2_flats_data',
 })
 export class FlatsData {
   @PrimaryGeneratedColumn('uuid')

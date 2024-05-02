@@ -16,6 +16,7 @@ import { HousesAnswersService, HousesService } from '../houses/houses.service';
 import { PlotsAnswersService, PlotsService } from 'src/plots/plots.service';
 import { PlotsData } from 'src/plots/entities/plots.entity';
 import { PlotsAnswers } from 'src/plots/entities/plots-answers.entity';
+import { LoggerService } from 'src/logger/logger.service';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { PlotsAnswers } from 'src/plots/entities/plots-answers.entity';
     HousesAnswersService,
     PlotsService,
     PlotsAnswersService,
+    LoggerService,
   ],
   exports: [HandlebarsService],
 })

@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  // LoggerService,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FlatsData } from './entities/flats-data.entity';
 import { DeleteResult, Repository } from 'typeorm';
@@ -12,6 +17,7 @@ import { AddGPTAnswersDto } from './dto/add-gpt-answers.dto';
 import { createNewAnswersRecord } from '../utils/create-new-answer-record';
 import { updateAnswersRecord } from '../utils/update-answer-record';
 import { checkIfIdExists } from '../utils/check-if-id-exists';
+import { UpdateGptFlatStatusDto } from './dto/update-flat-gpt-status.dto';
 
 @Injectable()
 export class FlatsService {
@@ -129,6 +135,8 @@ export class FlatsGPTService {
     @InjectRepository(FlatsGPT)
     private flatsGPTRepository: Repository<FlatsGPT>,
     private flatsService: FlatsService,
+    //FIXME: problem with handlebars and logger service
+    // private logger: LoggerService,
   ) {}
 
   public async getOneRecordByID(flatID: string): Promise<FlatsGPT> {
@@ -178,6 +186,25 @@ export class FlatsGPTService {
         );
       }
     }
+  }
+
+  public async setStatus(updateGptFlatStatusDto: UpdateGptFlatStatusDto) {
+    const taskToUpdate = await this.flatsGPTRepository.findOne({
+      where: { flatID: updateGptFlatStatusDto.id },
+    });
+
+    if (!taskToUpdate) {
+      //FIXME: problem with handlebars and logger service
+      // this.logger.error(`Task not found with id: ${updateGptFlatStatusDto.id}`);
+      throw new Error('Task not found');
+    }
+
+    const updatedStatus: FlatGPTRecord = {
+      ...taskToUpdate,
+      ...updateGptFlatStatusDto,
+    };
+    await this.flatsGPTRepository.save(updatedStatus);
+    return updatedStatus;
   }
 
   public async createTranslatedDescription(

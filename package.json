@@ -25,9 +25,11 @@
   },
   "dependencies": {
     "@langchain/openai": "^0.0.14",
+    "@nestjs/bull": "^10.1.1",
     "@nestjs/throttler": "^5.1.1",
     "@types/express-handlebars": "^5.3.0",
     "bcrypt": "^5.1.1",
+    "bull": "^4.12.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "cookie-parser": "^1.4.6",

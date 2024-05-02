@@ -25,7 +25,16 @@ export interface FlatGPTRecord {
   rentGPT?: number;
   rentSummary?: string;
   qualityGPT?: number;
-  status?: boolean | number;
+  status?: FlatsGPTStatus;
 }
 
 export type FlatGPTListResponse = FlatGPTRecord[];
+
+export enum FlatsGPTStatus {
+  TO_RATE = 'TO_RATE',
+  COMPLETED = 'COMPLETED',
+  NOT_RATED = 'NOT_RATED',
+  ERROR = 'ERROR',
+  PENDING = 'PENDING',
+  SKIPPED = 'SKIPPED',
+}

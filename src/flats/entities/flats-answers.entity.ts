@@ -8,7 +8,7 @@ import {
 import { FlatsData } from './flats-data.entity';
 import { FlatsGPT } from './flats-gpt.entity';
 
-@Entity({ name: 'flats_answers' })
+@Entity({ name: 'rer2_flats_answers' })
 export class FlatsAnswers {
   @PrimaryGeneratedColumn('uuid')
   flatID: string;

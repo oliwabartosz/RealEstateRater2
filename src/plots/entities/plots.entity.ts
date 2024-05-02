@@ -9,7 +9,7 @@ import dataSource from '../../db/data-source';
 import { PlotsAnswers } from './plots-answers.entity';
 
 @Entity({
-  name: 'plots_data',
+  name: 'rer2_plots_data',
 })
 export class PlotsData {
   @PrimaryGeneratedColumn('uuid')

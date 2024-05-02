@@ -6,9 +6,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { FlatsData } from './flats-data.entity';
+import { FlatsGPTStatus } from 'src/interfaces/flat-gpt-record';
 
 @Entity({
-  name: 'flats_gpt',
+  name: 'rer2_flats_gpt',
 })
 export class FlatsGPT {
   @PrimaryGeneratedColumn('uuid')
@@ -177,10 +178,11 @@ export class FlatsGPT {
   qualitySummary: string | null;
 
   @Column({
-    type: 'boolean',
+    type: 'enum',
+    enum: FlatsGPTStatus,
     default: null,
   })
-  status: boolean;
+  status: FlatsGPTStatus | null;
 
   @OneToOne(() => FlatsData, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'flatID' })

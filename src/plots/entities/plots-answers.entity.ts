@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { PlotsData } from './plots.entity';
 
-@Entity({ name: 'plots_answers' })
+@Entity({ name: 'rer2_plots_answers' })
 export class PlotsAnswers {
   @PrimaryGeneratedColumn('uuid')
   plotID: string;
