@@ -9,11 +9,18 @@ import cookieParser from 'cookie-parser';
 import hbs from 'express-handlebars';
 import path, { resolve } from 'path';
 import { handlebarsHelpers } from './handlebars/helpers/handlebarsHelpers';
+import { handlebarsHelpers } from './handlebars/helpers/handlebarsHelpers';
 import express from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  (app as NestExpressApplication).use(
+    helmet({
+      contentSecurityPolicy: false,
+    }),
+  );
   (app as NestExpressApplication).use(
     helmet({
       contentSecurityPolicy: false,
@@ -29,7 +36,17 @@ async function bootstrap() {
       transform: true, // @Params don't need Pipes like e.g. ParseIntPipe anymore (note: still validation is needed hence pipes)
     }),
   );
+  app.useGlobalFilters(new GlobalExceptionFilter());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      disableErrorMessages: false, // don't show errors details, while using pipes
+      whitelist: true, // Dto must be checked - if someone add more than in Dto, it will be ignored
+      forbidNonWhitelisted: true, // as above
+      transform: true, // @Params don't need Pipes like e.g. ParseIntPipe anymore (note: still validation is needed hence pipes)
+    }),
+  );
 
+  app.use(cookieParser());
   app.use(cookieParser());
 
   // hbs
@@ -49,7 +66,9 @@ async function bootstrap() {
     credentials: true,
   });
 
-  await app.listen(3001);
+  const PORT = 3005;
+  console.log(`Listening on port ${PORT}`);
+  await app.listen(PORT);
 }
 
 bootstrap();

@@ -1,55 +1,52 @@
-import {AddHouseAnswersDto} from "../houses/dto/add-house-answers.dto";
-import {HousesAnswers} from "../houses/entities/houses-answers.entity";
-import {HttpException, HttpStatus} from "@nestjs/common";
-import {Repository} from "typeorm";
-import {FlatsAnswers} from "../flats/entities/flats-answers.entity";
-import {AddFlatAnswersDto} from "../flats/dto/add-flat-answers.dto";
-import {FlatsGPT} from "../flats/entities/flats-gpt.entity";
-import {AddGPTAnswersDto} from "../flats/dto/add-gpt-answers.dto";
-import {AddPlotAnswersDto} from "../plots/dto/add-plot-answers.dto";
+import { AddHouseAnswersDto } from '../houses/dto/add-house-answers.dto';
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { AddFlatAnswersDto } from '../flats/dto/add-flat-answers.dto';
+import { FlatsGPT } from '../flats/entities/flats-gpt.entity';
+import { AddGPTAnswersDto } from '../flats/dto/add-gpt-answers.dto';
+import { AddPlotAnswersDto } from '../plots/dto/add-plot-answers.dto';
 
 export async function createNewAnswersRecord(
-    repository: Repository<any>,
-    addAnswersPayload: AddFlatAnswersDto | AddHouseAnswersDto | AddGPTAnswersDto | AddPlotAnswersDto,
-    user: string,
+  repository: Repository<any>,
+  addAnswersPayload:
+    | AddFlatAnswersDto
+    | AddHouseAnswersDto
+    | AddGPTAnswersDto
+    | AddPlotAnswersDto,
+  user: string,
 ): Promise<any> {
+  const repositoryClass = repository.target
+    .toString()
+    .replace('class ', '')
+    .replace(' {\n}', '');
 
-    const repositoryClass = (
-        repository
-            .target
-            .toString()
-            .replace("class ", "")
-            .replace(" {\n}", ""));
+  const searchID: string =
+    repositoryClass === 'FlatsAnswers' || repositoryClass === 'FlatsGPT'
+      ? 'flatID'
+      : repositoryClass === 'HousesAnswers'
+        ? 'houseID'
+        : 'plotID';
 
-    let searchID: string = (repositoryClass === 'FlatsAnswers' || repositoryClass === 'FlatsGPT')
-        ? "flatID"
-        : (repositoryClass === 'HousesAnswers')
-            ? "houseID"
-            : "plotID";
+  const existingRecord = await repository.findOne({
+    where: { [searchID]: addAnswersPayload[searchID] },
+  });
 
+  if (existingRecord) {
+    throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
+  }
 
-    const existingRecord = await repository.findOne({
-        where:
-            {[searchID]: addAnswersPayload[searchID]}
-    });
+  const newAnsRecord = repository.create(addAnswersPayload);
 
-    if (existingRecord) {
-        throw new HttpException(`Answer record exists`, HttpStatus.BAD_REQUEST);
+  if (!(newAnsRecord instanceof FlatsGPT)) {
+    newAnsRecord.user = user;
+
+    if (!newAnsRecord.rateStatus) {
+      newAnsRecord.rateStatus = 'true';
+    } else {
+      newAnsRecord.rateStatus = newAnsRecord.rateStatus;
     }
+  }
 
-    const newAnsRecord = repository.create(addAnswersPayload);
-
-
-    if (!(newAnsRecord instanceof FlatsGPT)) {
-        newAnsRecord.user = user;
-
-        if (!newAnsRecord.rateStatus) {
-            newAnsRecord.rateStatus = 'true';
-        } else {
-            newAnsRecord.rateStatus = newAnsRecord.rateStatus;
-        }
-    }
-
-    await repository.save(newAnsRecord);
-    return newAnsRecord;
+  await repository.save(newAnsRecord);
+  return newAnsRecord;
 }
