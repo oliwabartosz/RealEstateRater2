@@ -33,6 +33,8 @@ async function bootstrap() {
 
     // hbs
     app.useStaticAssets(resolve('./src/public'));
+    app.useStaticAssets(resolve(__dirname, '../public'));
+    app.setBaseViewsDir(resolve(__dirname, '../views'));
     // Serve static files from the /public directory
     app.use('/public', express.static(path.join(process.cwd(), 'src/public')));
     app.setBaseViewsDir(resolve('./src/views'));
@@ -40,7 +42,7 @@ async function bootstrap() {
     app.setViewEngine('hbs');
 
     app.enableCors({
-        origin: ['http://127.0.0.1:3001', 'http://localhost:3001'],
+        origin: ['http://127.0.0.1:3001', 'http://localhost:3001',],
         allowedHeaders: ["Content-Type"],
         methods: ['GET', 'POST', 'DELETE'],
         credentials: true})

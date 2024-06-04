@@ -19,5 +19,9 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "resolveJsonModule": true
-  }
+  },
+  "include": ["src/**/*.ts",
+    "src/public/**/*.json",
+    "src/views/**/*.hbs"
+  ]
 }
