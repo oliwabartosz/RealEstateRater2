@@ -12,7 +12,9 @@ import {
 } from 'src/flats/flats.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([FlatsData, FlatsAnswers, FlatsGPT, Prompts])],
+  imports: [
+    TypeOrmModule.forFeature([FlatsData, FlatsAnswers, FlatsGPT, Prompts]),
+  ],
   providers: [GptService, FlatsService, FlatsAnswersService, FlatsGPTService],
   controllers: [GptController],
 })
