@@ -216,7 +216,7 @@ export class GptService {
         if (!Number.isNaN(Number(technologyRating))) {
           this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
             flatID: id,
-            technologyGPT: technologyRating,
+            technologyRating,
           });
         }
 
@@ -256,6 +256,11 @@ export class GptService {
         balconyRatingPrompt,
         flatsData,
       );
+    } else {
+      this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+        flatID: id,
+        balconyRating: 1,
+      });
     }
 
     /* ELEVATOR If in below text there is no information about the quantity of floors, take this additional information: The number of building floors is {number_of_floors}.

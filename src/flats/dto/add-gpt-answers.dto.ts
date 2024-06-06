@@ -13,7 +13,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  technologyGPT?: number | null;
+  technologyRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -21,7 +21,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  lawStatusGPT?: number | null;
+  lawStatusRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -29,7 +29,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  balconyGPT?: number | null;
+  balconyRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -37,7 +37,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  elevatorGPT?: number | null;
+  elevatorRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -45,7 +45,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  basementGPT?: number | null;
+  basementRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -53,7 +53,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  garageGPT?: number | null;
+  garageRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -61,7 +61,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  gardenGPT?: number | null;
+  gardenRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -69,7 +69,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  modernizationGPT?: number | null;
+  modernizationRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -77,7 +77,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  alarmGPT?: number | null;
+  alarmRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -85,7 +85,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  kitchenGPT?: number | null;
+  kitchenRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -93,7 +93,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  outbuildingGPT?: number | null;
+  outbuildingRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -101,7 +101,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  rentGPT?: number | null;
+  rentRating?: number | null;
 
   @IsOptional()
   @IsString()
@@ -109,7 +109,7 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  qualityGPT?: number | null;
+  qualityRating?: number | null;
 
   @IsOptional()
   @IsString()
