@@ -46,8 +46,14 @@ export class FlatsService {
     });
   }
 
-  public async getOneRecord(flatNumber: number): Promise<FlatsData> {
+  public async getOneRecordByFlatNumber(
+    flatNumber: number,
+  ): Promise<FlatsData> {
     return await this.flatsDataRepository.findOneByOrFail({ flatNumber });
+  }
+
+  public async getOneRecordByID(id: string): Promise<FlatsData> {
+    return await this.flatsDataRepository.findOne({ where: { id } });
   }
 
   public async getLastNumber(): Promise<number | null> {

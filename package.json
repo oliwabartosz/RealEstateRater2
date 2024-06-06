@@ -24,7 +24,6 @@
     "migration:revert": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
-    "@langchain/openai": "^0.0.14",
     "@nestjs/bull": "^10.1.1",
     "@nestjs/throttler": "^5.1.1",
     "@types/express-handlebars": "^5.3.0",
@@ -38,6 +37,7 @@
     "helmet": "^7.1.0",
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
+    "langchain": "0.1.28",
     "mariadb": "^3.2.2",
     "mysql": "^2.18.1",
     "passport": "^0.7.0",

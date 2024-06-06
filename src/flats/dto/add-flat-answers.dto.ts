@@ -13,69 +13,69 @@ export class AddFlatAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  technologyAns: number | null;
+  technologyAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  legalStatusAns: number | null;
+  legalStatusAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  balconyAns: number | null;
+  balconyAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  elevatorAns: number | null;
+  elevatorAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  basementAns: number | null;
+  basementAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  garageAns: number | null;
+  garageAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  gardenAns: number | null;
+  gardenAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  modernizationAns: number | null;
+  modernizationAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  alarmAns: number | null;
+  alarmAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  kitchenAns: number | null;
+  kitchenAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  outbuildingAns: number | null;
+  outbuildingAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  qualityAns: number | null;
+  qualityAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  rentAns: number | null;
+  rentAns?: number | null;
 
   @IsOptional()
   @IsNumber()
-  yearBuiltAns: number | null;
+  yearBuiltAns?: number | null;
 
   @IsOptional()
   @IsString()
-  commentsAns: string | null;
+  commentsAns?: string | null;
 
   @IsOptional()
   @IsBoolean()
-  deleteAns: boolean | null;
+  deleteAns?: boolean | null;
 
   @IsOptional()
   @IsString()
-  rateStatus: string | null;
+  rateStatus?: string | null;
 }

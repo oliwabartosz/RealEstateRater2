@@ -13,109 +13,109 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  technologyGPT: number | null;
+  technologyGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  technologySummary: string | null;
+  technologySummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  lawStatusGPT: number | null;
+  lawStatusGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  lawSummary: string | null;
+  lawSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  balconyGPT: number | null;
+  balconyGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  balconySummary: string | null;
+  balconySummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  elevatorGPT: number | null;
+  elevatorGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  elevatorSummary: string | null;
+  elevatorSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  basementGPT: number | null;
+  basementGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  basementSummary: string | null;
+  basementSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  garageGPT: number | null;
+  garageGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  garageSummary: string | null;
+  garageSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  gardenGPT: number | null;
+  gardenGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  gardenSummary: string | null;
+  gardenSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  modernizationGPT: number | null;
+  modernizationGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  modernizationSummary: string | null;
+  modernizationSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  alarmGPT: number | null;
+  alarmGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  alarmSummary: string | null;
+  alarmSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  kitchenGPT: number | null;
+  kitchenGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  kitchenSummary: string | null;
+  kitchenSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  outbuildingGPT: number | null;
+  outbuildingGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  outbuildingSummary: string | null;
+  outbuildingSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  rentGPT: number | null;
+  rentGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  rentSummary: string | null;
+  rentSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
-  qualityGPT: number | null;
+  qualityGPT?: number | null;
 
   @IsOptional()
   @IsString()
-  qualitySummary: string | null;
+  qualitySummary?: string | null;
 
   @IsNotEmpty()
   @IsBoolean()
-  status: boolean;
+  status?: boolean;
 }

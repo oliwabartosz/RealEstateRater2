@@ -25,7 +25,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  technologyGPT: number | null;
+  technologyRating: number | null;
 
   @Column({
     type: 'text',
@@ -37,7 +37,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  legalStatusGPT: number | null;
+  legalStatusRating: number | null;
 
   @Column({
     type: 'text',
@@ -49,7 +49,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  balconyGPT: number | null;
+  balconyRating: number | null;
 
   @Column({
     type: 'text',
@@ -61,7 +61,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  elevatorGPT: number | null;
+  elevatorRating: number | null;
 
   @Column({
     type: 'text',
@@ -73,7 +73,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  basementGPT: number | null;
+  basementRating: number | null;
 
   @Column({
     type: 'text',
@@ -85,7 +85,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  garageGPT: number | null;
+  garageRating: number | null;
 
   @Column({
     type: 'text',
@@ -97,7 +97,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  gardenGPT: number | null;
+  gardenRating: number | null;
 
   @Column({
     type: 'text',
@@ -109,7 +109,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  modernizationGPT: number | null;
+  modernizationRating: number | null;
 
   @Column({
     type: 'text',
@@ -121,7 +121,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  alarmGPT: number | null;
+  alarmRating: number | null;
 
   @Column({
     type: 'text',
@@ -133,7 +133,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  kitchenGPT: number | null;
+  kitchenRating: number | null;
 
   @Column({
     type: 'text',
@@ -145,7 +145,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  outbuildingGPT: number | null;
+  outbuildingRating: number | null;
 
   @Column({
     type: 'text',
@@ -157,7 +157,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  rentGPT: number | null;
+  rentRating: number | null;
 
   @Column({
     type: 'text',
@@ -169,7 +169,7 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  qualityGPT: number | null;
+  qualityRating: number | null;
 
   @Column({
     type: 'text',

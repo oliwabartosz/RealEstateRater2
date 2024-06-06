@@ -15,6 +15,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { GptModule } from './gpt/gpt.module';
 import { LoggerModule } from './logger/logger.module';
+import { LangchainModule } from './langchain/langchain.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -46,6 +47,7 @@ import * as Joi from 'joi';
     HandlebarsModule,
     GptModule,
     LoggerModule,
+    LangchainModule,
   ],
   controllers: [AppController, HandlebarsController],
   providers: [

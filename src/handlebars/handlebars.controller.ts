@@ -109,12 +109,12 @@ export class HandlebarsController {
   ) {
     // Checks if flat exists
     try {
-      await this.flatsService.getOneRecord(number);
+      await this.flatsService.getOneRecordByFlatNumber(number);
     } catch (err) {
       return res.redirect('/flats/');
     }
 
-    const flatData = await this.flatsService.getOneRecord(number);
+    const flatData = await this.flatsService.getOneRecordByFlatNumber(number);
     const flatID = flatData.id;
 
     const imagesDir = path.join(
@@ -148,12 +148,12 @@ export class HandlebarsController {
     @Param('number') number: number,
   ) {
     try {
-      await this.flatsService.getOneRecord(number);
+      await this.flatsService.getOneRecordByFlatNumber(number);
     } catch (err) {
       return res.redirect('/flats/quick-rate/');
     }
 
-    const flatData = await this.flatsService.getOneRecord(number);
+    const flatData = await this.flatsService.getOneRecordByFlatNumber(number);
     const flatID = flatData.id;
     const imagesDir = path.join(
       process.cwd(),

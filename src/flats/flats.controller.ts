@@ -98,7 +98,7 @@ export class FlatsController {
     if (flatNumber > lastNumber) {
       throw new NotFoundException();
     }
-    return this.flatsService.getOneRecord(flatNumber);
+    return this.flatsService.getOneRecordByFlatNumber(flatNumber);
   }
 
   @Post('/')

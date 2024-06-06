@@ -10,6 +10,7 @@ import {
   FlatsGPTService,
   FlatsService,
 } from 'src/flats/flats.service';
+import { Prompts } from './entities/prompts.entity';
 
 @Module({
   imports: [
