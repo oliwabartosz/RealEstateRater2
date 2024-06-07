@@ -21,11 +21,11 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  lawStatusRating?: number | null;
+  legalStatusRating?: number | null;
 
   @IsOptional()
   @IsString()
-  lawSummary?: string | null;
+  legalStatusSummary?: string | null;
 
   @IsOptional()
   @IsNumber()

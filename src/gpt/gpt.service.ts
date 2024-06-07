@@ -13,16 +13,30 @@ import { FlatsAnswers } from 'src/flats/entities/flats-answers.entity';
 import { FlatsData } from 'src/flats/entities/flats-data.entity';
 import {
   balconySummaryPrompt,
+  basementSummaryPrompt,
   elevatorSummaryPrompt,
+  garageSummaryPrompt,
   gardenSummaryPrompt,
+  kitchenSummaryPrompt,
   legalStatusSummaryPrompt,
+  modernizationSummaryPrompt,
+  monitoringSummaryPrompt,
+  outbuildingSummaryPrompt,
+  rentSummaryPrompt,
   technologySummaryPrompt,
 } from './prompts/flats/summaries';
 import {
   balconyRatingPrompt,
+  basementRatingPrompt,
   elevatorRatingPrompt,
+  garageRatingPrompt,
   gardenRatingPrompt,
+  kitchenRatingPrompt,
   legalStatusRatingPrompt,
+  modernizationRatingPrompt,
+  monitoringRatingPrompt,
+  outbuildingRatingPrompt,
+  rentRatingPrompt,
   technologyRatingPrompt,
 } from './prompts/flats/ratings';
 import {
@@ -30,6 +44,14 @@ import {
   translateFromPLtoEN,
 } from './prompts/flats/translation';
 import { rateParams } from './helpers/params.rating';
+
+type FlatsDataKeys =
+  | keyof FlatsData
+  | 'technology'
+  | 'garage'
+  | 'modernization'
+  | 'outbuilding'
+  | 'kitchen';
 
 @Injectable()
 export class GptService {
@@ -83,44 +105,52 @@ export class GptService {
     );
   }
 
+  private simpleYesNoTranslate(
+    text: string,
+  ): 'yes' | 'no' | 'information not provided.' {
+    if (text === 'tak') return 'yes';
+    if (text === 'nie') return 'no';
+    return 'information not provided.';
+  }
+
   private async rateProperty(
     id: string,
-    property: keyof FlatsData,
+    property: FlatsDataKeys,
     promptSummary: string,
     promptRating: string,
     flatsDataInstance: FlatsData,
+    summaryParams?: { [key: string]: string },
+    ratingParams?: { [key: string]: string },
   ) {
     let summary = '';
     let rating = '';
 
     const propertyLemma =
-      flatsDataInstance[`${property}Lemma` as keyof FlatsData];
+      flatsDataInstance[`${property}Lemma` as keyof FlatsDataKeys];
     const user = undefined;
 
-    if (typeof property !== 'number') {
-      if (propertyLemma !== '') {
-        const lemma = await this.translateWithGPT(FlatsData[property], 'pl_en');
+    if (typeof property !== 'number' && propertyLemma !== '') {
+      const lemma = await this.translateWithGPT(FlatsData[property], 'pl_en');
 
-        summary = await generateChainAndInvoke(
-          promptSummary,
-          this.modelName,
-          this.creativity,
-          { lemma },
-        );
+      summary = await generateChainAndInvoke(
+        promptSummary,
+        this.modelName,
+        this.creativity,
+        { lemma, ...summaryParams },
+      );
 
-        rating = await generateChainAndInvoke(
-          promptRating,
-          this.modelName,
-          this.creativity,
-          { summary },
-        );
+      rating = await generateChainAndInvoke(
+        promptRating,
+        this.modelName,
+        this.creativity,
+        { summary, ...ratingParams },
+      );
 
-        await this.flatsGPTService.createOrUpdateGPTAnswer(id, user, {
-          flatID: id,
-          [`${property}Rating`]: Number(rating) || -9,
-          [`${property}Summary`]: this.translateWithGPT(summary, 'en_pl'),
-        });
-      }
+      await this.flatsGPTService.createOrUpdateGPTAnswer(id, user, {
+        flatID: id,
+        [`${property}Rating`]: Number(rating) || -9,
+        [`${property}Summary`]: this.translateWithGPT(summary, 'en_pl'),
+      });
     }
     return {
       rating: Number(rating) || -9,
@@ -137,37 +167,28 @@ export class GptService {
     /* Change status of the task */
     this.updateStatus(id, FlatsGPTStatus.PENDING);
 
-    // Fields taken from the QuickRate
-    const {
-      technologyAns,
-      modernizationAns,
-      kitchenAns,
-      balconyAns,
-      gardenAns,
-      qualityAns,
-      deleteAns,
-    } = await this.flatsAnswerService.getOneRecordByID(id);
-
     // Basic data from scraped
     const {
       description,
-      technologyLemma,
-      modernizationLemma,
-      kitchenLemma,
-      balconyLemma,
-      gardenLemma,
-      basementLemma,
-      rentLemma,
-      legalStatusLemma,
-      garageLemma,
-      streetLemma,
-      elevatorLemma,
-      monitoringLemma,
-      outbuildingLemma,
       yearBuilt,
       material,
       buildingType,
       floorsNumber,
+      legalStatus,
+      balconyQuantity,
+      terracesQuantity,
+      loggiasQuantity,
+      frenchBalconyQuantity,
+      storageRoom,
+      attic,
+      basement,
+      priceParkingUnderground,
+      priceParkingGround,
+      security,
+      guardedArea,
+      guardedEstate,
+      securityControl,
+      kitchenType,
     } = await this.flatsService.getOneRecordByID(id);
 
     /* PROPERTIES/PARAMETERS */
@@ -181,62 +202,47 @@ export class GptService {
     );
 
     /* RATINGS & SUMMARIES */
-    let technologyRating;
 
     /* TECHNOLOGY */
-    if (typeof technologyAns !== 'number') {
-      if (technologyLemma !== '') {
-        const lemma = await this.translateWithGPT(
-          flatsData.technologyLemma,
-          'pl_en',
-        );
-
-        const technologySummary = await generateChainAndInvoke(
-          technologySummaryPrompt,
-          this.modelName,
-          this.creativity,
-          {
-            lemma,
-            year_built: String(params.yearBuilt),
-            material: params.material,
-            building_type: params.buildingType,
-            number_of_floors: String(params.floorsNumber),
-          },
-        );
-
-        technologyRating = await generateChainAndInvoke(
-          technologyRatingPrompt,
-          this.modelName,
-          this.creativity,
-          {
-            summary: technologySummary,
-          },
-        );
-
-        if (!Number.isNaN(Number(technologyRating))) {
-          this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-            flatID: id,
-            technologyRating,
-          });
-        }
-
-        if (technologySummary !== '') {
-          this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-            flatID: id,
-            technologySummary,
-          });
-        }
-      }
-    }
+    const technologyRating = await this.rateProperty(
+      id,
+      'technology',
+      technologySummaryPrompt,
+      technologyRatingPrompt,
+      flatsData,
+      {
+        year_built: String(params.yearBuilt),
+        material: params.material,
+        building_type: params.buildingType,
+        number_of_floors: String(params.floorsNumber),
+      },
+    );
 
     /* LEGAL STATUS */
-    await this.rateProperty(
+    const legalStatusRating = await this.rateProperty(
       id,
       'legalStatus',
       legalStatusSummaryPrompt,
       legalStatusRatingPrompt,
       flatsData,
     );
+
+    if (legalStatusRating.rating === -9) {
+      if (legalStatus === 'Własność') {
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          legalStatusRating: 1,
+          legalStatusSummary: 'Pobrano z parametrów nieruchomości',
+        });
+        if (legalStatus.toLowerCase().includes('spółdzielcze')) {
+          this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+            flatID: id,
+            legalStatusRating: 2,
+            legalStatusSummary: 'Pobrano z parametrów nieruchomości',
+          });
+        }
+      }
+    }
 
     /* GARDEN should be before the balcony, because when it's available then we treat that there is outside area attached to apartment */
     const gardenRating = await this.rateProperty(
@@ -255,28 +261,157 @@ export class GptService {
         balconySummaryPrompt,
         balconyRatingPrompt,
         flatsData,
+        {
+          balcony_quantity:
+            String(balconyQuantity) || 'information not provided.',
+          terraces_quantity:
+            String(terracesQuantity) || 'information not provided.',
+          loggias_quantity:
+            String(loggiasQuantity) || 'information not provided.',
+          french_balcony_quantity:
+            String(frenchBalconyQuantity) || 'information not provided.',
+        },
       );
     } else {
       this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
         flatID: id,
         balconyRating: 1,
+        balconySummary: 'Mieszkanie posiada przynależny ogródek',
       });
     }
 
-    /* ELEVATOR If in below text there is no information about the quantity of floors, take this additional information: The number of building floors is {number_of_floors}.
-     */
+    /* ELEVATOR */
     await this.rateProperty(
       id,
       'elevator',
       elevatorSummaryPrompt,
       elevatorRatingPrompt,
       flatsData,
+      { number_of_floors: String(params.floorsNumber) },
     );
 
-    /* Modernization  - technology rating is 2 or 3, please return null.
-    The technology of building was rated as: {technology_rating}, and the building was built in {year_of_built}
-    */
+    /*  BASEMENT */
+    const basementRating = await this.rateProperty(
+      id,
+      'basement',
+      basementSummaryPrompt,
+      basementRatingPrompt,
+      flatsData,
+    );
 
-    /* OUTBUILDING The technology of building was rated as: {technology_rating}. */
+    if (basementRating.rating === -9) {
+      if (basement === 'Tak' || attic === 'Tak' || storageRoom === 'Tak') {
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          basementRating: 1,
+          basementSummary: 'Pobrano z parametrów nieruchomości',
+        });
+        if (basement === 'Nie' || attic === 'Nie' || storageRoom === 'Nie') {
+          this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+            flatID: id,
+            basementRating: 0,
+            basementSummary: 'Pobrano z parametrów nieruchomości',
+          });
+        }
+      }
+    }
+
+    /* GARAGE */
+    await this.rateProperty(
+      id,
+      'garage',
+      garageSummaryPrompt,
+      garageRatingPrompt,
+      flatsData,
+      {
+        price_underground:
+          String(priceParkingUnderground) || 'information not provided.',
+        price_ground: String(priceParkingGround) || 'information not provided.',
+      },
+    );
+
+    /* MONITORING */
+    await this.rateProperty(
+      id,
+      'monitoring',
+      monitoringSummaryPrompt,
+      monitoringRatingPrompt,
+      flatsData,
+      {
+        security: this.simpleYesNoTranslate(security),
+        guarded_area: this.simpleYesNoTranslate(guardedArea),
+        guarded_estate: this.simpleYesNoTranslate(guardedEstate),
+        security_control: this.simpleYesNoTranslate(securityControl),
+      },
+    );
+
+    /* KITCHEN */
+    const kitchenRating = await this.rateProperty(
+      id,
+      'kitchen',
+      kitchenSummaryPrompt,
+      kitchenRatingPrompt,
+      flatsData,
+    );
+
+    if (kitchenRating.rating === -9) {
+      if (kitchenType === 'Ciemna' || kitchenType === 'Prześwit') {
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          kitchenRating: 1,
+          kitchenSummary: 'Pobrano z parametrów nieruchomości',
+        });
+      }
+      if (kitchenType === 'Widna') {
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          kitchenRating: 2,
+          kitchenSummary: 'Pobrano z parametrów nieruchomości',
+        });
+      }
+      if (kitchenType.includes('Aneks')) {
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          kitchenRating: 3,
+          kitchenSummary: 'Pobrano z parametrów nieruchomości',
+        });
+      }
+    }
+
+    /* RENT */
+    await this.rateProperty(
+      id,
+      'rent',
+      rentSummaryPrompt,
+      rentRatingPrompt,
+      flatsData,
+    );
+
+    /* OUTBUILDING */
+    await this.rateProperty(
+      id,
+      'outbuilding',
+      outbuildingSummaryPrompt,
+      outbuildingRatingPrompt,
+      flatsData,
+      {},
+      {
+        technology_rating: String(technologyRating.rating),
+      },
+    );
+
+    /* MODERNIZATION */
+    await this.rateProperty(
+      id,
+      'modernization',
+      modernizationSummaryPrompt,
+      modernizationRatingPrompt,
+      flatsData,
+      {},
+      {
+        technology_rating: String(technologyRating.rating),
+        year_of_built: String(params.yearBuilt),
+      },
+    );
   }
 }

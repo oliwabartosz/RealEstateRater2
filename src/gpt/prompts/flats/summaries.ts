@@ -3,7 +3,14 @@ export const balconySummaryPrompt = `Using maximum 3 sentences answer the questi
 If text says about french balcony or about balcony window add this information also to your summary.
 
 Make a summary from text below, delimited by triple hashes (###): 
-###{lemma}###`;
+###{lemma}###
+
+While making summary you can take the following additional parameters created by real estate agents:
+Number of balconies in the apartment: {balcony_quantity} 
+Number of french balconies in the apartment: {french_balcony_quantity}
+Number of terraces in the apartment: {terraces_quantity}
+Number of loggias in the apartment: {loggias_quantity}
+`;
 
 export const technologySummaryPrompt = `Provide a three-sentence summary about TECHNOLOGY OF THE BUILDING based on the information 
 from this text delimited by three hashes (###): 
@@ -73,18 +80,30 @@ export const basement_prompt_old_2 = `. Then your task is to perform the followi
 export const garageSummaryPrompt = `Make three sentences summary about garage and parking place from text delimited in triple 
 hashes (###). Does garage or parking place belong to the apartment? Does it have additional price? Does the text mention 
 that is to possible to buy garage or parking place? 
-###{lemma}###`;
+###{lemma}###
+
+While making summary you can take the following additional parameters created by real estate agents:
+Price of underground parking place: {price_underground},
+Price of ground parking place: {price_ground},
+`;
 
 export const gardenSummaryPrompt = `Make two sentences summary about garden from text delimited in triple 
 hashes (###). Does garden belong to the flat? Does it have additional price? If the garden is located on loggia or terrace
 treat that information as there is no garden at all.
 ###{lemma}###`;
 
-export const monitoringPrompt = `Make three sentences summary about monitoring from text delimited in triple hashes (###). 
+export const monitoringSummaryPrompt = `Make three sentences summary about monitoring from text delimited in triple hashes (###). 
 Does building or area near it is being monitored? Is building located in a guarded housing estate? Is there supervision or protection? 
 Does text mentions something about monitoring?
 If it is not possible to determine, say that. 
-###{lemma}###`;
+###{lemma}###
+
+While making summary you can take the following additional parameters created by real estate agents (answers for questions below can be yes / no / information not provided):
+Building is secured? {security}
+Whole area near building is guarded? {guarded_area}
+Whole estate which building is in is guarded? {guarded_estate}
+Building is under security control? {security_control}
+`;
 
 export const kitchenSummaryPrompt = `Please provide a three-sentence summary about the kitchen based on the text enclosed 
 in triple hashes (###). Could you describe what type of kitchen the apartment has and whether it is an annex? If kitchen 
