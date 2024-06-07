@@ -184,6 +184,15 @@ export class GptService {
       kitchenType,
     } = await this.flatsService.getOneRecordByID(id);
 
+    // Quick-Rate Answers
+    const {
+      technologyAns,
+      modernizationAns,
+      balconyAns,
+      gardenAns,
+      kitchenAns,
+    } = await this.flatsAnswerService.getOneRecordByID(id);
+
     /* PROPERTIES/PARAMETERS */
     const params = await rateParams(
       id,
@@ -197,20 +206,33 @@ export class GptService {
     /* RATINGS & SUMMARIES */
 
     /* TECHNOLOGY */
-    const technologyRating = await this.rateProperty(
-      id,
-      'technology',
-      technologySummaryPrompt,
-      technologyRatingPrompt,
-      flatsData,
-      {
-        year_built: String(params.yearBuilt),
-        material: params.material,
-        building_type: params.buildingType,
-        number_of_floors: String(params.floorsNumber),
-      },
-    );
+    let technologyRating: { rating: number; summary: string };
 
+    if (technologyAns === null) {
+      technologyRating = await this.rateProperty(
+        id,
+        'technology',
+        technologySummaryPrompt,
+        technologyRatingPrompt,
+        flatsData,
+        {
+          year_built: String(params.yearBuilt),
+          material: params.material,
+          building_type: params.buildingType,
+          number_of_floors: String(params.floorsNumber),
+        },
+      );
+    } else {
+      // Copy data from Answers DB to GPT DB (quick-rate)
+      technologyRating.rating = technologyAns;
+      technologyRating.summary = 'Oceniono przez użytkownika.';
+
+      this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+        flatID: id,
+        technologyRating: technologyRating.rating,
+        technologySummary: technologyRating.summary,
+      });
+    }
     /* LEGAL STATUS */
     const legalStatusRating = await this.rateProperty(
       id,
@@ -238,173 +260,223 @@ export class GptService {
     }
 
     /* GARDEN should be before the balcony, because when it's available then we treat that there is outside area attached to apartment */
-    const gardenRating = await this.rateProperty(
-      id,
-      'garden',
-      gardenSummaryPrompt,
-      gardenRatingPrompt,
-      flatsData,
-    );
+    let gardenRating: { rating: number; summary: string };
 
-    if (gardenRating.rating !== 1) {
-      /* BALCONY */
-      await this.rateProperty(
+    if (gardenAns === null) {
+      gardenRating = await this.rateProperty(
         id,
-        'balcony',
-        balconySummaryPrompt,
-        balconyRatingPrompt,
+        'garden',
+        gardenSummaryPrompt,
+        gardenRatingPrompt,
         flatsData,
-        {
-          balcony_quantity:
-            String(balconyQuantity) || 'information not provided.',
-          terraces_quantity:
-            String(terracesQuantity) || 'information not provided.',
-          loggias_quantity:
-            String(loggiasQuantity) || 'information not provided.',
-          french_balcony_quantity:
-            String(frenchBalconyQuantity) || 'information not provided.',
-        },
       );
     } else {
+      // Copy data from Answers DB to GPT DB (quick-rate)
+
+      gardenRating.rating = gardenAns;
+      gardenRating.summary = 'Oceniono przez użytkownika.';
+
       this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
         flatID: id,
-        balconyRating: 1,
-        balconySummary: 'Mieszkanie posiada przynależny ogródek',
+        gardenRating: gardenRating.rating,
+        gardenSummary: gardenRating.summary,
       });
     }
 
-    /* ELEVATOR */
-    await this.rateProperty(
-      id,
-      'elevator',
-      elevatorSummaryPrompt,
-      elevatorRatingPrompt,
-      flatsData,
-      { number_of_floors: String(params.floorsNumber) },
-    );
-
-    /*  BASEMENT */
-    const basementRating = await this.rateProperty(
-      id,
-      'basement',
-      basementSummaryPrompt,
-      basementRatingPrompt,
-      flatsData,
-    );
-
-    if (basementRating.rating === -9) {
-      if (basement === 'Tak' || attic === 'Tak' || storageRoom === 'Tak') {
+    if (gardenRating.rating !== 1) {
+      /* BALCONY */
+      if (balconyAns === null) {
+        await this.rateProperty(
+          id,
+          'balcony',
+          balconySummaryPrompt,
+          balconyRatingPrompt,
+          flatsData,
+          {
+            balcony_quantity:
+              String(balconyQuantity) || 'information not provided.',
+            terraces_quantity:
+              String(terracesQuantity) || 'information not provided.',
+            loggias_quantity:
+              String(loggiasQuantity) || 'information not provided.',
+            french_balcony_quantity:
+              String(frenchBalconyQuantity) || 'information not provided.',
+          },
+        );
+      } else if (balconyAns !== null) {
+        // Copy data from Answers DB to GPT DB (quick-rate)}
         this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
           flatID: id,
-          basementRating: 1,
-          basementSummary: 'Pobrano z parametrów nieruchomości',
+          balconyRating: balconyAns,
+          balconySummary: 'Oceniono przez użytkownika.',
         });
-        if (basement === 'Nie' || attic === 'Nie' || storageRoom === 'Nie') {
+      } else {
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          balconyRating: 1,
+          balconySummary: 'Mieszkanie posiada przynależny ogródek',
+        });
+      }
+
+      /* ELEVATOR */
+      await this.rateProperty(
+        id,
+        'elevator',
+        elevatorSummaryPrompt,
+        elevatorRatingPrompt,
+        flatsData,
+        { number_of_floors: String(params.floorsNumber) },
+      );
+
+      /*  BASEMENT */
+      const basementRating = await this.rateProperty(
+        id,
+        'basement',
+        basementSummaryPrompt,
+        basementRatingPrompt,
+        flatsData,
+      );
+
+      if (basementRating.rating === -9) {
+        if (basement === 'Tak' || attic === 'Tak' || storageRoom === 'Tak') {
           this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
             flatID: id,
-            basementRating: 0,
+            basementRating: 1,
             basementSummary: 'Pobrano z parametrów nieruchomości',
           });
+          if (basement === 'Nie' || attic === 'Nie' || storageRoom === 'Nie') {
+            this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+              flatID: id,
+              basementRating: 0,
+              basementSummary: 'Pobrano z parametrów nieruchomości',
+            });
+          }
         }
       }
+
+      /* GARAGE */
+      await this.rateProperty(
+        id,
+        'garage',
+        garageSummaryPrompt,
+        garageRatingPrompt,
+        flatsData,
+        {
+          price_underground:
+            String(priceParkingUnderground) || 'information not provided.',
+          price_ground:
+            String(priceParkingGround) || 'information not provided.',
+        },
+      );
+
+      /* MONITORING */
+      await this.rateProperty(
+        id,
+        'monitoring',
+        monitoringSummaryPrompt,
+        monitoringRatingPrompt,
+        flatsData,
+        {
+          security: this.simpleYesNoTranslate(security),
+          guarded_area: this.simpleYesNoTranslate(guardedArea),
+          guarded_estate: this.simpleYesNoTranslate(guardedEstate),
+          security_control: this.simpleYesNoTranslate(securityControl),
+        },
+      );
+
+      /* KITCHEN */
+      let kitchenRating: { rating: number; summary: string };
+
+      if (kitchenAns === null) {
+        kitchenRating = await this.rateProperty(
+          id,
+          'kitchen',
+          kitchenSummaryPrompt,
+          kitchenRatingPrompt,
+          flatsData,
+        );
+
+        if (kitchenRating.rating === -9) {
+          if (kitchenType === 'Ciemna' || kitchenType === 'Prześwit') {
+            this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+              flatID: id,
+              kitchenRating: 1,
+              kitchenSummary: 'Pobrano z parametrów nieruchomości',
+            });
+          }
+          if (kitchenType === 'Widna') {
+            this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+              flatID: id,
+              kitchenRating: 2,
+              kitchenSummary: 'Pobrano z parametrów nieruchomości',
+            });
+          }
+          if (kitchenType.includes('Aneks')) {
+            this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+              flatID: id,
+              kitchenRating: 3,
+              kitchenSummary: 'Pobrano z parametrów nieruchomości',
+            });
+          }
+        }
+      } else {
+        // Copy data from Answers DB to GPT DB (quick-rate)
+        kitchenRating.rating = kitchenAns;
+        kitchenRating.summary = 'Oceniono przez użytkownika.';
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          kitchenRating: kitchenAns,
+          kitchenSummary: 'Oceniono przez użytkownika.',
+        });
+      }
+      /* RENT */
+      await this.rateProperty(
+        id,
+        'rent',
+        rentSummaryPrompt,
+        rentRatingPrompt,
+        flatsData,
+      );
+
+      /* OUTBUILDING */
+      await this.rateProperty(
+        id,
+        'outbuilding',
+        outbuildingSummaryPrompt,
+        outbuildingRatingPrompt,
+        flatsData,
+        {},
+        {
+          technology_rating: String(technologyRating.rating),
+        },
+      );
+
+      /* MODERNIZATION */
+      let modernizationRating: { rating: number; summary: string };
+
+      if (modernizationAns === null) {
+        modernizationRating = await this.rateProperty(
+          id,
+          'modernization',
+          modernizationSummaryPrompt,
+          modernizationRatingPrompt,
+          flatsData,
+          {},
+          {
+            technology_rating: String(technologyRating.rating),
+            year_of_built: String(params.yearBuilt),
+          },
+        );
+      } else {
+        // Copy data from Answers DB to GPT DB (quick-rate)
+        modernizationRating.rating = modernizationAns;
+        modernizationRating.summary = 'Oceniono przez użytkownika.';
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          modernizationRating: modernizationAns,
+          modernizationSummary: 'Oceniono przez użytkownika.',
+        });
+      }
     }
-
-    /* GARAGE */
-    await this.rateProperty(
-      id,
-      'garage',
-      garageSummaryPrompt,
-      garageRatingPrompt,
-      flatsData,
-      {
-        price_underground:
-          String(priceParkingUnderground) || 'information not provided.',
-        price_ground: String(priceParkingGround) || 'information not provided.',
-      },
-    );
-
-    /* MONITORING */
-    await this.rateProperty(
-      id,
-      'monitoring',
-      monitoringSummaryPrompt,
-      monitoringRatingPrompt,
-      flatsData,
-      {
-        security: this.simpleYesNoTranslate(security),
-        guarded_area: this.simpleYesNoTranslate(guardedArea),
-        guarded_estate: this.simpleYesNoTranslate(guardedEstate),
-        security_control: this.simpleYesNoTranslate(securityControl),
-      },
-    );
-
-    /* KITCHEN */
-    const kitchenRating = await this.rateProperty(
-      id,
-      'kitchen',
-      kitchenSummaryPrompt,
-      kitchenRatingPrompt,
-      flatsData,
-    );
-
-    if (kitchenRating.rating === -9) {
-      if (kitchenType === 'Ciemna' || kitchenType === 'Prześwit') {
-        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-          flatID: id,
-          kitchenRating: 1,
-          kitchenSummary: 'Pobrano z parametrów nieruchomości',
-        });
-      }
-      if (kitchenType === 'Widna') {
-        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-          flatID: id,
-          kitchenRating: 2,
-          kitchenSummary: 'Pobrano z parametrów nieruchomości',
-        });
-      }
-      if (kitchenType.includes('Aneks')) {
-        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-          flatID: id,
-          kitchenRating: 3,
-          kitchenSummary: 'Pobrano z parametrów nieruchomości',
-        });
-      }
-    }
-
-    /* RENT */
-    await this.rateProperty(
-      id,
-      'rent',
-      rentSummaryPrompt,
-      rentRatingPrompt,
-      flatsData,
-    );
-
-    /* OUTBUILDING */
-    await this.rateProperty(
-      id,
-      'outbuilding',
-      outbuildingSummaryPrompt,
-      outbuildingRatingPrompt,
-      flatsData,
-      {},
-      {
-        technology_rating: String(technologyRating.rating),
-      },
-    );
-
-    /* MODERNIZATION */
-    await this.rateProperty(
-      id,
-      'modernization',
-      modernizationSummaryPrompt,
-      modernizationRatingPrompt,
-      flatsData,
-      {},
-      {
-        technology_rating: String(technologyRating.rating),
-        year_of_built: String(params.yearBuilt),
-      },
-    );
   }
 }
