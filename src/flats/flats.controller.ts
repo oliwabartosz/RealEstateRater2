@@ -43,10 +43,10 @@ export class FlatsController {
     @Inject(FlatsGPTService) private flatsGPTService: FlatsGPTService,
   ) {}
 
-  @Get('/all')
+  @Get('/')
   @UseGuards(RoleGuard(Role.User))
   @UseGuards(RoleGuard(Role.Scraper))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   getRecords(): Promise<FlatsListResponse> {
     return this.flatsService.getAllRecords();
   }
@@ -103,7 +103,7 @@ export class FlatsController {
 
   @Post('/')
   @UseGuards(RoleGuard(Role.Scraper))
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   createRecord(@Body(TransformLawStatusPipe) createFlatDto: CreateFlatDto) {
     return this.flatsService.createNewRecord(createFlatDto);
   }

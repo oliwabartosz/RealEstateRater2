@@ -38,7 +38,7 @@ export class HousesController {
     private housesAnswersService: HousesAnswersService,
   ) {}
 
-  @Get('/all')
+  @Get('/')
   @UseGuards(RoleGuard(Role.User))
   @UseGuards(RoleGuard(Role.Scraper))
   @UseGuards(JwtAuthGuard)

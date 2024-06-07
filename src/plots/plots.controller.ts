@@ -35,7 +35,7 @@ export class PlotsController {
     private plotsAnswersService: PlotsAnswersService,
   ) {}
 
-  @Get('/all')
+  @Get('/')
   @UseGuards(RoleGuard(Role.User))
   @UseGuards(RoleGuard(Role.Scraper))
   @UseGuards(JwtAuthGuard)
