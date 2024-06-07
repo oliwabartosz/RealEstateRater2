@@ -46,7 +46,7 @@ export class FlatsController {
   @Get('/')
   @UseGuards(RoleGuard(Role.User))
   @UseGuards(RoleGuard(Role.Scraper))
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   getRecords(): Promise<FlatsListResponse> {
     return this.flatsService.getAllRecords();
   }
