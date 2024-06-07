@@ -14,8 +14,8 @@
             {{/if}}
         </tr>
 
-
-        {{#if (or (equals url "/flats/") (equals url "/flats/quick-rate"))}}
+       
+        {{#if (or (equals url "/flats/") (equals url "/flats/quick-rate/"))}}
             {{#each flatsList}}
                 <tr>
                     <td>{{this.flatNumber}}</td>
@@ -43,7 +43,7 @@
         {{/if}}
         
         
-        {{#if (or (equals url "/houses/") (equals url "/houses/quick-rate"))}}
+        {{#if (or (equals url "/houses/") (equals url "/houses/quick-rate/"))}}
             {{#each housesList}}
                 <tr>
                     <td>{{this.houseNumber}}</td>
@@ -70,7 +70,7 @@
             {{/each}}
         {{/if}}
 
-        {{#if (or (equals url "/plots/") (equals url "/plots/quick-rate"))}}
+        {{#if (or (equals url "/plots/") (equals url "/plots/quick-rate/"))}}
             {{#each plotsList}}
                 <tr>
                     <td>{{this.plotNumber}}</td>

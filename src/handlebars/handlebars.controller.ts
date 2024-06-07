@@ -161,7 +161,9 @@ export class HandlebarsController {
       flatData.offerId,
     );
     const images = await getImagesFromDirectory(imagesDir);
-    const imageUrls = images.map((image) => `${flatData.offerId}/${image}`);
+    const imageUrls = (images || []).map(
+      (image) => `${flatData.offerId}/${image}`,
+    );
 
     return res.render('forms/quick-rate/flat.hbs', {
       ...getDomainAndPort(),

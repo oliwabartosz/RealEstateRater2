@@ -40,6 +40,7 @@ export class CreateArticleConsumer {
       this.logger.log(`Processing job ${job.id}`, CreateArticleConsumer.name);
       // TODO: RATE FLATS
       // ???
+      // ID JOB.DATA.DELETEANS -> skip
       const flatsData = new FlatsData(); // Create an instance of FlatsData
       this.gptService.rateFlatOffer(job.data.id, flatsData); // Pass the instance of FlatsData
       // this.langchainService.createArticle({ ...job.data });
