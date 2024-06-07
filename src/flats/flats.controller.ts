@@ -103,7 +103,7 @@ export class FlatsController {
 
   @Post('/')
   @UseGuards(RoleGuard(Role.Scraper))
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   createRecord(@Body(TransformLawStatusPipe) createFlatDto: CreateFlatDto) {
     return this.flatsService.createNewRecord(createFlatDto);
   }
