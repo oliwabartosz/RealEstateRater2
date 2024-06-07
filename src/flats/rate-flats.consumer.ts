@@ -10,6 +10,8 @@ import {
 import { BULL_FLATS } from './queue-constants';
 import { LoggerService } from 'src/logger/logger.service';
 import { FlatsGPTStatus } from 'src/interfaces/flat-gpt-record';
+import { GptService } from 'src/gpt/gpt.service';
+import { FlatsData } from './entities/flats-data.entity';
 
 @Processor(BULL_FLATS)
 export class CreateArticleConsumer {
@@ -17,6 +19,7 @@ export class CreateArticleConsumer {
     private flatsService: FlatsService,
     private flatsAnswersService: FlatsAnswersService,
     private flatsGPTService: FlatsGPTService,
+    private gptService: GptService,
   ) {}
 
   /* Logger initialization  */
@@ -30,12 +33,15 @@ export class CreateArticleConsumer {
   allowedTasksToProceed: FlatsGPTStatus[] = [FlatsGPTStatus.TO_RATE];
 
   @Process('flats')
-  async createArticle(job: Job<any>) {
+  async rateFlat(job: Job<any>) {
     /* Check if the status is appropriate for further procedure */
     const taskStatus = await this.getCurrentStatus(job.data.id);
     if (this.allowedTasksToProceed.includes(taskStatus)) {
       this.logger.log(`Processing job ${job.id}`, CreateArticleConsumer.name);
       // TODO: RATE FLATS
+      // ???
+      const flatsData = new FlatsData(); // Create an instance of FlatsData
+      this.gptService.rateFlatOffer(job.data.id, flatsData); // Pass the instance of FlatsData
       // this.langchainService.createArticle({ ...job.data });
     } else {
       this.logger.log(

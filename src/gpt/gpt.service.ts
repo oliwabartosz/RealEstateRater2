@@ -7,9 +7,7 @@ import {
 import { StringOutputParser } from '@langchain/core/output_parsers';
 import { LoggerService } from 'src/logger/logger.service';
 import { FlatsGPTStatus } from 'src/interfaces/flat-gpt-record';
-import { FlatsGPT } from 'src/flats/entities/flats-gpt.entity';
 import { Models, generateChainAndInvoke } from './helpers/langchain-wrapper';
-import { FlatsAnswers } from 'src/flats/entities/flats-answers.entity';
 import { FlatsData } from 'src/flats/entities/flats-data.entity';
 import {
   balconySummaryPrompt,
@@ -158,12 +156,7 @@ export class GptService {
     };
   }
 
-  async rateFlatOffer(
-    id: string,
-    flatGPT: FlatsGPT,
-    flatAnswer: FlatsAnswers,
-    flatsData: FlatsData,
-  ) {
+  async rateFlatOffer(id: string, flatsData: FlatsData) {
     /* Change status of the task */
     this.updateStatus(id, FlatsGPTStatus.PENDING);
 
