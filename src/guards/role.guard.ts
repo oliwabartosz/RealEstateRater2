@@ -5,6 +5,7 @@ import { Role } from '../interfaces/roles';
 export const RoleGuard = (role: Role): Type<CanActivate> => {
   class RoleGuardMixin implements CanActivate {
     canActivate(context: ExecutionContext) {
+      console.log(role);
       if (Role.Admin) {
         /**
          * When the canActivate method in RoleGuardMixin returns false
@@ -17,9 +18,12 @@ export const RoleGuard = (role: Role): Type<CanActivate> => {
          */
         return true;
       }
-
+      console.log('here');
       const request = context.switchToHttp().getRequest<RequestWithUser>();
+      console.log("request", request);
+
       const user = request.user;
+      console.log("user", user);
 
       return user?.roles.includes(role);
     }
