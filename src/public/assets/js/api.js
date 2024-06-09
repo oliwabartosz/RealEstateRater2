@@ -254,6 +254,25 @@ const deleteRecords = async (realEstateType, ids) => {
   }
 };
 
+const rateWithAI = async (realEstateType, ids) => {
+  try {
+    const response = await fetch(`${DOMAIN}/api/${realEstateType}/`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ ids }),
+    });
+
+    location.reload();
+
+    if (!response.ok) {
+      handleErrorResponse(response);
+    }
+  } catch (error) {
+    handleGeneralError();
+  }
+};
+
 const logout = async () => {
   const response = await fetch(`${DOMAIN}/api/auth/logout`, {
     method: 'POST',

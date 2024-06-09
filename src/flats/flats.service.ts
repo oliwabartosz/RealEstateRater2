@@ -1,9 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  // LoggerService,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FlatsData } from './entities/flats-data.entity';
 import { DeleteResult, Repository } from 'typeorm';
@@ -12,12 +7,17 @@ import { CreateFlatDto } from './dto/create-flat.dto';
 import { FlatsAnswers } from './entities/flats-answers.entity';
 import { AddFlatAnswersDto } from './dto/add-flat-answers.dto';
 import { FlatsGPT } from './entities/flats-gpt.entity';
-import { FlatGPTRecord } from '../interfaces/flat-gpt-record';
+import { FlatGPTRecord, FlatsGPTStatus } from '../interfaces/flat-gpt-record';
 import { AddGPTAnswersDto } from './dto/add-gpt-answers.dto';
 import { createNewAnswersRecord } from '../utils/create-new-answer-record';
 import { updateAnswersRecord } from '../utils/update-answer-record';
 import { checkIfIdExists } from '../utils/check-if-id-exists';
 import { UpdateGptFlatStatusDto } from './dto/update-flat-gpt-status.dto';
+import { LoggerService } from 'src/logger/logger.service';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
+import { BULL_FLATS } from './queue-constants';
+import { RateFlatQueue } from './dto/queue.dto copy';
 
 @Injectable()
 export class FlatsService {
@@ -222,5 +222,95 @@ export class FlatsGPTService {
     });
     await this.flatsGPTRepository.save(translatedDescription);
     return translatedDescription;
+  }
+}
+
+@Injectable()
+export class FlatsRateAI {
+  constructor(
+    @InjectRepository(FlatsData)
+    private flatsDataRepository: Repository<FlatsData>,
+    @InjectRepository(FlatsAnswers)
+    private flatsAnswersRepository: Repository<FlatsAnswers>,
+    @InjectRepository(FlatsGPT)
+    private flatsGPTRepository: Repository<FlatsGPT>,
+    @InjectQueue(BULL_FLATS)
+    private readonly rateFlatsnQueue: Queue,
+    private readonly flatsService: FlatsService,
+    private loggerService: LoggerService,
+  ) {}
+
+  /* Logger initialization  */
+  private readonly logger = new LoggerService(FlatsRateAI.name);
+
+  /* CREATE TASK */
+  async createContentCreationTask(
+    addGPTPayload: AddGPTAnswersDto,
+  ): Promise<FlatsGPT> {
+    await this.flatsDataRepository.findOne({
+      where: { id: addGPTPayload.flatID },
+    });
+
+    addGPTPayload.status = FlatsGPTStatus.TO_RATE;
+
+    const newTask: FlatsGPT = this.flatsGPTRepository.create(addGPTPayload);
+    await this.flatsGPTRepository.save(newTask);
+    return newTask;
+  }
+
+  /* UPDATE TASK */
+  async updateContentCreationTask(
+    addGPTPayload: AddGPTAnswersDto,
+    id: string,
+  ): Promise<FlatsGPT> {
+    const taskToUpdate: FlatsGPT = await this.flatsGPTRepository.findOne({
+      where: { flatID: id },
+    });
+
+    if (!taskToUpdate) {
+      this.logger.error(`Task not found with id: ${id}`);
+      throw new Error('Task not found');
+    }
+
+    const updatedTask: FlatsGPT = {
+      ...taskToUpdate,
+      ...addGPTPayload,
+    };
+
+    await this.flatsGPTRepository.save(updatedTask);
+
+    return updatedTask;
+  }
+
+  /* ADD TO QUEUE */
+
+  // Tu chyba będzie trzeba zmienić DTO tak, żeby zawierało FlatsData, FlatsAnswers, FlatsGPT
+  async enqueueCreateContent(queuePayload: AddGPTAnswersDto): Promise<void> {
+    // Only tasks with the correct status will be included.
+    const allowedTasks = [FlatsGPTStatus.TO_RATE];
+    if (allowedTasks.includes(queuePayload.status)) {
+      await this.rateFlatsnQueue.add('rate-flats', RateFlatQueue);
+    }
+  }
+
+  /* UPDATE - CHANGE STATUS */
+  async setStatus(
+    updateStatusPayload: UpdateGptFlatStatusDto,
+  ): Promise<FlatsGPT> {
+    const taskToUpdate: FlatsGPT = await this.flatsGPTRepository.findOne({
+      where: { flatID: updateStatusPayload.id },
+    });
+
+    if (!taskToUpdate) {
+      this.logger.error(`Task not found with id: ${updateStatusPayload.id}`);
+      throw new Error('Task not found');
+    }
+
+    const updatedStatus: FlatsGPT = {
+      ...taskToUpdate,
+      ...updateStatusPayload,
+    };
+    await this.flatsGPTRepository.save(updatedStatus);
+    return updatedStatus;
   }
 }

@@ -14,7 +14,7 @@ import { GptService } from 'src/gpt/gpt.service';
 import { FlatsData } from './entities/flats-data.entity';
 
 @Processor(BULL_FLATS)
-export class CreateArticleConsumer {
+export class RateFlatAI {
   constructor(
     private flatsService: FlatsService,
     private flatsAnswersService: FlatsAnswersService,
@@ -23,7 +23,7 @@ export class CreateArticleConsumer {
   ) {}
 
   /* Logger initialization  */
-  private readonly logger = new LoggerService(CreateArticleConsumer.name);
+  private readonly logger = new LoggerService(RateFlatAI.name);
 
   private async getCurrentStatus(id: string) {
     const record = await this.flatsGPTService.getOneRecordByID(id);
@@ -37,7 +37,7 @@ export class CreateArticleConsumer {
     /* Check if the status is appropriate for further procedure */
     const taskStatus = await this.getCurrentStatus(job.data.id);
     if (this.allowedTasksToProceed.includes(taskStatus)) {
-      this.logger.log(`Processing job ${job.id}`, CreateArticleConsumer.name);
+      this.logger.log(`Processing job ${job.id}`, RateFlatAI.name);
       // TODO: RATE FLATS
       // ???
       // ID JOB.DATA.DELETEANS -> skip
@@ -51,7 +51,7 @@ export class CreateArticleConsumer {
         }) due to inappropriate STATUS <${taskStatus} not in ${this.allowedTasksToProceed.map(
           (task) => task,
         )} >`,
-        CreateArticleConsumer.name,
+        RateFlatAI.name,
       );
       if (job.data.status !== FlatsGPTStatus.COMPLETED) {
         this.flatsGPTService.setStatus({

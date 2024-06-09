@@ -1,10 +1,5 @@
-import {
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { FlatsGPTStatus } from 'src/interfaces/flat-gpt-record';
 
 export class AddGPTAnswersDto {
   @IsNotEmpty()
@@ -116,6 +111,5 @@ export class AddGPTAnswersDto {
   qualitySummary?: string | null;
 
   @IsNotEmpty()
-  @IsBoolean()
-  status?: boolean;
+  status?: FlatsGPTStatus;
 }

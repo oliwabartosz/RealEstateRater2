@@ -191,6 +191,7 @@ export class GptService {
       balconyAns,
       gardenAns,
       kitchenAns,
+      yearBuiltAns,
     } = await this.flatsAnswerService.getOneRecordByID(id);
 
     /* PROPERTIES/PARAMETERS */
@@ -216,7 +217,7 @@ export class GptService {
         technologyRatingPrompt,
         flatsData,
         {
-          year_built: String(params.yearBuilt),
+          year_built: String(yearBuiltAns) || String(params.yearBuilt),
           material: params.material,
           building_type: params.buildingType,
           number_of_floors: String(params.floorsNumber),
