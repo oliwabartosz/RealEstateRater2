@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../../interfaces/roles';
 
-@Entity()
+@Entity({ name: 'rer2_users' })
 export class Users {
   @PrimaryGeneratedColumn('uuid')
   id: string;
