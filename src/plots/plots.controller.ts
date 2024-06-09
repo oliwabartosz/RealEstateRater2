@@ -25,6 +25,7 @@ import { OnePlotsResponse, PlotsListResponse } from '../interfaces/plot-record';
 import { CreatePlotDto } from './dto/create-plot.dto';
 import { PlotsData } from './entities/plots.entity';
 import { SkipThrottle } from '@nestjs/throttler';
+import { Request } from 'express';
 
 @SkipThrottle({ long: true })
 @Controller('api/plots')
@@ -63,7 +64,10 @@ export class PlotsController {
   @UseGuards(JwtAuthGuard)
   async createRecord(
     @Body(TransformLawStatusPipe) createPlotDto: CreatePlotDto,
+    @Req() request: Request,
   ): Promise<PlotsData> {
+    console.log(request.cookies);
+
     createPlotDto.plotLengthToWidthRatio =
       createPlotDto.plotLength / createPlotDto.plotWidth;
 
