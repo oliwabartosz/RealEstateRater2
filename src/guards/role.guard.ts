@@ -5,8 +5,10 @@ import { Role } from '../interfaces/roles';
 export const RoleGuard = (role: Role): Type<CanActivate> => {
   class RoleGuardMixin implements CanActivate {
     canActivate(context: ExecutionContext) {
-      console.log(role);
-      if (Role.Admin) {
+      const request = context.switchToHttp().getRequest<RequestWithUser>();
+      const user = request.user;
+
+      if (user.roles.includes(Role.Admin)) {
         /**
          * When the canActivate method in RoleGuardMixin returns false
          * (showing that the user does not have the required role),
@@ -18,12 +20,6 @@ export const RoleGuard = (role: Role): Type<CanActivate> => {
          */
         return true;
       }
-      console.log('here');
-      const request = context.switchToHttp().getRequest<RequestWithUser>();
-      console.log("request", request);
-
-      const user = request.user;
-      console.log("user", user);
 
       return user?.roles.includes(role);
     }
