@@ -66,7 +66,6 @@ export class PlotsController {
     @Body(TransformLawStatusPipe) createPlotDto: CreatePlotDto,
     @Req() request: Request,
   ): Promise<PlotsData> {
-    console.log(request.cookies);
 
     createPlotDto.plotLengthToWidthRatio =
       createPlotDto.plotLength / createPlotDto.plotWidth;
