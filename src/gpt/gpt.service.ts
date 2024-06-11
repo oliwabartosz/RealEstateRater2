@@ -163,6 +163,13 @@ export class GptService {
     /* Change status of the task */
     this.updateStatus(id, FlatsGPTStatus.PENDING);
 
+    // Create empty records for answers and gpt if not exists to avoid sql errors
+    if (!this.flatsAnswerService.getOneRecordByID(id)) {
+      this.flatsAnswerService.createOrUpdateAnswer(id, 'ai', {
+        flatID: id,
+      });
+    }
+
     // Basic data from scraped
     const {
       description,
@@ -195,7 +202,7 @@ export class GptService {
       gardenAns = null,
       kitchenAns = null,
       yearBuiltAns = null,
-    } = await this.flatsAnswerService.getOneRecordByID(id);
+    } = (await this.flatsAnswerService.getOneRecordByID(id)) ?? {};
 
     console.log(
       technologyAns,

@@ -202,6 +202,8 @@ export class FlatsGPTService {
     if (!taskToUpdate) {
       //FIXME: problem with handlebars and logger service
       // this.logger.error(`Task not found with id: ${updateGptFlatStatusDto.id}`);
+
+      //TODO: check if it creates
       this.createOrUpdateGPTAnswer(updateGptFlatStatusDto.id, 'ai', {
         flatID: updateGptFlatStatusDto.id,
         status: FlatsGPTStatus.PENDING,
