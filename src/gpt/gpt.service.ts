@@ -54,6 +54,7 @@ type FlatsDataKeys =
 @Injectable()
 export class GptService {
   private outputParser: StringOutputParser;
+  private flatsDataInstance: FlatsData;
 
   constructor(
     @Inject(FlatsService) private flatsService: FlatsService,
@@ -62,6 +63,7 @@ export class GptService {
     @Inject(FlatsGPTService) private flatsGPTService: FlatsGPTService,
   ) {
     this.outputParser = new StringOutputParser();
+    this.flatsDataInstance = new FlatsData();
   }
 
   /* Logger initialization  */
@@ -69,7 +71,7 @@ export class GptService {
 
   /* Init */
   creativity = 0.0;
-  modelName: Models = 'gpt-4o';
+  modelName: Models = 'gpt-3.5-turbo';
   translationModelName: Models = 'gpt-3.5-turbo';
 
   private updateStatus(id: string, status: FlatsGPTStatus): void {
@@ -84,6 +86,7 @@ export class GptService {
     text: string,
     translation: 'en_pl' | 'pl_en',
   ): Promise<string> {
+    console.log(`Translating ${translation}`);
     let dictionary;
 
     switch (translation) {
@@ -116,15 +119,15 @@ export class GptService {
     property: FlatsDataKeys,
     promptSummary: string,
     promptRating: string,
-    flatsDataInstance: FlatsData,
     summaryParams?: { [key: string]: string },
     ratingParams?: { [key: string]: string },
   ) {
+    console.log(`Assessing ${property}`);
     let summary = '';
     let rating = '';
 
     const propertyLemma =
-      flatsDataInstance[`${property}Lemma` as keyof FlatsDataKeys];
+      this.flatsDataInstance[`${property}Lemma` as keyof FlatsDataKeys];
     const user = undefined;
 
     if (typeof property !== 'number' && propertyLemma !== '') {
@@ -156,7 +159,7 @@ export class GptService {
     };
   }
 
-  async rateFlatOffer(id: string, flatsData: FlatsData) {
+  async rateFlatOffer(id: string) {
     /* Change status of the task */
     this.updateStatus(id, FlatsGPTStatus.PENDING);
 
@@ -186,13 +189,22 @@ export class GptService {
 
     // Quick-Rate Answers
     const {
+      technologyAns = null,
+      modernizationAns = null,
+      balconyAns = null,
+      gardenAns = null,
+      kitchenAns = null,
+      yearBuiltAns = null,
+    } = await this.flatsAnswerService.getOneRecordByID(id);
+
+    console.log(
       technologyAns,
       modernizationAns,
       balconyAns,
       gardenAns,
       kitchenAns,
       yearBuiltAns,
-    } = await this.flatsAnswerService.getOneRecordByID(id);
+    );
 
     /* PROPERTIES/PARAMETERS */
     const params = await rateParams(
@@ -215,7 +227,6 @@ export class GptService {
         'technology',
         technologySummaryPrompt,
         technologyRatingPrompt,
-        flatsData,
         {
           year_built: String(yearBuiltAns) || String(params.yearBuilt),
           material: params.material,
@@ -240,7 +251,6 @@ export class GptService {
       'legalStatus',
       legalStatusSummaryPrompt,
       legalStatusRatingPrompt,
-      flatsData,
     );
 
     if (legalStatusRating.rating === -9) {
@@ -269,7 +279,6 @@ export class GptService {
         'garden',
         gardenSummaryPrompt,
         gardenRatingPrompt,
-        flatsData,
       );
     } else {
       // Copy data from Answers DB to GPT DB (quick-rate)
@@ -292,7 +301,6 @@ export class GptService {
           'balcony',
           balconySummaryPrompt,
           balconyRatingPrompt,
-          flatsData,
           {
             balcony_quantity:
               String(balconyQuantity) || 'information not provided.',
@@ -325,7 +333,6 @@ export class GptService {
         'elevator',
         elevatorSummaryPrompt,
         elevatorRatingPrompt,
-        flatsData,
         { number_of_floors: String(params.floorsNumber) },
       );
 
@@ -335,7 +342,6 @@ export class GptService {
         'basement',
         basementSummaryPrompt,
         basementRatingPrompt,
-        flatsData,
       );
 
       if (basementRating.rating === -9) {
@@ -361,7 +367,6 @@ export class GptService {
         'garage',
         garageSummaryPrompt,
         garageRatingPrompt,
-        flatsData,
         {
           price_underground:
             String(priceParkingUnderground) || 'information not provided.',
@@ -376,7 +381,6 @@ export class GptService {
         'monitoring',
         monitoringSummaryPrompt,
         monitoringRatingPrompt,
-        flatsData,
         {
           security: this.simpleYesNoTranslate(security),
           guarded_area: this.simpleYesNoTranslate(guardedArea),
@@ -394,7 +398,6 @@ export class GptService {
           'kitchen',
           kitchenSummaryPrompt,
           kitchenRatingPrompt,
-          flatsData,
         );
 
         if (kitchenRating.rating === -9) {
@@ -431,13 +434,7 @@ export class GptService {
         });
       }
       /* RENT */
-      await this.rateProperty(
-        id,
-        'rent',
-        rentSummaryPrompt,
-        rentRatingPrompt,
-        flatsData,
-      );
+      await this.rateProperty(id, 'rent', rentSummaryPrompt, rentRatingPrompt);
 
       /* OUTBUILDING */
       await this.rateProperty(
@@ -445,7 +442,6 @@ export class GptService {
         'outbuilding',
         outbuildingSummaryPrompt,
         outbuildingRatingPrompt,
-        flatsData,
         {},
         {
           technology_rating: String(technologyRating.rating),
@@ -461,7 +457,6 @@ export class GptService {
           'modernization',
           modernizationSummaryPrompt,
           modernizationRatingPrompt,
-          flatsData,
           {},
           {
             technology_rating: String(technologyRating.rating),

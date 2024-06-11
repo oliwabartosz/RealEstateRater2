@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import {
   FlatsAnswersService,
   FlatsGPTService,
+  FlatsRateAI,
   FlatsService,
 } from './flats.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,6 +13,8 @@ import { FlatsGPT } from './entities/flats-gpt.entity';
 import { BullModule } from '@nestjs/bull';
 import { BULL_FLATS } from './queue-constants';
 import { LoggerService } from 'src/logger/logger.service';
+import { RateFlatAI } from './rate-flats.consumer';
+import { GptService } from 'src/gpt/gpt.service';
 
 @Module({
   imports: [
@@ -30,7 +33,10 @@ import { LoggerService } from 'src/logger/logger.service';
     FlatsService,
     FlatsAnswersService,
     FlatsGPTService,
+    FlatsRateAI,
     LoggerService,
+    RateFlatAI, // Consumer
+    GptService,
   ],
   controllers: [FlatsController],
   exports: [FlatsService, FlatsAnswersService, FlatsGPTService],

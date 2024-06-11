@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Inject,
+  Ip,
   NotFoundException,
   Param,
   ParseIntPipe,
@@ -18,6 +19,7 @@ import {
   FlatsGPTService,
   FlatsService,
   FlatsAnswersService,
+  FlatsRateAI,
 } from './flats.service';
 import { TransformLawStatusPipe } from '../pipes/transform-law-status.pipe';
 import JwtAuthGuard from '../guards/jwt-auth.guard';
@@ -41,6 +43,7 @@ export class FlatsController {
     @Inject(FlatsAnswersService)
     private flatsAnswerService: FlatsAnswersService,
     @Inject(FlatsGPTService) private flatsGPTService: FlatsGPTService,
+    @Inject(FlatsRateAI) private flatsRateAI: FlatsRateAI,
   ) {}
 
   @Get('/')
@@ -123,5 +126,20 @@ export class FlatsController {
   @UseGuards(JwtAuthGuard)
   removeAll(): Promise<DeleteResult> {
     return this.flatsService.removeAll();
+  }
+
+  // From the table user can choose which task to add to the queue
+  @Post('add-task-to-queue')
+  @UseGuards(RoleGuard(Role.Admin))
+  @UseGuards(JwtAuthGuard)
+  enqueueRateFlat(@Body() payload: { ids: string[] }, @Ip() ip: string) {
+    // dto : ids[]
+    // LISTA ID z front-endu a potem for of z listy
+    console.log(ip);
+    this.flatsRateAI.enqueueRateFlat(payload);
+
+    return {
+      status: 200,
+    };
   }
 }

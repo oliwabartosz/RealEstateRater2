@@ -17,7 +17,7 @@ import { LoggerService } from 'src/logger/logger.service';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { BULL_FLATS } from './queue-constants';
-import { RateFlatQueue } from './dto/queue.dto copy';
+import { RateFlatQueue } from './dto/queue.dto';
 
 @Injectable()
 export class FlatsService {
@@ -202,7 +202,13 @@ export class FlatsGPTService {
     if (!taskToUpdate) {
       //FIXME: problem with handlebars and logger service
       // this.logger.error(`Task not found with id: ${updateGptFlatStatusDto.id}`);
-      throw new Error('Task not found');
+      this.createOrUpdateGPTAnswer(updateGptFlatStatusDto.id, 'ai', {
+        flatID: updateGptFlatStatusDto.id,
+        status: FlatsGPTStatus.PENDING,
+      });
+      console.log(
+        `No record found, creating new one: (${updateGptFlatStatusDto.id})`,
+      );
     }
 
     const updatedStatus: FlatGPTRecord = {
@@ -244,9 +250,7 @@ export class FlatsRateAI {
   private readonly logger = new LoggerService(FlatsRateAI.name);
 
   /* CREATE TASK */
-  async createContentCreationTask(
-    addGPTPayload: AddGPTAnswersDto,
-  ): Promise<FlatsGPT> {
+  async addTask(addGPTPayload: AddGPTAnswersDto): Promise<FlatsGPT> {
     await this.flatsDataRepository.findOne({
       where: { id: addGPTPayload.flatID },
     });
@@ -259,7 +263,7 @@ export class FlatsRateAI {
   }
 
   /* UPDATE TASK */
-  async updateContentCreationTask(
+  async updateTask(
     addGPTPayload: AddGPTAnswersDto,
     id: string,
   ): Promise<FlatsGPT> {
@@ -285,11 +289,35 @@ export class FlatsRateAI {
   /* ADD TO QUEUE */
 
   // Tu chyba będzie trzeba zmienić DTO tak, żeby zawierało FlatsData, FlatsAnswers, FlatsGPT
-  async enqueueCreateContent(queuePayload: AddGPTAnswersDto): Promise<void> {
-    // Only tasks with the correct status will be included.
-    const allowedTasks = [FlatsGPTStatus.TO_RATE];
-    if (allowedTasks.includes(queuePayload.status)) {
-      await this.rateFlatsnQueue.add('rate-flats', RateFlatQueue);
+  async enqueueRateFlat(payload: { ids: string[] }): Promise<void> {
+    const { ids } = payload;
+
+    for (const id of ids) {
+      const basicData = await this.flatsDataRepository.findOne({
+        where: { id: id },
+      });
+      const answersData =
+        (await this.flatsAnswersRepository.findOne({
+          where: { flatID: id },
+        })) || {};
+      const gptData = await this.flatsGPTRepository.findOne({
+        where: { flatID: id } || {},
+      });
+
+      const data: RateFlatQueue = {
+        ...basicData,
+        ...answersData,
+        ...gptData,
+      };
+
+      // If there where no previous rating, there were no record in gpt database, hence status is undefined
+      data.status = data.status || FlatsGPTStatus.TO_RATE;
+
+      // Only tasks with the correct status will be included.
+      const allowedTasks = [FlatsGPTStatus.TO_RATE];
+      if (allowedTasks.includes(data.status)) {
+        await this.rateFlatsnQueue.add(BULL_FLATS, data);
+      }
     }
   }
 

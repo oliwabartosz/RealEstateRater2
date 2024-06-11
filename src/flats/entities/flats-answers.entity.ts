@@ -107,7 +107,7 @@ export class FlatsAnswers {
     type: 'boolean',
     default: null,
   })
-  deleteAns: boolean | number | null;
+  deleteAns: boolean | null;
 
   @Column({
     length: 5,

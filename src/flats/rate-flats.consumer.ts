@@ -11,7 +11,6 @@ import { BULL_FLATS } from './queue-constants';
 import { LoggerService } from 'src/logger/logger.service';
 import { FlatsGPTStatus } from 'src/interfaces/flat-gpt-record';
 import { GptService } from 'src/gpt/gpt.service';
-import { FlatsData } from './entities/flats-data.entity';
 
 @Processor(BULL_FLATS)
 export class RateFlatAI {
@@ -25,25 +24,32 @@ export class RateFlatAI {
   /* Logger initialization  */
   private readonly logger = new LoggerService(RateFlatAI.name);
 
-  private async getCurrentStatus(id: string) {
+  private async getCurrentStatus(id: string): Promise<FlatsGPTStatus> {
+    console.log('Getting record for id:', id);
     const record = await this.flatsGPTService.getOneRecordByID(id);
-    return record.status;
+    console.log('Record:', record);
+    if (!record) {
+      console.log('No record found for id:', id);
+    } else if (!record.status) {
+      console.log('Record has no status');
+    }
+    const result = record?.status || FlatsGPTStatus.TO_RATE;
+    console.log('Result:', result);
+    return result;
   }
 
   allowedTasksToProceed: FlatsGPTStatus[] = [FlatsGPTStatus.TO_RATE];
 
-  @Process('flats')
+  @Process(BULL_FLATS)
   async rateFlat(job: Job<any>) {
     /* Check if the status is appropriate for further procedure */
+    console.log('Processing', job.data.id);
     const taskStatus = await this.getCurrentStatus(job.data.id);
+    console.log('Task status:', taskStatus);
+    console.log(this.allowedTasksToProceed.includes(taskStatus));
     if (this.allowedTasksToProceed.includes(taskStatus)) {
       this.logger.log(`Processing job ${job.id}`, RateFlatAI.name);
-      // TODO: RATE FLATS
-      // ???
-      // ID JOB.DATA.DELETEANS -> skip
-      const flatsData = new FlatsData(); // Create an instance of FlatsData
-      this.gptService.rateFlatOffer(job.data.id, flatsData); // Pass the instance of FlatsData
-      // this.langchainService.createArticle({ ...job.data });
+      this.gptService.rateFlatOffer(job.data.id); // Pass the instance of FlatsData
     } else {
       this.logger.log(
         `Skipping the task (${
