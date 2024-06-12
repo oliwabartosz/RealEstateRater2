@@ -106,11 +106,10 @@ export class FlatsAnswersService {
     user: string,
     dto: AddFlatAnswersDto,
   ): Promise<FlatsAnswers> {
-    console.log('XYZ: jestem tutaj')
+    console.log('XYZ: jestem tutaj');
     await checkIfIdExists(this.flatsService, recordID);
 
     try {
-
       return await createNewAnswersRecord(
         this.flatsAnswersRepository,
         dto,

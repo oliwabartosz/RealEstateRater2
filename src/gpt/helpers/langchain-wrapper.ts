@@ -47,6 +47,7 @@ export async function generateChainAndInvoke(
   const chain = prompt
     .pipe(chooseModelToCreate(modelName, creativity))
     .pipe(parser);
+
   return await chain.invoke(data);
 }
 

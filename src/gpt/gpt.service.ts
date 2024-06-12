@@ -72,7 +72,7 @@ export class GptService {
 
   /* Init */
   creativity = 0.0;
-  modelName: Models = 'gpt-4o';
+  modelName: Models = 'gpt-3.5-turbo';
   translationModelName: Models = 'gpt-3.5-turbo';
 
   private updateStatus(id: string, status: FlatsGPTStatus): void {
@@ -224,15 +224,6 @@ export class GptService {
       yearBuiltAns = null,
     } = (await this.flatsAnswerService.getOneRecordByID(id)) ?? {};
 
-    console.log(
-      technologyAns,
-      modernizationAns,
-      balconyAns,
-      gardenAns,
-      kitchenAns,
-      yearBuiltAns,
-    );
-
     /* PROPERTIES/PARAMETERS */
     const params = await rateParams(
       id,
@@ -248,6 +239,12 @@ export class GptService {
     /* TECHNOLOGY */
     let technologyRating: { rating: number; summary: string };
 
+    console.log(
+      '================================',
+      yearBuilt,
+      params.yearBuilt,
+    );
+
     if (technologyAns === null) {
       technologyRating = await this.rateProperty(
         id,
@@ -255,7 +252,11 @@ export class GptService {
         technologySummaryPrompt,
         technologyRatingPrompt,
         {
-          year_built: String(yearBuiltAns) || String(params.yearBuilt),
+          year_built: yearBuiltAns
+            ? String(yearBuiltAns)
+            : params.yearBuilt
+              ? String(params.yearBuilt)
+              : String(yearBuilt),
           material: params.material,
           building_type: params.buildingType,
           number_of_floors: String(params.floorsNumber),
@@ -331,14 +332,18 @@ export class GptService {
           balconySummaryPrompt,
           balconyRatingPrompt,
           {
-            balcony_quantity:
-              String(balconyQuantity) || 'information not provided.',
-            terraces_quantity:
-              String(terracesQuantity) || 'information not provided.',
-            loggias_quantity:
-              String(loggiasQuantity) || 'information not provided.',
-            french_balcony_quantity:
-              String(frenchBalconyQuantity) || 'information not provided.',
+            balcony_quantity: balconyQuantity
+              ? String(balconyQuantity)
+              : 'information not provided.',
+            terraces_quantity: terracesQuantity
+              ? String(terracesQuantity)
+              : 'information not provided.',
+            loggias_quantity: loggiasQuantity
+              ? String(loggiasQuantity)
+              : 'information not provided.',
+            french_balcony_quantity: frenchBalconyQuantity
+              ? String(frenchBalconyQuantity)
+              : 'information not provided.',
           },
         );
       } else if (balconyAns !== null) {
@@ -397,10 +402,12 @@ export class GptService {
         garageSummaryPrompt,
         garageRatingPrompt,
         {
-          price_underground:
-            String(priceParkingUnderground) || 'information not provided.',
-          price_ground:
-            String(priceParkingGround) || 'information not provided.',
+          price_underground: priceParkingUnderground
+            ? String(priceParkingUnderground)
+            : 'information not provided.',
+          price_ground: priceParkingGround
+            ? String(priceParkingGround)
+            : 'information not provided.',
         },
       );
 
