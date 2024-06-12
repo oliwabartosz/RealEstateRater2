@@ -23,11 +23,11 @@
                     {{/if}}{{/if}}>
         </p>
     </div>
-    {{#if (convertToStr flats_gpt_data.rentGPT)}}
+    {{#if (convertToStr flats_gpt_data.rentRating)}}
         <p class="p-break">
             <a style="text-decoration: none;" role="button">
                 <span class="gpt ai-rent-rate"
-                      onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{flats_gpt_data.rentGPT}}</span>
+                      onclick="writeAIRateToRentInput({{flats_gpt_data.rentRating}})">Ocena GPT: {{flats_gpt_data.rentRating}}</span>
             </a>
 
             <br/>

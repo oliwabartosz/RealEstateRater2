@@ -133,6 +133,7 @@ export class FlatsController {
   @UseGuards(RoleGuard(Role.Admin))
   @UseGuards(JwtAuthGuard)
   enqueueRateFlat(@Body() payload: { ids: string[] }, @Ip() ip: string) {
+    //TODO:
     // dto : ids[]
     // LISTA ID z front-endu a potem for of z listy
     console.log(ip);

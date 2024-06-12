@@ -17,10 +17,10 @@
     <input class="form-check-input" type="radio" id="legal_status_2" name="legalStatus" value="2" {{#if (equals flat_ans_data.legalStatusAns 2)}}checked{{/if}}>
     <label class="form-check-label" for="legal_status_2">Spółdzielcze</label>
 </div>
-    {{#if (convertToStr flats_gpt_data.legalStatusGPT)}}
+    {{#if (convertToStr flats_gpt_data.legalStatusRating)}}
         <p class="p-break">
             <a style="text-decoration: none;" role="button">
-                <span class="gpt ai-legalStatus-rate" onclick="replaceOneWithAIAnswer('legalStatus')">Ocena GPT: {{flats_gpt_data.legalStatusGPT}}</span>
+                <span class="gpt ai-legalStatus-rate" onclick="replaceOneWithAIAnswer('legalStatus')">Ocena GPT: {{flats_gpt_data.legalStatusRating}}</span>
             </a>
 
             <br />

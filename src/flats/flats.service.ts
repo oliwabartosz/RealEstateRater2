@@ -106,9 +106,11 @@ export class FlatsAnswersService {
     user: string,
     dto: AddFlatAnswersDto,
   ): Promise<FlatsAnswers> {
+    console.log('XYZ: jestem tutaj')
     await checkIfIdExists(this.flatsService, recordID);
 
     try {
+
       return await createNewAnswersRecord(
         this.flatsAnswersRepository,
         dto,
@@ -200,17 +202,18 @@ export class FlatsGPTService {
     });
 
     if (!taskToUpdate) {
+      console.log('TaskToUpdate', taskToUpdate);
       //FIXME: problem with handlebars and logger service
       // this.logger.error(`Task not found with id: ${updateGptFlatStatusDto.id}`);
 
       //TODO: check if it creates
-      this.createOrUpdateGPTAnswer(updateGptFlatStatusDto.id, 'ai', {
-        flatID: updateGptFlatStatusDto.id,
-        status: FlatsGPTStatus.PENDING,
-      });
-      console.log(
-        `No record found, creating new one: (${updateGptFlatStatusDto.id})`,
-      );
+      // this.createOrUpdateGPTAnswer(updateGptFlatStatusDto.id, 'ai', {
+      //   flatID: updateGptFlatStatusDto.id,
+      //   status: FlatsGPTStatus.PENDING,
+      // });
+      // console.log(
+      //   `No record found, creating new one: (${updateGptFlatStatusDto.id})`,
+      // );
     }
 
     const updatedStatus: FlatGPTRecord = {
@@ -293,7 +296,6 @@ export class FlatsRateAI {
   // Tu chyba będzie trzeba zmienić DTO tak, żeby zawierało FlatsData, FlatsAnswers, FlatsGPT
   async enqueueRateFlat(payload: { ids: string[] }): Promise<void> {
     const { ids } = payload;
-
     for (const id of ids) {
       const basicData = await this.flatsDataRepository.findOne({
         where: { id: id },
@@ -314,7 +316,6 @@ export class FlatsRateAI {
 
       // If there where no previous rating, there were no record in gpt database, hence status is undefined
       data.status = data.status || FlatsGPTStatus.TO_RATE;
-
       // Only tasks with the correct status will be included.
       const allowedTasks = [FlatsGPTStatus.TO_RATE];
       if (allowedTasks.includes(data.status)) {

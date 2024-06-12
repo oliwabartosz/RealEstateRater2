@@ -22,12 +22,12 @@
                {{#if (equals flat_ans_data.elevatorAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="elevator_no">Nie</label>
     </div>
-    {{#if (convertToStr flats_gpt_data.elevatorGPT)}}
+    {{#if (convertToStr flats_gpt_data.elevatorRating)}}
         <p class="p-break">
 
             <a style="text-decoration: none;" role="button">
                 <span class="gpt ai-elevator-rate"
-                      onclick="replaceOneWithAIAnswer('elevator')">Ocena GPT: {{flats_gpt_data.elevatorGPT}}</span>
+                      onclick="replaceOneWithAIAnswer('elevator')">Ocena GPT: {{flats_gpt_data.elevatorRating}}</span>
             </a>
             <br/>
             <span class="gpt ai-summary-rate">Podsumowanie modelu GPT: {{flats_gpt_data.elevatorSummary}}</span>

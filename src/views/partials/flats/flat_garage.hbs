@@ -24,10 +24,10 @@
         <input class="form-check-input" type="radio" id="garage_no" name="garage" value="0" {{#if (equals flat_ans_data.garageAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="garage_no">Nie</label>
     </div>
-    {{#if (convertToStr flats_gpt_data.garageGPT)}}
+    {{#if (convertToStr flats_gpt_data.garageRating)}}
         <p class="p-break">
             <a style="text-decoration: none;" role="button">
-                <span class="gpt ai-garage-rate" onclick="replaceOneWithAIAnswer('garage')">Ocena GPT: {{flats_gpt_data.garageGPT}}</span>
+                <span class="gpt ai-garage-rate" onclick="replaceOneWithAIAnswer('garage')">Ocena GPT: {{flats_gpt_data.garageRating}}</span>
             </a>
 
             <br />

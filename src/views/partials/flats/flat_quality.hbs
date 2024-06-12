@@ -17,10 +17,10 @@
         <label class="form-check-label" for="quality_3">Niski</label>
     </div>
 
-    {{#if (convertToStr flats_gpt_data.qualityGPT)}}
+    {{#if (convertToStr flats_gpt_data.qualityRating)}}
         <p class="p-break">
             <a style="text-decoration: none;" role="button">
-                <span class="gpt ai-quality-rate"  onclick="replaceOneWithAIAnswer('quality')">Ocena GPT: {{flats_gpt_data.qualityGPT}}</span>
+                <span class="gpt ai-quality-rate"  onclick="replaceOneWithAIAnswer('quality')">Ocena GPT: {{flats_gpt_data.qualityRating}}</span>
             </a>
             <br />
             <span class="gpt">Podsumowanie modelu GPT: {{flats_gpt_data.qualitySummary}}</span>

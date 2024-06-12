@@ -211,10 +211,11 @@ Text to analyze:
 ###{summary}###.`;
 
 export const monitoringRatingPrompt = `Please rate the occurrence of monitoring based on the information provided in text delimited by three hashes (###).
-- RETURN 0 if there is no mention of monitoring, guarded estate, supervision, or protection.
-- RETURN 1 if there is any mention of monitoring, guarded estate, supervision, or protection.
+- RETURN 0 if there is no mention of monitoring of the building, building is on guarded estate or has supervision, or protection.
+- RETURN 1 if there is any mention of monitoring of the building, building is on guarded estate, supervision, or protection.
+- RETURN -9 if it is hard to asses.
 
-Please provide just a numeric response: 0 or 1. Do not provide any additional text!
+Please provide just a numeric response: 0, 1 or -9. Do not provide any additional text!
 
 Text to analyze:
 ###{summary}###.`;

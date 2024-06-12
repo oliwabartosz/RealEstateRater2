@@ -43,7 +43,7 @@ export class FlatsGPT {
     type: 'text',
     default: null,
   })
-  legalSummary: string | null;
+  legalStatusSummary: string | null;
 
   @Column({
     type: 'tinyint',
@@ -121,13 +121,13 @@ export class FlatsGPT {
     type: 'tinyint',
     default: null,
   })
-  alarmRating: number | null;
+  monitoringRating: number | null;
 
   @Column({
     type: 'text',
     default: null,
   })
-  alarmSummary: string | null;
+  monitoringSummary: string | null;
 
   @Column({
     type: 'tinyint',

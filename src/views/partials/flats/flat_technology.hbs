@@ -61,10 +61,10 @@
         <label class="form-check-label" for="technology_9">Alternatywna</label>
     </div>
 
-    {{#if (convertToStr flats_gpt_data.technologyGPT)}}
+    {{#if (convertToStr flats_gpt_data.technologyRating)}}
         <p class="p-break">
             <a style="text-decoration: none;" role="button">
-                <span class="gpt ai-technology-rate" onclick="replaceOneWithAIAnswer('rent')">Ocena GPT: {{flats_gpt_data.technologyGPT}}</span>
+                <span class="gpt ai-technology-rate" onclick="replaceOneWithAIAnswer('technology')">Ocena GPT: {{flats_gpt_data.technologyRating}}</span>
             </a>
             <br />
             <span class="gpt ai-technology-summary">Podsumowanie modelu GPT: {{flats_gpt_data.technologySummary}}</span>

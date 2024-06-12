@@ -20,15 +20,15 @@
         <input class="form-check-input" type="radio" id="alarm_no" name="alarm" value="0" {{#if (equals flat_ans_data.alarmAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="alarm_no">Nie</label>
     </div>
-    {{#if (convertToStr flats_gpt_data.alarmGPT)}}
+    {{#if (convertToStr flats_gpt_data.monitoringRating)}}
         <p class="p-break">
 
             <a style="text-decoration: none;" role="button">
-                <span class="gpt ai-alarm-rate" onclick="replaceOneWithAIAnswer('alarm')">Ocena GPT: {{flats_gpt_data.alarmGPT}}</span>
+                <span class="gpt ai-alarm-rate" onclick="replaceOneWithAIAnswer('alarm')">Ocena GPT: {{flats_gpt_data.monitoringRating}}</span>
             </a>
 
             <br />
-            <span class="gpt ai-alarm-summary">Podsumowanie modelu GPT: {{flats_gpt_data.alarmSummary}}</span>
+            <span class="gpt ai-alarm-summary">Podsumowanie modelu GPT: {{flats_gpt_data.monitoringSummary}}</span>
         </p>
     {{/if}}
 </div>

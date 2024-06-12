@@ -45,7 +45,7 @@ export class AddFlatAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  alarmAns?: number | null;
+  monitoringAns?: number | null;
 
   @IsOptional()
   @IsNumber()

@@ -65,7 +65,7 @@ export class FlatsAnswers {
     type: 'tinyint',
     default: null,
   })
-  alarmAns: number | null;
+  monitoringAns: number | null;
 
   @Column({
     type: 'tinyint',

@@ -30,9 +30,9 @@ const alwaysReplaceWithAIAnswers = () => {
     });
 }
 
-function writeAIRateToRentInput(rate) {
+function writeAIRateToRentInput(property) {
     const rentInput = document.querySelector('input[name="rent"]');
-    rentInput.value = rate;
+    rentInput.value = property;
 
 }
 

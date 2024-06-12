@@ -70,7 +70,9 @@ export class GptController {
     const result = {};
 
     for (const flatNumber of body.flatsNumbers) {
-      const flatID = (await this.flatsService.getOneRecordByFlatNumber(flatNumber)).id;
+      const flatID = (
+        await this.flatsService.getOneRecordByFlatNumber(flatNumber)
+      ).id;
 
       // await this.gptService.rateFeatures(apiKey, flatNumber);
 

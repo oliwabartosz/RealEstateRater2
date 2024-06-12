@@ -15,12 +15,12 @@
                {{#if (equals flat_ans_data.outbuildingAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="outbuilding_no">Nie</label>
     </div>
-    {{#if (convertToStr flats_gpt_data.outbuildingGPT)}}
+    {{#if (convertToStr flats_gpt_data.outbuildingRating)}}
         <p class="p-break">
 
             <a style="text-decoration: none;" role="button">
                 <span class="gpt ai-outbuilding-rate"
-                      onclick="replaceOneWithAIAnswer('outbuilding')">Ocena GPT: {{flats_gpt_data.outbuildingGPT}}</span>
+                      onclick="replaceOneWithAIAnswer('outbuilding')">Ocena GPT: {{flats_gpt_data.outbuildingRating}}</span>
             </a>
 
             <br/>

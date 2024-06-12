@@ -32,10 +32,10 @@
         <input class="form-check-input" type="radio" id="modernization_3" name="modernization" value="0" {{#if (equals flat_ans_data.modernizationAns 0)}}checked{{/if}}>
         <label class="form-check-label" for="modernization_3">Puste</label>
     </div>
-    {{#if (convertToStr flats_gpt_data.modernizationGPT)}}
+    {{#if (convertToStr flats_gpt_data.modernizationRating)}}
         <p class="p-break">
             <a style="text-decoration: none;" role="button">
-                <span class="gpt ai-modernization-rate" onclick="replaceOneWithAIAnswer('modernization')">Ocena GPT: {{flats_gpt_data.modernizationGPT}}</span>
+                <span class="gpt ai-modernization-rate" onclick="replaceOneWithAIAnswer('modernization')">Ocena GPT: {{flats_gpt_data.modernizationRating}}</span>
             </a>
             <br />
             <span class="gpt ai-modernization-summary">Podsumowanie modelu GPT: {{flats_gpt_data.modernizationSummary}}</span>

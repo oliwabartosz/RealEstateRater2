@@ -49,7 +49,8 @@ type FlatsDataKeys =
   | 'garage'
   | 'modernization'
   | 'outbuilding'
-  | 'kitchen';
+  | 'kitchen'
+  | 'alarm';
 
 @Injectable()
 export class GptService {
@@ -71,7 +72,7 @@ export class GptService {
 
   /* Init */
   creativity = 0.0;
-  modelName: Models = 'gpt-3.5-turbo';
+  modelName: Models = 'gpt-4o';
   translationModelName: Models = 'gpt-3.5-turbo';
 
   private updateStatus(id: string, status: FlatsGPTStatus): void {
@@ -126,18 +127,28 @@ export class GptService {
     let summary = '';
     let rating = '';
 
-    const propertyLemma =
-      this.flatsDataInstance[`${property}Lemma` as keyof FlatsDataKeys];
+    const propertyLemma = `${property}Lemma`;
     const user = undefined;
 
-    if (typeof property !== 'number' && propertyLemma !== '') {
-      const lemma = await this.translateWithGPT(FlatsData[property], 'pl_en');
+    const lemma = await this.flatsService.getOneRecordByID(id);
 
+    console.log('propertyLemma', lemma[propertyLemma]);
+
+    if (
+      typeof property !== 'number' && // FIXME: is this necessary?
+      lemma[propertyLemma] &&
+      lemma[propertyLemma] !== ''
+    ) {
+      const translatedLemma = await this.translateWithGPT(
+        lemma[propertyLemma],
+        'pl_en',
+      );
+      console.log('lemma', translatedLemma);
       summary = await generateChainAndInvoke(
         promptSummary,
         this.modelName,
         this.creativity,
-        { lemma, ...summaryParams },
+        { lemma: translatedLemma, ...summaryParams },
       );
 
       rating = await generateChainAndInvoke(
@@ -146,13 +157,17 @@ export class GptService {
         this.creativity,
         { summary, ...ratingParams },
       );
-
-      await this.flatsGPTService.createOrUpdateGPTAnswer(id, user, {
-        flatID: id,
-        [`${property}Rating`]: Number(rating) || -9,
-        [`${property}Summary`]: this.translateWithGPT(summary, 'en_pl'),
-      });
     }
+
+    await this.flatsGPTService.createOrUpdateGPTAnswer(id, user, {
+      flatID: id,
+      [`${property}Rating`]: Number(rating) || -9,
+      [`${property}Summary`]:
+        lemma[propertyLemma] !== null
+          ? await this.translateWithGPT(summary, 'en_pl')
+          : null,
+    });
+
     return {
       rating: Number(rating) || -9,
       summary: summary,
@@ -160,15 +175,20 @@ export class GptService {
   }
 
   async rateFlatOffer(id: string) {
-    /* Change status of the task */
-    this.updateStatus(id, FlatsGPTStatus.PENDING);
-
     // Create empty records for answers and gpt if not exists to avoid sql errors
-    if (!this.flatsAnswerService.getOneRecordByID(id)) {
-      this.flatsAnswerService.createOrUpdateAnswer(id, 'ai', {
+    if (!(await this.flatsAnswerService.getOneRecordByID(id))) {
+      await this.flatsAnswerService.createOrUpdateAnswer(id, 'ai', {
         flatID: id,
       });
     }
+    if (!(await this.flatsGPTService.getOneRecordByID(id))) {
+      await this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+        flatID: id,
+      });
+    }
+
+    /* Change status of the task */
+    this.updateStatus(id, FlatsGPTStatus.PENDING);
 
     // Basic data from scraped
     const {
@@ -259,6 +279,8 @@ export class GptService {
       legalStatusSummaryPrompt,
       legalStatusRatingPrompt,
     );
+
+    console.log(legalStatusRating.summary);
 
     if (legalStatusRating.rating === -9) {
       if (legalStatus === 'Własność') {
@@ -480,6 +502,8 @@ export class GptService {
           modernizationSummary: 'Oceniono przez użytkownika.',
         });
       }
+      /* Change status of the task */
+      this.updateStatus(id, FlatsGPTStatus.COMPLETED);
     }
   }
 }

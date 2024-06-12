@@ -72,11 +72,11 @@ export class AddGPTAnswersDto {
 
   @IsOptional()
   @IsNumber()
-  alarmRating?: number | null;
+  monitoringRating?: number | null;
 
   @IsOptional()
   @IsString()
-  alarmSummary?: string | null;
+  monitoringSummary?: string | null;
 
   @IsOptional()
   @IsNumber()
