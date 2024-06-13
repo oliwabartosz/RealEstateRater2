@@ -154,7 +154,7 @@ export class FlatsGPT {
   outbuildingSummary: string | null;
 
   @Column({
-    type: 'tinyint',
+    type: 'int',
     default: null,
   })
   rentRating: number | null;

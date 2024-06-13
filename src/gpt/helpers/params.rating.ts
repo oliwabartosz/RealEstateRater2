@@ -19,7 +19,6 @@ export async function rateParams(
   buildingType: string;
   floorsNumber: number;
 }> {
-  console.log(`Assessing params`);
   let generatedYearBuilt;
   let generatedMaterial;
   let generatedBuildingType;

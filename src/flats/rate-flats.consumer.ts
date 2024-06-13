@@ -25,16 +25,13 @@ export class RateFlatAI {
   private readonly logger = new LoggerService(RateFlatAI.name);
 
   private async getCurrentStatus(id: string): Promise<FlatsGPTStatus> {
-    console.log('Getting record for id:', id);
     const record = await this.flatsGPTService.getOneRecordByID(id);
-    console.log('Record:', record);
     if (!record) {
-      console.log('No record found for id:', id);
+      this.logger.warn(`No record found with ${id}`, RateFlatAI.name);
     } else if (!record.status) {
-      console.log('Record has no status');
+      this.logger.warn('Record has no status', RateFlatAI.name);
     }
     const result = record?.status || FlatsGPTStatus.TO_RATE;
-    console.log('Result:', result);
     return result;
   }
 
@@ -43,10 +40,11 @@ export class RateFlatAI {
   @Process(BULL_FLATS)
   async rateFlat(job: Job<any>) {
     /* Check if the status is appropriate for further procedure */
-    console.log('Processing', job.data.id);
     const taskStatus = await this.getCurrentStatus(job.data.id);
-    console.log('Task status:', taskStatus);
-    console.log(this.allowedTasksToProceed.includes(taskStatus));
+    this.logger.log(
+      `Processing id: ${job.data.id}, which has Task Status: ${taskStatus}`,
+      RateFlatAI.name,
+    );
     if (this.allowedTasksToProceed.includes(taskStatus)) {
       this.logger.log(`Processing job ${job.id}`, RateFlatAI.name);
       this.gptService.rateFlatOffer(job.data.id); // Pass the instance of FlatsData

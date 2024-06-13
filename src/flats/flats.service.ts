@@ -106,7 +106,6 @@ export class FlatsAnswersService {
     user: string,
     dto: AddFlatAnswersDto,
   ): Promise<FlatsAnswers> {
-    console.log('XYZ: jestem tutaj');
     await checkIfIdExists(this.flatsService, recordID);
 
     try {
@@ -292,7 +291,6 @@ export class FlatsRateAI {
 
   /* ADD TO QUEUE */
 
-  // Tu chyba będzie trzeba zmienić DTO tak, żeby zawierało FlatsData, FlatsAnswers, FlatsGPT
   async enqueueRateFlat(payload: { ids: string[] }): Promise<void> {
     const { ids } = payload;
     for (const id of ids) {

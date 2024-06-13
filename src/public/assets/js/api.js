@@ -257,7 +257,7 @@ const deleteRecords = async (realEstateType, ids) => {
 const rateWithAI = async (realEstateType, ids) => {
   try {
     const response = await fetch(`${DOMAIN}/api/${realEstateType}/`, {
-      method: 'DELETE',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ ids }),

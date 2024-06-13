@@ -38,8 +38,8 @@ import {
   technologyRatingPrompt,
 } from './prompts/flats/ratings';
 import {
-  translateFromENtoPL,
-  translateFromPLtoEN,
+  translateFromENtoPLPrompt,
+  translateFromPLtoENPrompt,
 } from './prompts/flats/translation';
 import { rateParams } from './helpers/params.rating';
 
@@ -87,24 +87,27 @@ export class GptService {
     text: string,
     translation: 'en_pl' | 'pl_en',
   ): Promise<string> {
-    console.log(`Translating ${translation}`);
     let dictionary;
 
     switch (translation) {
       case 'en_pl':
-        dictionary = translateFromENtoPL;
+        dictionary = translateFromENtoPLPrompt;
         break;
       case 'pl_en':
-        dictionary = translateFromPLtoEN;
+        dictionary = translateFromPLtoENPrompt;
         break;
     }
 
-    return await generateChainAndInvoke(
-      dictionary,
-      this.translationModelName,
-      this.creativity,
-      { text },
-    );
+    if (text && (text.length === 0 || text.includes('!NO TRANSLATION!'))) {
+      return '';
+    } else {
+      return await generateChainAndInvoke(
+        dictionary,
+        this.translationModelName,
+        this.creativity,
+        { text },
+      );
+    }
   }
 
   private simpleYesNoTranslate(
@@ -123,7 +126,7 @@ export class GptService {
     summaryParams?: { [key: string]: string },
     ratingParams?: { [key: string]: string },
   ) {
-    console.log(`Assessing ${property}`);
+    this.logger.log(`Assessing ${property.toUpperCase()} (${id})`, 'AI-Rater');
     let summary = '';
     let rating = '';
 
@@ -132,18 +135,15 @@ export class GptService {
 
     const lemma = await this.flatsService.getOneRecordByID(id);
 
-    console.log('propertyLemma', lemma[propertyLemma]);
-
     if (
       typeof property !== 'number' && // FIXME: is this necessary?
-      lemma[propertyLemma] &&
-      lemma[propertyLemma] !== ''
+      ((lemma[propertyLemma] && lemma[propertyLemma] !== '') ||
+        (summaryParams && Object.keys(summaryParams).length > 0))
     ) {
       const translatedLemma = await this.translateWithGPT(
         lemma[propertyLemma],
         'pl_en',
       );
-      console.log('lemma', translatedLemma);
       summary = await generateChainAndInvoke(
         promptSummary,
         this.modelName,
@@ -157,15 +157,32 @@ export class GptService {
         this.creativity,
         { summary, ...ratingParams },
       );
+
+      this.logger.debug(
+        `Rating for ${property.toUpperCase()} (${id}):\n${rating}`,
+        'AI-Rater',
+      );
+      this.logger.debug(
+        `Summary for ${property.toUpperCase()} (${id}):\n${summary}`,
+        'AI-Rater',
+      );
+    } else {
+      this.logger.debug(
+        `Skipping rating for ${property.toUpperCase()} (${id}). No text to rate for this property`,
+        'AI-Rater',
+      );
     }
+
+    console.log(summary);
+    console.log(!summary);
+    console.log(JSON.stringify({ xxx: summary }));
 
     await this.flatsGPTService.createOrUpdateGPTAnswer(id, user, {
       flatID: id,
-      [`${property}Rating`]: Number(rating) || -9,
-      [`${property}Summary`]:
-        lemma[propertyLemma] !== null
-          ? await this.translateWithGPT(summary, 'en_pl')
-          : null,
+      [`${property}Rating`]: isNaN(Number(rating)) ? -9 : Number(rating),
+      [`${property}Summary`]: summary // summary, lemma[propertyLemma]?
+        ? await this.translateWithGPT(summary, 'en_pl')
+        : null,
     });
 
     return {
@@ -239,12 +256,6 @@ export class GptService {
     /* TECHNOLOGY */
     let technologyRating: { rating: number; summary: string };
 
-    console.log(
-      '================================',
-      yearBuilt,
-      params.yearBuilt,
-    );
-
     if (technologyAns === null) {
       technologyRating = await this.rateProperty(
         id,
@@ -280,8 +291,6 @@ export class GptService {
       legalStatusSummaryPrompt,
       legalStatusRatingPrompt,
     );
-
-    console.log(legalStatusRating.summary);
 
     if (legalStatusRating.rating === -9) {
       if (legalStatus === 'Własność') {

@@ -132,11 +132,7 @@ export class FlatsController {
   @Post('add-task-to-queue')
   @UseGuards(RoleGuard(Role.Admin))
   @UseGuards(JwtAuthGuard)
-  enqueueRateFlat(@Body() payload: { ids: string[] }, @Ip() ip: string) {
-    //TODO:
-    // dto : ids[]
-    // LISTA ID z front-endu a potem for of z listy
-    console.log(ip);
+  enqueueRateFlat(@Body() payload: { ids: string[] }) {
     this.flatsRateAI.enqueueRateFlat(payload);
 
     return {

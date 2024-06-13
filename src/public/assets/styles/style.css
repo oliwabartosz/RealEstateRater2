@@ -81,12 +81,12 @@
 }
 
 .gpt {
-    border:2px #bdad7d solid;
+    /* border:2px #bdad7d solid; */
     border-radius: 50px;
     font-size: 12px;
     font-weight: bold;
-    color: white;
-    background-color: #bdad7d;
+    color: #152e52;
+    /* background-color: #bdad7d; */
     padding: 1px 3px 1px 3px;
 }
 

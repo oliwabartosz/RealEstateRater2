@@ -4,7 +4,7 @@
 
 {{> flats/flat_upper_nav}}
 
-{{#if (equals flats_gpt_data.status true)}}
+{{#if (equals flats_gpt_data.status 'COMPLETED')}}
 <div id="navigation" class="d-flex justify-content-center align-items-center">
     <button class="btn btn-gold" onclick="replaceAllWithAIAnswers()">Zastąp ocenami AI</button>
 </div>

@@ -36,7 +36,6 @@ export async function createNewAnswersRecord(
   }
 
   const newAnsRecord = repository.create(addAnswersPayload);
-  console.log('newAnsRecord', newAnsRecord);
 
   if (!(newAnsRecord instanceof FlatsGPT)) {
     newAnsRecord.user = user;
