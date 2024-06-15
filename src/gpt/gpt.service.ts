@@ -173,14 +173,10 @@ export class GptService {
       );
     }
 
-    console.log(summary);
-    console.log(!summary);
-    console.log(JSON.stringify({ xxx: summary }));
-
     await this.flatsGPTService.createOrUpdateGPTAnswer(id, user, {
       flatID: id,
       [`${property}Rating`]: isNaN(Number(rating)) ? -9 : Number(rating),
-      [`${property}Summary`]: summary // summary, lemma[propertyLemma]?
+      [`${property}Summary`]: Boolean(summary) // summary, lemma[propertyLemma]?
         ? await this.translateWithGPT(summary, 'en_pl')
         : null,
     });
