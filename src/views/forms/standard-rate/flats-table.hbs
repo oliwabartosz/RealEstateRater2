@@ -6,7 +6,7 @@
 <div class="text-center">
     {{#if (equals userRole "Admin")}}
         <div class="col-md-12 text-end" style="margin-bottom: 10px">
-            <button class="btn btn-gold btn-space-list">Oceń zaznaczone (GPT)</button>
+            <button class="btn btn-gold btn-space-list" onclick="rateWithAI('flats', selectedRecordsIDs())">Oceń zaznaczone (GPT)</button>
             <button class="btn btn-red btn-space-list" onclick="deleteRecords('flats', selectedRecordsIDs())">Usuń
                 zaznaczone
             </button>

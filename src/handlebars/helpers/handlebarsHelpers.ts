@@ -1,3 +1,5 @@
+import { FlatsGPTStatus } from 'src/interfaces/flat-gpt-record';
+
 export const handlebarsHelpers = {
   getUrl: () =>
     `${process.env.DOMAIN}${process.env.PORT ? `:${process.env.PORT}` : ''}`,
@@ -12,6 +14,20 @@ export const handlebarsHelpers = {
   convertBoolToEmoji: (bool: boolean): string => (Boolean(bool) ? '✅' : '❌'),
   convertRateStatusToEmoji: (text: string): string =>
     String(text) === 'yes' ? '✅' : String(text) === 'part' ? '⌛' : '❌',
+  convertAIStatusToEmoji: (status: FlatsGPTStatus): string => {
+    switch (status) {
+      case FlatsGPTStatus.COMPLETED:
+        return '✅';
+      case FlatsGPTStatus.PENDING:
+        return '⌛';
+      case FlatsGPTStatus.ERROR:
+        return '⚠️';
+      case FlatsGPTStatus.SKIPPED:
+        return '➡️';
+      default:
+        return '❌';
+    }
+  },
   convertFalseToBlackSquare: (text: string): string =>
     Boolean(text) ? text : '➖',
 };

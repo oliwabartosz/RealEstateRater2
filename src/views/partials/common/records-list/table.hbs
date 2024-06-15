@@ -28,7 +28,7 @@
                             {{convertFalseToBlackSquare this.user}}
                         </div>
                     </td>
-                    <td>{{convertBoolToEmoji this.status}}</td>
+                    <td>{{convertAIStatusToEmoji this.status}}</td>
                     <td>{{convertBoolToEmoji this.delete}}</td>
 
                     {{#if (equals @root.userRole "Admin") }}

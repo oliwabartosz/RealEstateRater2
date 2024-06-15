@@ -72,7 +72,7 @@ export class GptService {
 
   /* Init */
   creativity = 0.0;
-  modelName: Models = 'gpt-3.5-turbo';
+  modelName: Models = 'gpt-4o';
   translationModelName: Models = 'gpt-3.5-turbo';
 
   private updateStatus(id: string, status: FlatsGPTStatus): void {
