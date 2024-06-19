@@ -120,9 +120,10 @@ export class HandlebarsController {
     const imagesDir = path.join(
       process.cwd(),
       'src/public/images/offers',
-      flatData.offerId,
+      flatData.offerIdExpected,
     );
     const imageFiles = await getImagesFromDirectory(imagesDir);
+    console.log(imageFiles, imagesDir);
 
     return res.render('forms/standard-rate/flat.hbs', {
       ...getDomainAndPort(),
@@ -132,7 +133,7 @@ export class HandlebarsController {
       flats_gpt_data: await this.flatsGPTService.getOneRecordByID(flatID),
       lastNumber: await this.flatsService.getLastNumber(),
       images: imageFiles
-        ? imageFiles.map((image) => `${flatData.offerId}/${image}`)
+        ? imageFiles.map((image) => `${flatData.offerIdExpected}/${image}`)
         : [],
     });
   }
@@ -158,11 +159,11 @@ export class HandlebarsController {
     const imagesDir = path.join(
       process.cwd(),
       'src/public/images/offers',
-      flatData.offerId,
+      flatData.offerIdExpected,
     );
     const images = await getImagesFromDirectory(imagesDir);
     const imageUrls = (images || []).map(
-      (image) => `${flatData.offerId}/${image}`,
+      (image) => `${flatData.offerIdExpected}/${image}`,
     );
 
     return res.render('forms/quick-rate/flat.hbs', {
