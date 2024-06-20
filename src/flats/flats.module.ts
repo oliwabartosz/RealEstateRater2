@@ -22,7 +22,7 @@ import { GptService } from 'src/gpt/gpt.service';
     BullModule.forRoot({
       redis: {
         host: 'localhost',
-        port: 6379,
+        port: 6200,
       },
     }),
     BullModule.registerQueue({

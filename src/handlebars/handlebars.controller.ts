@@ -231,7 +231,7 @@ export class HandlebarsController {
     const imagesDir = path.join(
       process.cwd(),
       'src/public/images/offers',
-      houseData.offerId,
+      houseData.offerIdExpected,
     );
     const imageFiles = await getImagesFromDirectory(imagesDir);
 
@@ -242,7 +242,7 @@ export class HandlebarsController {
       house_ans_data: await this.housesAnswersService.getOneRecordByID(houseID),
       lastNumber: await this.housesService.getLastNumber(),
       images: imageFiles
-        ? imageFiles.map((image) => `${houseData.offerId}/${image}`)
+        ? imageFiles.map((image) => `${houseData.offerIdExpected}/${image}`)
         : [],
     });
   }
@@ -333,7 +333,7 @@ export class HandlebarsController {
     const imagesDir = path.join(
       process.cwd(),
       'src/public/images/offers',
-      plotData.offerId,
+      plotData.offerIdExpected,
     );
     const imageFiles = await getImagesFromDirectory(imagesDir);
 
@@ -344,7 +344,7 @@ export class HandlebarsController {
       plot_ans_data: await this.plotsAnswersService.getOneRecordByID(plotID),
       lastNumber: await this.plotsService.getLastNumber(),
       images: imageFiles
-        ? imageFiles.map((image) => `${plotData.offerId}/${image}`)
+        ? imageFiles.map((image) => `${plotData.offerIdExpected}/${image}`)
         : [],
     });
   }
