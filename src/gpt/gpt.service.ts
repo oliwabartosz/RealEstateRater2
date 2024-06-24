@@ -172,7 +172,7 @@ export class GptService {
         'AI-Rater',
       );
       rating = '-9';
-      summary = 'Pominięto, brak tekstu do oceny.'
+      summary = 'Pominięto, brak tekstu do oceny.';
     }
 
     await this.flatsGPTService.createOrUpdateGPTAnswer(id, user, {
