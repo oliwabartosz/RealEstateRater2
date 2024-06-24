@@ -3,77 +3,85 @@
 
 
 <p>Budownictwo jednorodzinne:</p>
-<div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="purposeOfThePlotJr_yes" name="plotPurposeJr" value="1"
 
-         {{#if (equals plot_ans_data.plotPurposeJrAns 1)}}checked{{/if}} required>   
+<div class="question">
 
-    <label class="form-check-label" for="purposeOfThePlotJr_yes">Tak</label>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="purposeOfThePlotJr_yes" name="plotPurposeJr" value="1"
+
+            {{#if (equals plot_ans_data.plotPurposeJrAns 1)}}checked{{/if}} required>   
+
+        <label class="form-check-label" for="purposeOfThePlotJr_yes">Tak</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="purposeOfThePlotJr_no" name="plotPurposeJr" value="0"
+
+            {{#if (equals plot_ans_data.plotPurposeJrAns 0)}}checked{{/if}} >
+
+        <label class="form-check-label" for="purposeOfThePlotJr_no">Nie</label>
+    </div>
 </div>
-<div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="purposeOfThePlotJr_no" name="plotPurposeJr" value="0"
+<br>
 
-        {{#if (equals plot_ans_data.plotPurposeJrAns 0)}}checked{{/if}} >
-
-    <label class="form-check-label" for="purposeOfThePlotJr_no">Nie</label>
-</div>
-
-<br><br>
 
 <p>Budownictwo jedno-wielorodzinne:</p>
-<div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="purposeOfThePlotJwr_yes" name="plotPurposeJwr"
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="purposeOfThePlotJwr_yes" name="plotPurposeJwr"
 
-        {{#if (equals plot_ans_data.plotPurposeJwrAns 1)}}checked{{/if}} required>   
+            {{#if (equals plot_ans_data.plotPurposeJwrAns 1)}}checked{{/if}} required>   
 
-    <label class="form-check-label" for="purposeOfThePlotJwr_yes">Tak</label>
+        <label class="form-check-label" for="purposeOfThePlotJwr_yes">Tak</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="purposeOfThePlotJwr_no" name="plotPurposeJwr"
+
+            value="0" {{#if (equals plot_ans_data.plotPurposeJwrAns 0)}}checked{{/if}}>
+
+        <label class="form-check-label" for="purposeOfThePlotJwr_no">Nie</label>
+    </div>
 </div>
-<div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="purposeOfThePlotJwr_no" name="plotPurposeJwr"
-
-        value="0" {{#if (equals plot_ans_data.plotPurposeJwrAns 0)}}checked{{/if}}>
-
-    <label class="form-check-label" for="purposeOfThePlotJwr_no">Nie</label>
-</div>
-
-<br><br>
+<br>
 
 <p>Budownictwo wielorodzinne:</p>
-<div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="purposeOfThePlotWr_yes" name="plotPurposeWr" value="1"
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="purposeOfThePlotWr_yes" name="plotPurposeWr" value="1"
 
-        {{#if (equals plot_ans_data.plotPurposeWrAns 1)}}checked{{/if}} required>   
+            {{#if (equals plot_ans_data.plotPurposeWrAns 1)}}checked{{/if}} required>   
 
-    <label class="form-check-label" for="purposeOfThePlotWr_yes">Tak</label>
+        <label class="form-check-label" for="purposeOfThePlotWr_yes">Tak</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="purposeOfThePlotWr_no" name="plotPurposeWr" value="0"
+
+            {{#if (equals plot_ans_data.plotPurposeWrAns 0)}}checked{{/if}} >
+
+        <label class="form-check-label" for="purposeOfThePlotWr_no">Nie</label>
+    </div>
 </div>
-<div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="purposeOfThePlotWr_no" name="plotPurposeWr" value="0"
-
-        {{#if (equals plot_ans_data.plotPurposeWrAns 0)}}checked{{/if}} >
-
-    <label class="form-check-label" for="purposeOfThePlotWr_no">Nie</label>
-</div>
-
-<br><br>
+<br>
 
 <p>Funkcja mieszkaniowa i towarzyszące:</p>
-<div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="purposeOfThePlotFmt_yes" name="plotPurposeFmt" value="1" 
+<div class="question">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="purposeOfThePlotFmt_yes" name="plotPurposeFmt" value="1" 
 
-        {{#if (equals plot_ans_data.plotPurposeFmtAns 1)}}checked{{/if}} required>   
+            {{#if (equals plot_ans_data.plotPurposeFmtAns 1)}}checked{{/if}} required>   
 
-    <label class="form-check-label" for="purposeOfThePlotFmt_yes">Tak</label>
+        <label class="form-check-label" for="purposeOfThePlotFmt_yes">Tak</label>
+    </div>
+
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="purposeOfThePlotFmt_no" name="plotPurposeFmt"
+            value="0" 
+
+            {{#if (equals plot_ans_data.plotPurposeFmtAns 0)}}checked{{/if}}>
+
+        <label class="form-check-label" for="purposeOfThePlotFmt_no">Nie</label>
+    </div>
 </div>
-
-<div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" id="purposeOfThePlotFmt_no" name="plotPurposeFmt"
-        value="0" 
-
-        {{#if (equals plot_ans_data.plotPurposeFmtAns 0)}}checked{{/if}}>
-
-    <label class="form-check-label" for="purposeOfThePlotFmt_no">Nie</label>
-</div>
-
+<br>
 {{#if (plots_gpt_data.plotPurposeGPT)}}
     <p class="p-break">
         <a style="text-decoration: none;" role="button">

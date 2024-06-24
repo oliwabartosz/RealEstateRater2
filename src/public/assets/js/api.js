@@ -14,7 +14,6 @@ const sendLogin = async () => {
       body: JSON.stringify({ email, password }),
     });
 
-    console.log(response);
 
     if (!response.ok) {
       handleErrorResponse(response);
@@ -59,6 +58,7 @@ const postAnswer = async (elements, realEstateType) => {
         errorDiv.textContent = `❗ Nie wybrano odpowiedzi!`;
       }
 
+
       result.parentElement.appendChild(errorDiv);
 
       return;
@@ -93,7 +93,7 @@ const postAnswer = async (elements, realEstateType) => {
     });
     window.location.href = `./${Number(currentNumber) + 1}`;
   } catch (err) {
-    console.log('Something went wrong', err);
+    console.error('Something went wrong', err);
   }
 };
 
@@ -158,12 +158,11 @@ const postAnswerWithoutValidation = async () => {
 
     window.location.href = `./${Number(currentNumber) + 1}`;
   } catch (err) {
-    console.log('Something went wrong');
+    console.error('Something went wrong');
   }
 };
 
 function getSelectedValue(elementName, currentYear = new Date().getFullYear()) {
-  console.log(elementName);
   if (elementName === 'yearBuilt') {
     const yearBuiltInput = document.querySelector('input[name="yearBuilt"]');
     if (
@@ -293,5 +292,5 @@ const handleErrorResponse = (response) => {
 };
 
 const handleGeneralError = () => {
-  console.log('An error occurred.');
+  console.error('An error occurred.');
 };
