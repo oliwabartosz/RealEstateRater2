@@ -171,6 +171,8 @@ export class GptService {
         `Skipping rating for ${property.toUpperCase()} (${id}). No text to rate for this property`,
         'AI-Rater',
       );
+      rating = '-9';
+      summary = 'Pominięto, brak tekstu do oceny.'
     }
 
     await this.flatsGPTService.createOrUpdateGPTAnswer(id, user, {

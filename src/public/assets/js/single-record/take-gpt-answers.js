@@ -28,7 +28,9 @@ const replaceAllWithAIAnswers = () => {
 };
 
 const replaceOneWithAIAnswer = (elementName) => {
+  console.log(elementName);
   const rate = getValue(`ai-${elementName}-rate`);
+  console.log(rate);
   checkRadioButton(rate, elementName);
 };
 
@@ -131,6 +133,7 @@ function checkRadioButton(rate, elementName) {
 
 function getValue(elementName) {
   const nodes = document.getElementsByClassName(elementName);
+  console.log(nodes);
   if (!(typeof nodes[0] === 'undefined')) {
     return Number(nodes[0].innerText.replace('Ocena GPT: ', ''));
   }
