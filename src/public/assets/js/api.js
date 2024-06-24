@@ -122,11 +122,11 @@ const postAnswerWithoutValidation = async () => {
     const result = await getSelectedValue(element);
 
     if (element !== 'yearBuilt') {
-      answersAI[`${element}GPT`] = result.value ? Number(result.value) : null;
+      answersAI[`${element}Rating`] = result.value ? Number(result.value) : null;
       answersAI[`${element}Summary`] = result.value
         ? 'Oceniono przez użytkownika.'
         : null;
-      answersAI['status'] = false;
+      answersAI['status'] = 'NOT_RATED';
       answers[`${element}Ans`] = result.value ? Number(result.value) : null;
     } else {
       answers.yearBuiltAns = result.value ? Number(result.value) : null;

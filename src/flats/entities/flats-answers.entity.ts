@@ -110,7 +110,7 @@ export class FlatsAnswers {
   deleteAns: boolean | null;
 
   @Column({
-    length: 5,
+    length: 6,
     type: 'varchar',
   })
   rateStatus: string;

@@ -252,7 +252,10 @@ export class GptService {
     /* RATINGS & SUMMARIES */
 
     /* TECHNOLOGY */
-    let technologyRating: { rating: number; summary: string };
+    let technologyRating: { rating: number; summary: string } = {
+      rating: -9,
+      summary: '',
+    };
 
     if (technologyAns === null) {
       technologyRating = await this.rateProperty(
@@ -308,7 +311,10 @@ export class GptService {
     }
 
     /* GARDEN should be before the balcony, because when it's available then we treat that there is outside area attached to apartment */
-    let gardenRating: { rating: number; summary: string };
+    let gardenRating: { rating: number; summary: string } = {
+      rating: -9,
+      summary: '',
+    };
 
     if (gardenAns === null) {
       gardenRating = await this.rateProperty(
@@ -433,7 +439,10 @@ export class GptService {
       );
 
       /* KITCHEN */
-      let kitchenRating: { rating: number; summary: string };
+      let kitchenRating: { rating: number; summary: string } = {
+        rating: -9,
+        summary: '',
+      };
 
       if (kitchenAns === null) {
         kitchenRating = await this.rateProperty(
@@ -492,7 +501,10 @@ export class GptService {
       );
 
       /* MODERNIZATION */
-      let modernizationRating: { rating: number; summary: string };
+      let modernizationRating: { rating: number; summary: string } = {
+        rating: -9,
+        summary: '',
+      };
 
       if (modernizationAns === null) {
         modernizationRating = await this.rateProperty(

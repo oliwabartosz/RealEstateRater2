@@ -1,30 +1,30 @@
 export interface FlatGPTRecord {
   flatID: string;
-  technologyGPT?: number;
+  technologyRating?: number;
   technologySummary?: string;
-  legalStatusGPT?: number;
-  legalSummary?: string;
-  balconyGPT?: number;
+  legalStatusRating?: number;
+  legalStatusSummary?: string;
+  balconyRating?: number;
   balconySummary?: string;
-  elevatorGPT?: number;
+  elevatorRating?: number;
   elevatorSummary?: string;
-  basementGPT?: number;
+  basementRating?: number;
   basementSummary?: string;
-  garageGPT?: number;
+  garageRating?: number;
   garageSummary?: string;
-  gardenGPT?: number;
+  gardenRating?: number;
   gardenSummary?: string;
-  modernizationGPT?: number;
+  modernizationRating?: number;
   modernizationSummary?: string;
-  alarmGPT?: number;
-  alarmSummary?: string;
-  kitchenGPT?: number;
+  monitoringRating?: number;
+  monitoringSummary?: string;
+  kitchenRating?: number;
   kitchenSummary?: string;
-  outbuildingGPT?: number;
+  outbuildingRating?: number;
   outbuildingSummary?: string;
-  rentGPT?: number;
+  rentRating?: number;
   rentSummary?: string;
-  qualityGPT?: number;
+  qualityRating?: number;
   status?: FlatsGPTStatus;
 }
 
