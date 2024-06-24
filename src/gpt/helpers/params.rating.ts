@@ -82,6 +82,6 @@ export async function rateParams(
     yearBuilt: generatedYearBuilt || yearBuilt,
     material: generatedMaterial || material,
     buildingType: generatedBuildingType || buildingType,
-    floorsNumber: generatedFloorsNumber || floorsNumber,
+    floorsNumber: generatedFloorsNumber || floorsNumber + 1,
   };
 }
