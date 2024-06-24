@@ -314,7 +314,7 @@ export class FlatsRateAI {
       // If there where no previous rating, there were no record in gpt database, hence status is undefined
       data.status = data.status || FlatsGPTStatus.TO_RATE;
       // Only tasks with the correct status will be included.
-      const allowedTasks = [FlatsGPTStatus.TO_RATE];
+      const allowedTasks = [FlatsGPTStatus.TO_RATE, FlatsGPTStatus.NOT_RATED];
       if (allowedTasks.includes(data.status)) {
         await this.rateFlatsnQueue.add(BULL_FLATS, data);
       }

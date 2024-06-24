@@ -35,7 +35,10 @@ export class RateFlatAI {
     return result;
   }
 
-  allowedTasksToProceed: FlatsGPTStatus[] = [FlatsGPTStatus.TO_RATE];
+  allowedTasksToProceed: FlatsGPTStatus[] = [
+    FlatsGPTStatus.TO_RATE,
+    FlatsGPTStatus.NOT_RATED,
+  ];
 
   @Process(BULL_FLATS)
   async rateFlat(job: Job<any>) {
