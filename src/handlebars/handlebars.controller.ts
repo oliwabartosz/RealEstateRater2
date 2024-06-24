@@ -123,7 +123,6 @@ export class HandlebarsController {
       flatData.offerIdExpected,
     );
     const imageFiles = await getImagesFromDirectory(imagesDir);
-    console.log(imageFiles, imagesDir);
 
     return res.render('forms/standard-rate/flat.hbs', {
       ...getDomainAndPort(),
