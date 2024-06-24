@@ -14,7 +14,6 @@ const sendLogin = async () => {
       body: JSON.stringify({ email, password }),
     });
 
-
     if (!response.ok) {
       handleErrorResponse(response);
     } else {
@@ -57,7 +56,6 @@ const postAnswer = async (elements, realEstateType) => {
       } else {
         errorDiv.textContent = `❗ Nie wybrano odpowiedzi!`;
       }
-
 
       result.parentElement.appendChild(errorDiv);
 
@@ -255,12 +253,15 @@ const deleteRecords = async (realEstateType, ids) => {
 
 const rateWithAI = async (realEstateType, ids) => {
   try {
-    const response = await fetch(`${DOMAIN}/api/${realEstateType}/add-task-to-queue/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ ids }),
-    });
+    const response = await fetch(
+      `${DOMAIN}/api/${realEstateType}/add-task-to-queue/`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ ids }),
+      },
+    );
 
     location.reload();
 

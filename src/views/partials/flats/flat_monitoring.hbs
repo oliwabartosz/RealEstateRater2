@@ -13,18 +13,18 @@
 
 <div class="question">
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" id="alarm_yes" name="alarm" value="1" {{#if (equals flat_ans_data.alarmAns 1)}}checked{{/if}} required>
-        <label class="form-check-label" for="alarm_yes">Tak</label>
+        <input class="form-check-input" type="radio" id="monitoring_yes" name="monitoring" value="1" {{#if (equals flat_ans_data.monitoringAns 1)}}checked{{/if}} required>
+        <label class="form-check-label" for="monitoring_yes">Tak</label>
     </div>
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" id="alarm_no" name="alarm" value="0" {{#if (equals flat_ans_data.alarmAns 0)}}checked{{/if}}>
-        <label class="form-check-label" for="alarm_no">Nie</label>
+        <input class="form-check-input" type="radio" id="alarm_no" name="monitoring" value="0" {{#if (equals flat_ans_data.monitoringAns 0)}}checked{{/if}}>
+        <label class="form-check-label" for="monitoring_no">Nie</label>
     </div>
     {{#if (convertToStr flats_gpt_data.monitoringRating)}}
         <p class="p-break">
 
             <a style="text-decoration: none;" role="button">
-                <span class="gpt ai-alarm-rate" onclick="replaceOneWithAIAnswer('alarm')">Ocena GPT: {{flats_gpt_data.monitoringRating}}</span>
+                <span class="gpt ai-alarm-rate" onclick="replaceOneWithAIAnswer('monitoring')">Ocena GPT: {{flats_gpt_data.monitoringRating}}</span>
             </a>
 
             <br />
