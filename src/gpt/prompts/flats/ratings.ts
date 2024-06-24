@@ -114,8 +114,8 @@ Output: -9
 Please provide just a numeric response: 0, 1 or -9. Do not provide any additional text!`;
 
 export const elevatorRatingPrompt = `Please rate the presence of an elevator based on the information provided in text delimited by three hashes (###)
-- RETURN 1 if there is an elevator or building has more than 5 floors.
-- RETURN 0 if there is no elevator or building has less than 5 floors.
+- RETURN 1 if there is an elevator or building has more than 6 floors.
+- RETURN 0 if there is no elevator or building has less than 6 floors.
 - RETURN -9 if it is not possible to determine the presence of an elevator.
 
 Please provide a numeric response: 0, 1 or -9. Do not provide any additional text!
