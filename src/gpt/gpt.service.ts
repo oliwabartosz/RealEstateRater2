@@ -220,6 +220,7 @@ export class GptService {
       storageRoom,
       attic,
       basement,
+      garden,
       priceParkingUnderground,
       priceParkingGround,
       security,
@@ -337,6 +338,15 @@ export class GptService {
     }
 
     if (gardenRating.rating !== 1) {
+      /* Take answer from garden properties */
+      const gardenAnswerFromProperties = this.simpleYesNoTranslate(garden);
+      this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+        flatID: id,
+        gardenRating: gardenAnswerFromProperties === 'yes' ? 1 : 0,
+        gardenSummary: 'Odczytano z parametrów nieruchomości',
+      });
+      }
+
       /* BALCONY */
       if (balconyAns === null) {
         await this.rateProperty(
