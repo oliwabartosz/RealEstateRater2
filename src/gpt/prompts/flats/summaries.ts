@@ -43,9 +43,9 @@ Text to make summary from:
 ###{lemma}###`;
 
 export const elevatorSummaryPrompt = `Make two sentences summary about elevator in the building from text delimited in triple 
-hashes (###). Does building have an elevator? How many floors the building has? 
+hashes (###). Does building have an elevator? How many storeys the building has? 
 
-If in below text there is no information about the quantity of floors, take this additional information: The number of building floors is {number_of_floors}.
+If in below text there is no information about the quantity of floors, take this additional information: The number of building storeys is {number_of_floors}.
 
 Text to make summary from:
 ###{lemma}###`;
@@ -116,8 +116,10 @@ If there is no information about these details, kindly indicate so.
 export const rentSummaryPrompt = `What is the administrative rent based on text delimited in triple hashes (###).
 ###{lemma}###`;
 
-export const outbuildingSummaryPrompt = `Make two sentences summary about outbuilding from text delimited in triple hashes (###) 
-Is there any mention of outbuilding in the text? Does the text state that the building 
+export const outbuildingSummaryPrompt = `
+The OUTBUILDING is a side wing of a tenement house or a building behind the front tenement house.
+Make two sentences summary about OUTBUILDING from text delimited in triple hashes (###) 
+Is there any mention of OUTBUILDING in the text? Does the text state that the building 
 is located in the second line of development?
 ###{lemma}###`;
 

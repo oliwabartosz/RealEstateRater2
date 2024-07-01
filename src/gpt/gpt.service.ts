@@ -151,12 +151,18 @@ export class GptService {
         { lemma: translatedLemma, ...summaryParams },
       );
 
-      rating = await generateChainAndInvoke(
-        promptRating,
-        this.modelName,
-        this.creativity,
-        { summary, ...ratingParams },
-      );
+      if (
+        !Object.values(ratingParams).every(
+          (value) => value == null || value === '',
+        )
+      ) {
+        rating = await generateChainAndInvoke(
+          promptRating,
+          this.modelName,
+          this.creativity,
+          { summary, ...ratingParams },
+        );
+      }
 
       this.logger.debug(
         `Rating for ${property.toUpperCase()} (${id}):\n${rating}`,
@@ -228,6 +234,7 @@ export class GptService {
       guardedEstate,
       securityControl,
       kitchenType,
+      rent,
     } = await this.flatsService.getOneRecordByID(id);
 
     // Quick-Rate Answers
@@ -252,99 +259,100 @@ export class GptService {
 
     /* RATINGS & SUMMARIES */
 
-    /* TECHNOLOGY */
-    let technologyRating: { rating: number; summary: string } = {
-      rating: -9,
-      summary: '',
-    };
+    try {
+      /* TECHNOLOGY */
+      let technologyRating: { rating: number; summary: string } = {
+        rating: -9,
+        summary: '',
+      };
 
-    if (technologyAns === null) {
-      technologyRating = await this.rateProperty(
-        id,
-        'technology',
-        technologySummaryPrompt,
-        technologyRatingPrompt,
-        {
-          year_built: yearBuiltAns
-            ? String(yearBuiltAns)
-            : params.yearBuilt
-              ? String(params.yearBuilt)
-              : String(yearBuilt),
-          material: params.material,
-          building_type: params.buildingType,
-          number_of_floors: String(params.floorsNumber),
-        },
-      );
-    } else {
-      // Copy data from Answers DB to GPT DB (quick-rate)
-      technologyRating.rating = technologyAns;
-      technologyRating.summary = 'Oceniono przez użytkownika.';
+      if (technologyAns === null) {
+        technologyRating = await this.rateProperty(
+          id,
+          'technology',
+          technologySummaryPrompt,
+          technologyRatingPrompt,
+          {
+            year_built: yearBuiltAns
+              ? String(yearBuiltAns)
+              : params.yearBuilt
+                ? String(params.yearBuilt)
+                : String(yearBuilt),
+            material: params.material,
+            building_type: params.buildingType,
+            number_of_floors: String(params.floorsNumber),
+          },
+        );
+      } else {
+        // Copy data from Answers DB to GPT DB (quick-rate)
+        technologyRating.rating = technologyAns;
+        technologyRating.summary = 'Oceniono przez użytkownika.';
 
-      this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-        flatID: id,
-        technologyRating: technologyRating.rating,
-        technologySummary: technologyRating.summary,
-      });
-    }
-    /* LEGAL STATUS */
-    const legalStatusRating = await this.rateProperty(
-      id,
-      'legalStatus',
-      legalStatusSummaryPrompt,
-      legalStatusRatingPrompt,
-    );
-
-    if (legalStatusRating.rating === -9) {
-      if (legalStatus === 'Własność') {
         this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
           flatID: id,
-          legalStatusRating: 1,
-          legalStatusSummary: 'Pobrano z parametrów nieruchomości',
+          technologyRating: technologyRating.rating,
+          technologySummary: technologyRating.summary,
         });
-        if (legalStatus.toLowerCase().includes('spółdzielcze')) {
+      }
+      /* LEGAL STATUS */
+      const legalStatusRating = await this.rateProperty(
+        id,
+        'legalStatus',
+        legalStatusSummaryPrompt,
+        legalStatusRatingPrompt,
+      );
+
+      if (legalStatusRating.rating === -9) {
+        if (legalStatus === 'Własność') {
           this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
             flatID: id,
-            legalStatusRating: 2,
+            legalStatusRating: 1,
             legalStatusSummary: 'Pobrano z parametrów nieruchomości',
           });
+          if (legalStatus.toLowerCase().includes('spółdzielcze')) {
+            this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+              flatID: id,
+              legalStatusRating: 2,
+              legalStatusSummary: 'Pobrano z parametrów nieruchomości',
+            });
+          }
         }
       }
-    }
 
-    /* GARDEN should be before the balcony, because when it's available then we treat that there is outside area attached to apartment */
-    let gardenRating: { rating: number; summary: string } = {
-      rating: -9,
-      summary: '',
-    };
+      /* GARDEN should be before the balcony, because when it's available then we treat that there is outside area attached to apartment */
+      let gardenRating: { rating: number; summary: string } = {
+        rating: -9,
+        summary: '',
+      };
 
-    if (gardenAns === null) {
-      gardenRating = await this.rateProperty(
-        id,
-        'garden',
-        gardenSummaryPrompt,
-        gardenRatingPrompt,
-      );
-    } else {
-      // Copy data from Answers DB to GPT DB (quick-rate)
+      if (gardenAns === null) {
+        gardenRating = await this.rateProperty(
+          id,
+          'garden',
+          gardenSummaryPrompt,
+          gardenRatingPrompt,
+        );
+      } else {
+        // Copy data from Answers DB to GPT DB (quick-rate)
 
-      gardenRating.rating = gardenAns;
-      gardenRating.summary = 'Oceniono przez użytkownika.';
+        gardenRating.rating = gardenAns;
+        gardenRating.summary = 'Oceniono przez użytkownika.';
 
-      this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-        flatID: id,
-        gardenRating: gardenRating.rating,
-        gardenSummary: gardenRating.summary,
-      });
-    }
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          gardenRating: gardenRating.rating,
+          gardenSummary: gardenRating.summary,
+        });
+      }
 
-    if (gardenRating.rating !== 1) {
-      /* Take answer from garden properties */
-      const gardenAnswerFromProperties = this.simpleYesNoTranslate(garden);
-      this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-        flatID: id,
-        gardenRating: gardenAnswerFromProperties === 'yes' ? 1 : 0,
-        gardenSummary: 'Odczytano z parametrów nieruchomości',
-      });
+      if (gardenRating.rating !== 1) {
+        /* Take answer from garden properties */
+        const gardenAnswerFromProperties = this.simpleYesNoTranslate(garden);
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          gardenRating: gardenAnswerFromProperties === 'yes' ? 1 : 0,
+          gardenSummary: 'Odczytano z parametrów nieruchomości',
+        });
       }
 
       /* BALCONY */
@@ -496,7 +504,23 @@ export class GptService {
         });
       }
       /* RENT */
-      await this.rateProperty(id, 'rent', rentSummaryPrompt, rentRatingPrompt);
+      let rentRating: { rating: number; summary: string } = {
+        rating: -9,
+        summary: '',
+      };
+      rentRating = await this.rateProperty(
+        id,
+        'rent',
+        rentSummaryPrompt,
+        rentRatingPrompt,
+      );
+      if (rentRating.rating === -9 && rent !== null) {
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          rentRating: rent,
+          rentSummary: 'Pobrano z parametrów nieruchomości',
+        });
+      }
 
       /* OUTBUILDING */
       await this.rateProperty(
@@ -540,6 +564,9 @@ export class GptService {
       }
       /* Change status of the task */
       this.updateStatus(id, FlatsGPTStatus.COMPLETED);
+    } catch (error) {
+      this.updateStatus(id, FlatsGPTStatus.ERROR);
+      this.logger.error(error.message, GptService.name);
     }
   }
 }
