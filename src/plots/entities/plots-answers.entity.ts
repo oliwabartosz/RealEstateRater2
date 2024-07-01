@@ -64,6 +64,12 @@ export class PlotsAnswers {
     type: 'tinyint',
     default: null,
   })
+  electricityAns: number | null;
+
+  @Column({
+    type: 'tinyint',
+    default: null,
+  })
   waterAns: number | null;
 
   @Column({
