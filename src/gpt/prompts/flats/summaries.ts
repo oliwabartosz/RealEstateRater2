@@ -117,10 +117,10 @@ export const rentSummaryPrompt = `What is the administrative rent based on text 
 ###{lemma}###`;
 
 export const outbuildingSummaryPrompt = `
-The OUTBUILDING is a side wing of a tenement house or a building behind the front tenement house.
-Make two sentences summary about OUTBUILDING from text delimited in triple hashes (###) 
-Is there any mention of OUTBUILDING in the text? Does the text state that the building 
-is located in the second line of development?
+The OUTBUILDING or BACK BUILDING or ANNEX is a side wing of a tenement house or a building behind the front tenement house.
+Make two sentences summary about OUTBUILDING or BACK BUILDING or ANNEX from text delimited in triple hashes (###) 
+Is there any mention of OUTBUILDING or BACK BUILDING in the text? Does the text state that the building 
+is located in the second line of development? Does the apartment is located in an outbuilding or back building or annex?
 ###{lemma}###`;
 
 export const modernizationSummaryPrompt = `Provide a two-sentence summary of the building's modernization, based on the text 

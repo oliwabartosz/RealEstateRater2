@@ -75,12 +75,35 @@ export class GptService {
   modelName: Models = 'gpt-4o';
   translationModelName: Models = 'gpt-3.5-turbo';
 
-  private updateStatus(id: string, status: FlatsGPTStatus): void {
-    this.flatsGPTService.setStatus({ id, status });
-    this.logger.log(
-      `Changing status to ${status.toUpperCase()} for task with id: ${id}`,
-      GptService.name,
-    );
+  private async updateStatus(
+    id: string,
+    status: FlatsGPTStatus,
+  ): Promise<void> {
+    try {
+      let checkTheStatusInDb = (await this.flatsGPTService.getOneRecordByID(id))
+        .status;
+
+      while (checkTheStatusInDb !== status) {
+        await this.flatsGPTService.setStatus({ id, status });
+        checkTheStatusInDb = (await this.flatsGPTService.getOneRecordByID(id))
+          .status;
+        console.log('checkTheStatusInDb', checkTheStatusInDb, 'status', status);
+
+        this.logger.debug(
+          `Trying to change status to ${status.toUpperCase()} for task with id: ${id}`,
+          GptService.name,
+        );
+      }
+      this.logger.log(
+        `Changed status to ${status.toUpperCase()} for task with id: ${id}`,
+        GptService.name,
+      );
+    } catch (error) {
+      this.logger.log(
+        `Could not update a status to ${status.toUpperCase()}`,
+        GptService.name,
+      );
+    }
   }
 
   private async translateWithGPT(
@@ -128,7 +151,7 @@ export class GptService {
   ) {
     this.logger.log(`Assessing ${property.toUpperCase()} (${id})`, 'AI-Rater');
     let summary = '';
-    let rating = '';
+    let rating = '-9';
 
     const propertyLemma = `${property}Lemma`;
     const user = undefined;
@@ -151,18 +174,12 @@ export class GptService {
         { lemma: translatedLemma, ...summaryParams },
       );
 
-      if (
-        !Object.values(ratingParams).every(
-          (value) => value == null || value === '',
-        )
-      ) {
-        rating = await generateChainAndInvoke(
-          promptRating,
-          this.modelName,
-          this.creativity,
-          { summary, ...ratingParams },
-        );
-      }
+      rating = await generateChainAndInvoke(
+        promptRating,
+        this.modelName,
+        this.creativity,
+        { summary, ...ratingParams },
+      );
 
       this.logger.debug(
         `Rating for ${property.toUpperCase()} (${id}):\n${rating}`,
@@ -209,7 +226,7 @@ export class GptService {
     }
 
     /* Change status of the task */
-    this.updateStatus(id, FlatsGPTStatus.PENDING);
+    await this.updateStatus(id, FlatsGPTStatus.PENDING);
 
     // Basic data from scraped
     const {
@@ -302,21 +319,19 @@ export class GptService {
         legalStatusRatingPrompt,
       );
 
-      if (legalStatusRating.rating === -9) {
-        if (legalStatus === 'Własność') {
-          this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-            flatID: id,
-            legalStatusRating: 1,
-            legalStatusSummary: 'Pobrano z parametrów nieruchomości',
-          });
-          if (legalStatus.toLowerCase().includes('spółdzielcze')) {
-            this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-              flatID: id,
-              legalStatusRating: 2,
-              legalStatusSummary: 'Pobrano z parametrów nieruchomości',
-            });
-          }
-        }
+      if (
+        legalStatusRating.rating === -9 &&
+        legalStatus &&
+        legalStatus.trim() !== ''
+      ) {
+        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+          flatID: id,
+          legalStatusRating: legalStatus.includes('Własność') ? 1 : 2,
+          legalStatusSummary: `${await this.translateWithGPT(
+            legalStatusRating.summary,
+            'en_pl',
+          )} W związku z powyższym pobrano z parametrów nieruchomości.`,
+        });
       }
 
       /* GARDEN should be before the balcony, because when it's available then we treat that there is outside area attached to apartment */
@@ -505,15 +520,17 @@ export class GptService {
       }
       /* RENT */
       let rentRating: { rating: number; summary: string } = {
-        rating: -9,
+        rating: rent || -9,
         summary: '',
       };
+
       rentRating = await this.rateProperty(
         id,
         'rent',
         rentSummaryPrompt,
         rentRatingPrompt,
       );
+
       if (rentRating.rating === -9 && rent !== null) {
         this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
           flatID: id,
@@ -563,9 +580,10 @@ export class GptService {
         });
       }
       /* Change status of the task */
-      this.updateStatus(id, FlatsGPTStatus.COMPLETED);
+      await this.updateStatus(id, FlatsGPTStatus.COMPLETED);
     } catch (error) {
-      this.updateStatus(id, FlatsGPTStatus.ERROR);
+      console.error(error);
+      await this.updateStatus(id, FlatsGPTStatus.ERROR);
       this.logger.error(error.message, GptService.name);
     }
   }

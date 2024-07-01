@@ -257,7 +257,7 @@ export const rentRatingPrompt = `Please provide a just numeric response that ind
 information provided in text delimited by three hashes (###). 
 
 RETURN just number and skip the text.
-RETURN -9 if it is not possible to determine a rating. 
+RETURN -9 if it is not possible to provide the number of administrative rent. 
 
 Do not provide any additional text!
 
@@ -286,8 +286,8 @@ in text delimited by three hashes (###).
 
 The technology of building was rated as: {technology_rating}.
 
-RETURN 1 if it has been mentioned that building is a tenement house.
-RETURN 1 if it has been mentioned that building is located in the second line of development and technology of building was rated as 1.
+RETURN 1 if it has been mentioned that building is located in the second line (or annex, outbuilding or back building) of development and technology of building was rated as 1.
+RETURN 1 if apartment (property) is located in an annex, outbuilding or back building.
 RETURN 0 if the technology of the building is something else than 1.
 RETURN 0 if it is not possible to determine a rating.
 
