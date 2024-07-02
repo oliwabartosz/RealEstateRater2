@@ -373,34 +373,36 @@ export class GptService {
       }
 
       /* BALCONY */
-      if (balconyAns === null) {
-        await this.rateProperty(
-          id,
-          'balcony',
-          balconySummaryPrompt,
-          balconyRatingPrompt,
-          {
-            balcony_quantity: balconyQuantity
-              ? String(balconyQuantity)
-              : 'information not provided.',
-            terraces_quantity: terracesQuantity
-              ? String(terracesQuantity)
-              : 'information not provided.',
-            loggias_quantity: loggiasQuantity
-              ? String(loggiasQuantity)
-              : 'information not provided.',
-            french_balcony_quantity: frenchBalconyQuantity
-              ? String(frenchBalconyQuantity)
-              : 'information not provided.',
-          },
-        );
-      } else if (balconyAns !== null) {
-        // Copy data from Answers DB to GPT DB (quick-rate)}
-        this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
-          flatID: id,
-          balconyRating: balconyAns,
-          balconySummary: 'Oceniono przez użytkownika.',
-        });
+      if (gardenRating.rating !== 1) {
+        if (balconyAns === null) {
+          await this.rateProperty(
+            id,
+            'balcony',
+            balconySummaryPrompt,
+            balconyRatingPrompt,
+            {
+              balcony_quantity: balconyQuantity
+                ? String(balconyQuantity)
+                : 'information not provided.',
+              terraces_quantity: terracesQuantity
+                ? String(terracesQuantity)
+                : 'information not provided.',
+              loggias_quantity: loggiasQuantity
+                ? String(loggiasQuantity)
+                : 'information not provided.',
+              french_balcony_quantity: frenchBalconyQuantity
+                ? String(frenchBalconyQuantity)
+                : 'information not provided.',
+            },
+          );
+        } else {
+          // Copy data from Answers DB to GPT DB (quick-rate)}
+          this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
+            flatID: id,
+            balconyRating: balconyAns,
+            balconySummary: 'Oceniono przez użytkownika.',
+          });
+        }
       } else {
         this.flatsGPTService.createOrUpdateGPTAnswer(id, 'ai', {
           flatID: id,
@@ -473,11 +475,19 @@ export class GptService {
         monitoringSummaryPrompt,
         monitoringRatingPrompt,
         {
-          security: this.simpleYesNoTranslate(security),
-          guarded_area: this.simpleYesNoTranslate(guardedArea),
-          guarded_estate: this.simpleYesNoTranslate(guardedEstate),
-          security_control: this.simpleYesNoTranslate(securityControl),
-          monitoring: this.simpleYesNoTranslate(monitoring),
+          security: security ? this.simpleYesNoTranslate(security) : 'No.',
+          guarded_area: guardedArea
+            ? this.simpleYesNoTranslate(guardedArea)
+            : 'No.',
+          guarded_estate: guardedEstate
+            ? this.simpleYesNoTranslate(guardedEstate)
+            : 'No.',
+          security_control: securityControl
+            ? this.simpleYesNoTranslate(securityControl)
+            : 'No.',
+          monitoring: monitoring
+            ? this.simpleYesNoTranslate(monitoring)
+            : 'No.',
         },
       );
 

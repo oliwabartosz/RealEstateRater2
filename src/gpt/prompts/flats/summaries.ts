@@ -10,6 +10,8 @@ Number of balconies in the apartment: {balcony_quantity}
 Number of french balconies in the apartment: {french_balcony_quantity}
 Number of terraces in the apartment: {terraces_quantity}
 Number of loggias in the apartment: {loggias_quantity}
+
+NOTE: Ignore information about balcony on the roof and do not add this information to your summary!
 `;
 
 export const technologySummaryPrompt = `Provide a three-sentence summary about TECHNOLOGY OF THE BUILDING based on the information 
