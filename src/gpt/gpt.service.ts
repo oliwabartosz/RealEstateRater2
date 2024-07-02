@@ -136,8 +136,9 @@ export class GptService {
   private simpleYesNoTranslate(
     text: string,
   ): 'yes' | 'no' | 'information not provided.' {
-    if (text === 'tak') return 'yes';
-    if (text === 'nie') return 'no';
+    const loweredText = text.toLowerCase();
+    if (loweredText === 'tak') return 'yes';
+    if (loweredText === 'nie') return 'no';
     return 'information not provided.';
   }
 
