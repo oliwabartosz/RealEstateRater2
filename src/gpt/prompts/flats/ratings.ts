@@ -72,9 +72,10 @@ Output: 2
 Please provide just a numeric response: 1, 2, or -9. Do not provide text!`;
 
 export const balconyRatingPrompt = `Please rate the presence of a balcony, loggia or terrace based on the information provided in text delimited by three hashes (###). 
-- RETURN 1 if apartment has a balcony, terrace, loggia or garden, please return 1.
-- RETURN 0 if apartment has not balcony, terrace or loggia please return 0.
-- RETURN 0 if apartment has just a French balcony or balcony window return 0,
+- RETURN 1 if apartment has a balcony, terrace, loggia or garden.
+- RETURN 0 if apartment has not balcony, terrace or loggia.
+- RETURN 0 if apartment has just a French balcony or balcony window.
+- RETURN 0 if the balcony is on the roof of the building.
 - RETURN -9 if it is not possible to determine the presence of a balcony, terrace or loggia (there is no information) 
 
 Please provide just a numeric response: 0, 1 or -9. Do not provide any additional text!
