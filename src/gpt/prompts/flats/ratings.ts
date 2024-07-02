@@ -247,7 +247,7 @@ Please provide a numeric response: 1 or -9. Do not provide text!`;
 
 export const kitchenRatingPrompt = `Please rate the occurrence of a kitchen based on the information provided in text delimited by three hashes (###).
 - RETURN 1 if it has been mentioned that the kitchen is dark.
-- RETURN 2 if it has been mentioned that the kitchen is bright, well-lit, has a window or kitchen is combined with a dining room.
+- RETURN 2 if it has been mentioned that the kitchen kitchen has a window or kitchen is combined with a dining room.
 - RETURN 3 if it has been mentioned that the kitchen is an annex or kitchen is combined with a living room.
 - RETURN -9 if it is not possible to determine a rating.
 

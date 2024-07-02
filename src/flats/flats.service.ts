@@ -338,7 +338,8 @@ export class FlatsRateAI {
       ...taskToUpdate,
       ...updateStatusPayload,
     };
-    await this.flatsGPTRepository.save(updatedStatus);
+    const response = await this.flatsGPTRepository.save(updatedStatus);
+    console.log(response);
     return updatedStatus;
   }
 }
