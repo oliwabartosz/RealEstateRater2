@@ -252,6 +252,8 @@ export class GptService {
       securityControl,
       kitchenType,
       rent,
+      monitoring,
+      elevator,
     } = await this.flatsService.getOneRecordByID(id);
 
     // Quick-Rate Answers
@@ -413,7 +415,14 @@ export class GptService {
         'elevator',
         elevatorSummaryPrompt,
         elevatorRatingPrompt,
-        { number_of_floors: String(params.floorsNumber) },
+        {
+          number_of_floors: params.floorsNumber
+            ? String(params.floorsNumber)
+            : 'information not provided.',
+          elevator: elevator
+            ? this.simpleYesNoTranslate(elevator)
+            : 'information not provided.',
+        },
       );
 
       /*  BASEMENT */
@@ -468,6 +477,7 @@ export class GptService {
           guarded_area: this.simpleYesNoTranslate(guardedArea),
           guarded_estate: this.simpleYesNoTranslate(guardedEstate),
           security_control: this.simpleYesNoTranslate(securityControl),
+          monitoring: this.simpleYesNoTranslate(monitoring),
         },
       );
 

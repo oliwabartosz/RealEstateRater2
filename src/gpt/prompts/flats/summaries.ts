@@ -42,13 +42,20 @@ Use maximum three sentences. Tell your reasons.
 Text to make summary from:
 ###{lemma}###`;
 
-export const elevatorSummaryPrompt = `Make two sentences summary about elevator in the building from text delimited in triple 
-hashes (###). Does building have an elevator? How many storeys the building has? 
-
-If in below text there is no information about the quantity of floors, take this additional information: The number of building storeys is {number_of_floors}.
+export const elevatorSummaryPrompt = `Make max three sentences summary about elevator in the building from text delimited in triple 
+hashes (###). Based on that text the summary should contain: 
+- information if the building has elevator.
+- how many storeys the building has?
 
 Text to make summary from:
-###{lemma}###`;
+###{lemma}###
+
+If there were no information in the text above, here are some additional information from real estate agent:
+- real estate agent said that the quantity of storeys is: {number_of_floors} 
+- real estate agent checked if there is elevator: {elevator}
+
+Note: if you take additional information from real estate agent add this to the summary!
+`;
 
 export const basementSummaryPrompt = `Extract and summarize information about the basement, attic, and storage room from the text delimited in triple hashes (###).
 In your summary, answer the following questions:
@@ -103,13 +110,18 @@ Building is secured? {security}
 Whole area near building is guarded? {guarded_area}
 Whole estate which building is in is guarded? {guarded_estate}
 Building is under security control? {security_control}
+Does real estate agent said that there is monitoring? {monitoring}
 `;
 
 export const kitchenSummaryPrompt = `Please provide a three-sentence summary about the kitchen based on the text enclosed 
-in triple hashes (###). Could you describe what type of kitchen the apartment has and whether it is an annex? If kitchen 
-is open to living room, say that there is an kitchen annex. 
-Additionally, mention if the kitchen has a window and is well-lit or if it lacks natural light and appears dark. 
-In your summary please also add information if the text mentions about the kitchen combined with the dining room.
+in triple hashes (###). Could you describe what type of kitchen the apartment has? It is so called "bright", "dark", or kitchen annex?
+
+Note: 
+- the kitchen open to living room is an kitchen annex. 
+- the kitchen open to dining room is bright kitchen.
+- the kitchen with window is bright kitchen.
+- kitchen which is dark does not have a window
+
 If there is no information about these details, kindly indicate so.
 ###{lemma}###`;
 
